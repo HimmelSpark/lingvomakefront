@@ -15,11 +15,6 @@ export default {
 			console.log(userData);
 			const response = await axios.post('http://localhost:8090/admin/register', payload);
 			console.log("response:  ", response);
-			// nw.register(email, password)
-			// 	.then(user => {
-			// 		commit('setUser', user)
-			// 	})
-
 		}
 	},
 	getters: {
