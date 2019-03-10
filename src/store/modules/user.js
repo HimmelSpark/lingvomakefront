@@ -12,7 +12,6 @@ export default {
 	actions: {
 		async registerUser({commit}, payload) {
 			console.log("registerUser");
-			const userData = JSON.stringify(payload);
 			console.log(userData);
 			const response = await axios.post('http://localhost:8090/admin/register', payload);
 			console.log("response:  ", response);
