@@ -1,5 +1,5 @@
 import * as nw from '@/web/network'
-
+import axios from 'axios'
 export default {
 	state: {
 		user: null
@@ -10,11 +10,16 @@ export default {
 		}
 	},
 	actions: {
-		registerUser({commit}, {email, password}) {
-			nw.register(email, password)
-				.then(user => {
-					commit('setUser', user)
-				})
+		async registerUser({commit}, payload) {
+			console.log("registerUser");
+			const userData = JSON.stringify(payload);
+			console.log(userData);
+			const response = await axios.post('http://localhost:8090/admin/register', payload);
+			console.log("response:  ", response);
+			// nw.register(email, password)
+			// 	.then(user => {
+			// 		commit('setUser', user)
+			// 	})
 
 		}
 	},
