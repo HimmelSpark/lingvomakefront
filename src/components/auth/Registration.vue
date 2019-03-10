@@ -37,6 +37,27 @@
                                     :rules="passwordConfirmRules"
                                     v-model="passwordConfirm"
                             ></v-text-field>
+                            <v-dialog
+                                    v-model="loading"
+                                    hide-overlay
+                                    persistent
+                                    width="300"
+                            >
+                                <v-card
+                                        color="dark"
+                                        dark
+                                >
+                                    <v-card-text>
+                                        Please stand by
+                                        <v-progress-linear
+                                                indeterminate
+                                                color="white"
+                                                class="mb-0"
+                                        ></v-progress-linear>
+                                    </v-card-text>
+                                </v-card>
+                            </v-dialog>
+
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
@@ -45,7 +66,7 @@
                                 dark
                                 color="green"
                                 @click="onSubmit"
-                        >Login</v-btn>
+                        >Create account</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-flex>
@@ -84,9 +105,18 @@
 					};
 
 					this.$store.dispatch('registerUser', user)
+                        .then(() => {
+                        	this.$router.push('/')
+                        })
+                        .catch(err => console.log(err))
 
 				}
-			}
-		}
+            }
+		},
+        computed: {
+			loading() {
+				return this.$store.getters.loading
+            }
+        }
 	}
 </script>
