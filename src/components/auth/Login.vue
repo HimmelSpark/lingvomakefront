@@ -26,6 +26,26 @@
                                     :rules="passwordRules"
                                     v-model="password"
                             ></v-text-field>
+                            <v-dialog
+                                    v-model="loading"
+                                    hide-overlay
+                                    persistent
+                                    width="300"
+                            >
+                                <v-card
+                                        color="dark"
+                                        dark
+                                >
+                                    <v-card-text>
+                                        Please stand by
+                                        <v-progress-linear
+                                                indeterminate
+                                                color="white"
+                                                class="mb-0"
+                                        ></v-progress-linear>
+                                    </v-card-text>
+                                </v-card>
+                            </v-dialog>
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
@@ -67,8 +87,20 @@
                         password: this.password
                     };
 
-                    console.log(user)
+                    console.log(user);
+
+                    this.$store.dispatch('authUser', user)
+                        .then(() => {
+                        	this.$router.push('/')
+                        })
+                        .catch(err => console.log(err))
                 }
+
+            }
+        },
+        computed: {
+			loading() {
+				return this.$store.getters.loading
             }
         }
 	}

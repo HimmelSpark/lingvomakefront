@@ -57,7 +57,6 @@
                                     </v-card-text>
                                 </v-card>
                             </v-dialog>
-
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
@@ -109,7 +108,6 @@
                         	this.$router.push('/')
                         })
                         .catch(err => console.log(err))
-
 				}
             }
 		},
