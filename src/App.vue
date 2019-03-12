@@ -24,7 +24,7 @@
 
     </v-navigation-drawer>
 
-    <v-toolbar app dark color="green">
+    <v-toolbar app dark color="primary">
       <v-toolbar-side-icon
         @click="drawer = !drawer"
         class="hidden-md-and-up"
