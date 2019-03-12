@@ -8,14 +8,11 @@
             grid-list-md
         >
           <v-layout row wrap>
-            <v-flex
-                v-for="card in cards"
-                :key="card.title"
-                lg3 md3 sm4 xs12
-            >
+
+            <v-flex>
               <v-card>
                 <v-img
-                    :src="card.src"
+                    :src="'https://cdn.vuetifyjs.com/images/cards/road.jpg'"
                     height="200px">
                   <v-container
                       fill-height
@@ -24,7 +21,7 @@
                   >
                     <v-layout fill-height>
                       <v-flex xs12 align-end flexbox>
-                        <span class="headline white--text" v-text="card.title"></span>
+                        <span class="headline white--text" v-text="'kaka'"></span>
                       </v-flex>
                     </v-layout>
                   </v-container>
@@ -41,7 +38,44 @@
                 </v-card-actions>
               </v-card>
 
+              <v-flex
+                  v-for="card in cards"
+                  :key="card.title"
+                  lg3 md3 sm4 xs12
+              >
+                <v-card>
+                  <v-img
+                      :src="card.src"
+                      height="200px">
+                    <v-container
+                        fill-height
+                        fluid
+                        pa-2
+                    >
+                      <v-layout fill-height>
+                        <v-flex xs12 align-end flexbox>
+                          <span class="headline white--text" v-text="card.title"></span>
+                        </v-flex>
+                      </v-layout>
+                    </v-container>
+                  </v-img>
+
+                  <v-card-actions>
+                    <v-btn icon>
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn icon>
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+
+              </v-flex>
+
             </v-flex>
+
+
 
           </v-layout>
 
@@ -86,23 +120,18 @@
 
 <script>
   export default {
-	  data() {
-	    return {
-		    dialog: false,
-        newCourseName: null,
-	      cards: [
-		      { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'},
-		      { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg'},
-		      { title: 'MAZALOPAZA', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'},
-        ]
-	    }
-	  },
-    methods: {
-      createCourse() {
-		    this.dialog = false;
-        this.cards.push({ title: this.newCourseName, src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg'})
-		    this.newCourseName = null;
-      }
-    }
+	data() {
+	  return {
+		dialog: false,
+		cards: [
+		  { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'},
+		  { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg'},
+		  { title: 'MAZALOPAZA', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'},
+		]
+	  }
+	},
+	methods: {
+
+	}
   }
 </script>

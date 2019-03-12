@@ -74,7 +74,8 @@
          return [
 		        {title: 'Login', icon: 'lock', url: '/login'},
 		        {title: 'Registration', icon: 'face', url: '/registration'},
-		        {title: 'Courses', icon: 'book', url: '/courses'} //TODO убрать после деплоя бека
+		        {title: 'Courses', icon: 'book', url: '/courses'}, //TODO убрать после деплоя бека
+            {title: 'Course', icon: 'done', url:'/course' }
          ]
         }
       }
