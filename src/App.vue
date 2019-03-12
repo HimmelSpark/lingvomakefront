@@ -29,6 +29,7 @@
         @click="drawer = !drawer"
         class="hidden-md-and-up"
       ></v-toolbar-side-icon>
+      <v-icon>toys</v-icon>
       <v-toolbar-title>Lingvomake</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
@@ -44,9 +45,7 @@
     </v-toolbar>
 
     <v-content>
-
       <router-view></router-view>
-
     </v-content>
   </v-app>
 </template>
