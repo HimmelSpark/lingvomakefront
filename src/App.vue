@@ -74,7 +74,7 @@
          return [
 		        {title: 'Login', icon: 'lock', url: '/login'},
 		        {title: 'Registration', icon: 'face', url: '/registration'},
-		        {title: 'Courses', icon: 'golf_course', url: '/courses'} //TODO убрать после деплоя бека
+		        {title: 'Courses', icon: 'book', url: '/courses'} //TODO убрать после деплоя бека
          ]
         }
       }
@@ -84,7 +84,7 @@
 	    this.paskhalka ++;
 	    if (this.paskhalka === 20) {
         this.paskhalka = 0;
-        alert('Ты у меня дотыкаешься!')
+        alert('ЪАЪ! Ты у меня дотыкаешься!')
       }
     }
   }

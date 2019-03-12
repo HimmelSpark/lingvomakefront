@@ -1,19 +1,114 @@
-<template>
-  <v-container>
-    <v-layout row>
-      <v-flex xs12>
-        <h1>Courses</h1>
-      </v-flex>
-    </v-layout>
-  </v-container>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+  <v-layout justify-center>
+    <v-flex lg12 md12 sm12 xs12>
+
+      <v-card>
+        <v-container
+            fluid
+            grid-list-md
+        >
+          <v-layout row wrap>
+            <v-flex
+                v-for="card in cards"
+                :key="card.title"
+                lg3 md3 sm4 xs12
+            >
+              <v-card>
+                <v-img
+                    :src="card.src"
+                    height="200px">
+                  <v-container
+                      fill-height
+                      fluid
+                      pa-2
+                  >
+                    <v-layout fill-height>
+                      <v-flex xs12 align-end flexbox>
+                        <span class="headline white--text" v-text="card.title"></span>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-img>
+
+                <v-card-actions>
+                  <v-btn icon>
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn icon>
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+
+
+
+            </v-flex>
+
+
+
+
+
+
+          </v-layout>
+
+          <v-dialog v-model="dialog" persistent max-width="600px">
+            <template v-slot:activator="{ on }">
+              <v-btn color="primary" dark v-on="on" fab>
+                <v-icon>add</v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">New course</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container grid-list-md>
+                  <v-layout wrap>
+                    <v-flex xs12>
+                      <v-text-field v-model="newCourseName" label="Course name" required></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
+                <v-btn color="blue darken-1" flat @click="createCourse">Create</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+        </v-container>
+      </v-card>
+
+    </v-flex>
+
+
+  </v-layout>
+
+
+
 </template>
 
 <script>
   export default {
-	data() {
-	  return {
-
-	  }
-	}
+	  data() {
+	    return {
+		    dialog: false,
+        newCourseName: null,
+	      cards: [
+		      { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'},
+		      { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg'},
+		      { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'},
+        ]
+	    }
+	  },
+    methods: {
+      createCourse() {
+		    this.dialog = false;
+        this.cards.push({ title: this.newCourseName, src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg'})
+      }
+    }
   }
 </script>
