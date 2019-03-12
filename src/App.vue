@@ -29,7 +29,7 @@
         @click="drawer = !drawer"
         class="hidden-md-and-up"
       ></v-toolbar-side-icon>
-      <v-icon>toys</v-icon>
+      <v-icon @click="doPaskhalka">toys</v-icon>
       <v-toolbar-title>Lingvomake</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
@@ -54,12 +54,39 @@
   export default {
     data() {
     	return {
-    		drawer: false,
-        links: [
-          {title: 'Login', icon: 'lock', url: '/login'},
-          {title: 'Registration', icon: 'face', url: '/registration'}
-        ]
+    	  paskhalka: 0,
+    		drawer: false
+      }
+    },
+    computed: {
+      error() {
+
+      },
+      isUserLoggedIn() {
+        return this.$store.getters.isUserLoggedIn
+      },
+      links() {
+        if (this.isUserLoggedIn) {
+          return [
+			      {title: 'Courses', icon: 'ac_unit', url: '/courses'}
+          ]
+        } else {
+         return [
+		        {title: 'Login', icon: 'lock', url: '/login'},
+		        {title: 'Registration', icon: 'face', url: '/registration'},
+		        {title: 'Courses', icon: 'golf_course', url: '/courses'} //TODO убрать после деплоя бека
+         ]
+        }
+      }
+    },
+	methods: {
+	  doPaskhalka() {
+	    this.paskhalka ++;
+	    if (this.paskhalka === 20) {
+        this.paskhalka = 0;
+        alert('Ты у меня дотыкаешься!')
       }
     }
+  }
   }
 </script>

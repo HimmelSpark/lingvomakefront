@@ -49,19 +49,22 @@ export default {
 					} catch (e) {
 						commit('setLoading', false);
 						commit('setError', e);
-						throw e
+						throw e;
 					}
 				}
 			} catch (e) {
 				commit('setLoading', false);
 				commit('setError', e);
-				throw e
+				throw e;
 			}
 		}
 	},
 	getters: {
-		user(state) {
-			return state.user
-		}
+	  user(state) {
+	    return state.user;
+	  },
+	  isUserLoggedIn(state) {
+	    return state.user !== null;
+	  }
 	}
 }

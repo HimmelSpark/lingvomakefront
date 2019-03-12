@@ -5,6 +5,7 @@ import DoubleEnterGuard from './doubleEnterGuard'
 import Home from '@/components/Home'
 import Login from '@/components/auth/Login'
 import Registration from '@/components/auth/Registration'
+import Courses from '@/components/course/Courses'
 
 Vue.use(Router);
 
@@ -29,6 +30,12 @@ export default new Router({
 	  name: 'registration',
 	  component: Registration,
 	  beforeEnter: DoubleEnterGuard
+	},
+	{
+	  path: '/courses',
+	  name: 'courses',
+	  component: Courses,
+	  // beforeEnter: AuthGuard //TODO раскомментировать когда бек будет задеплоен
 	}
   ]
 })
