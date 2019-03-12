@@ -1,4 +1,5 @@
-import axios from 'axios'
+// import axios from 'axios'
+import {HTTP} from '../../network/http-common'
 export default {
 	state: {
 		user: null
@@ -14,7 +15,7 @@ export default {
 			commit('setLoading', true);
 			console.log(payload);
 			try {
-				const response = await axios.post('http://localhost:8090/admin/register', payload);
+				const response = await HTTP.post('/admin/register', payload);
 				commit('setLoading', false);
 				if (200 <= response.status < 300) {
 					commit('setUser', payload);
@@ -34,11 +35,11 @@ export default {
 			commit('setLoading', true);
 			console.log('login user');
 			try {
-				const response = await axios.post('http://localhost:8090/admin/auth', payload);
+				const response = await HTTP.post('/admin/auth', payload);
 				// commit('setLoading', false);
 				if (200 <= response.status < 300) {
 					try {
-						const responseWithUserData = await axios.get('http://localhost:8090/admin/info');
+						const responseWithUserData = await HTTP.get('/admin/info');
 						if (200 <= response.status < 300) {
 							commit('setLoading', false);
 							commit('setUser', payload);

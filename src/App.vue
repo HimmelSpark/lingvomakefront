@@ -34,10 +34,10 @@
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
-                flat
-                v-for="link in links"
-                :key="link.title"
-                :to="link.url">
+            flat
+            v-for="link in links"
+            :key="link.title"
+            :to="link.url">
           <v-icon left>{{link.icon}}</v-icon>
           {{link.title}}
         </v-btn>
@@ -55,11 +55,11 @@
     data() {
     	return {
     		drawer: false,
-            links: [
-                {title: 'Login', icon: 'lock', url: '/login'},
-				{title: 'Registration', icon: 'face', url: '/registration'}
-            ]
-        }
+        links: [
+          {title: 'Login', icon: 'lock', url: '/login'},
+          {title: 'Registration', icon: 'face', url: '/registration'}
+        ]
+      }
     }
   }
 </script>
