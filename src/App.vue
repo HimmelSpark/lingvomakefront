@@ -68,7 +68,10 @@
       links() {
         if (this.isUserLoggedIn) {
           return [
-			      {title: 'Courses', icon: 'ac_unit', url: '/courses'}
+			{title: 'Login', icon: 'lock', url: '/login'},
+			{title: 'Registration', icon: 'face', url: '/registration'},
+			{title: 'Courses', icon: 'book', url: '/courses'}, //TODO убрать после деплоя бека
+			{title: 'Course', icon: 'done', url:'/course' }
           ]
         } else {
          return [
