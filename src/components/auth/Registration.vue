@@ -18,6 +18,14 @@
                                 v-model="email"
                             ></v-text-field>
                             <v-text-field
+                                prepend-icon="school"
+                                name="school"
+                                label="School name"
+                                type="text"
+                                required
+                                v-model="school"
+                            ></v-text-field>
+                            <v-text-field
                                 prepend-icon="lock"
                                 name="password"
                                 label="Password"
@@ -76,44 +84,45 @@
 	export default {
 		data() {
 			return {
-              email: '',
-              password: '',
-              passwordConfirm: '',
-              valid: false,
-              emailRules: [
-                v => !!v || 'E-mail is required',
-                v => /.+@.+/.test(v) || 'E-mail must be valid'
-              ],
-              passwordRules: [
-                v => !!v || 'Password is required',
-                v => (v && v.length >=8) || 'Too short password'
-              ],
-              passwordConfirmRules: [
-              	v => !!v || 'Password confirmation is required',
-                v => v === this.password || 'Passwords didn\'t match'
-              ]
+        email: '',
+        school:'',
+        password: '',
+        passwordConfirm: '',
+        valid: false,
+        emailRules: [
+          v => !!v || 'E-mail is required',
+          v => /.+@.+/.test(v) || 'E-mail must be valid'
+        ],
+        passwordRules: [
+          v => !!v || 'Password is required',
+          v => (v && v.length >=8) || 'Too short password'
+        ],
+        passwordConfirmRules: [
+          v => !!v || 'Password confirmation is required',
+          v => v === this.password || 'Passwords didn\'t match'
+        ]
 			}
-		},
-		methods: {
-          onSubmit () {
-            if (this.$refs.form.validate()) {
-              const user = {
-                email: this.email,
-                password: this.password
-              };
+			},
+    methods: {
+      onSubmit () {
+        if (this.$refs.form.validate()) {
+          const user = {
+            email: this.email,
+            password: this.password
+          };
 
-              this.$store.dispatch('registerUser', user)
-                  .then(() => {
-                    this.$router.push('/')
-                  })
-                  .catch(err => console.log(err))
-            }
-          }
-          },
-        computed: {
-          loading() {
-            return this.$store.getters.loading
-          }
+          this.$store.dispatch('registerUser', {user: user, school: this.school})
+              .then(() => {
+                this.$router.push('/')
+              })
+              .catch(err => console.log(err))
         }
+      }
+    },
+    computed: {
+      loading() {
+        return this.$store.getters.loading
+      }
+    }
 	}
 </script>

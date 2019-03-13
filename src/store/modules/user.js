@@ -1,13 +1,16 @@
-// import axios from 'axios'
 import {HTTP} from '../../network/http-common'
 export default {
 	state: {
-		user: null
+	  user: null,
+	  school: null
 	},
 	mutations: {
-		setUser(state, payload) {
-			state.user = payload
-		}
+	  setUser(state, payload) {
+	    state.user = payload
+	  },
+	  setSchool(state, payload) {
+	    state.school = payload
+	  }
 	},
 	actions: {
 		async registerUser({commit}, payload) {
@@ -15,10 +18,19 @@ export default {
 			commit('setLoading', true);
 			console.log(payload);
 			try {
-				const response = await HTTP.post('/admin/register', payload);
+			  	// Создание пользователя
+				const response = await HTTP.post('/admin/register', payload.user);
 				commit('setLoading', false);
 				if (200 <= response.status < 300) {
-					commit('setUser', payload);
+				  commit('setUser', payload);
+
+				  // Создание школы
+				  commit('setLoading', true);
+				  const response2 = await HTTP.post('/school/create', {name: payload.school});
+				  commit('setLoading', false);
+				  if (200 <= response2.status < 300) {
+					commit('setSchool', payload.school)
+				  }
 				} else {
 					// commit('setError', {code: response.code, message: response.data});
 					throw new Error(response) //TODO продумать эту часть

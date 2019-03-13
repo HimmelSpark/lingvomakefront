@@ -90,11 +90,6 @@
 	    return {
 		    dialog: false,
         newCourseName: null,
-	      cards: [
-		      { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'},
-		      { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg'},
-		      { title: 'MAZALOPAZA', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'},
-        ]
 	    }
 	  },
     methods: {
@@ -103,6 +98,16 @@
         this.cards.push({ title: this.newCourseName, src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg'})
 		    this.newCourseName = null;
       }
-    }
+    },
+    computed: {
+	    cards() {
+	      return this.$store.getters.courses
+      }
+    },
+	  mounted: function () {
+	    this.$nextTick(function () {
+        this.$store.dispatch('loadCourses')
+	    })
+	  }
   }
 </script>
