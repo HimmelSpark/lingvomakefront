@@ -3,7 +3,8 @@
     <v-navigation-drawer
             app
             temporary
-            v-model="drawer">
+            v-model="drawer"
+            v-if="(this.$route.path).indexOf('android') === -1">
       <v-list>
         <v-list-tile
                 @click=""
@@ -24,7 +25,9 @@
 
     </v-navigation-drawer>
 
-    <v-toolbar app dark color="primary">
+    <v-toolbar
+        app dark color="primary"
+        v-if="(this.$route.path).indexOf('mobile') === -1">
       <v-toolbar-side-icon
         @click="drawer = !drawer"
         class="hidden-md-and-up"
