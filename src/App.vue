@@ -79,10 +79,11 @@
           ]
         } else {
          return [
-		        {title: 'Login', icon: 'lock', url: '/login'},
-		        {title: 'Registration', icon: 'face', url: '/registration'},
-		        {title: 'Courses', icon: 'book', url: '/courses'}, //TODO убрать после деплоя бека
-            {title: 'Course', icon: 'done', url:'/course' }
+           {title: 'Login', icon: 'lock', url: '/login'},
+           {title: 'Registration', icon: 'face', url: '/registration'},
+           {title: 'Courses', icon: 'book', url: '/courses'}, //TODO убрать после деплоя бека
+           {title: 'Course', icon: 'done', url:'/course' },
+           {title: 'Panel', icon: 'work', url:'/panel' },
          ]
         }
       }

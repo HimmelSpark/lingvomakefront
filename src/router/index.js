@@ -10,6 +10,7 @@ import Login from '@/components/auth/Login'
 import Registration from '@/components/auth/Registration'
 import Courses from '@/components/course/Courses'
 import Course from '@/components/course/Course'
+import Panel from '@/components/panel/Panel'
 //Mobile web-view components
 import MobileTranslate from '@/components/mobile/TranslateTask'
 
@@ -48,6 +49,11 @@ export default new Router({
 	  name: 'course',
 	  component: Course,
 	  // beforeEnter: AuthGuard //TODO раскомментировать когда бек будет задеплоен
+	},
+	{
+	  path: '/panel',
+	  name: 'panel',
+	  component: Panel
 	},
 	{
 	  path: '/mobile/translate',
