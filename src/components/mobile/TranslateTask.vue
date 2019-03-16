@@ -1,48 +1,57 @@
 <template>
-  <v-container fill-height>
+  <v-container fluid fill-height>
     <v-layout row wrap align-center>
       <v-flex xs12>
         <v-card>
           <v-card-text>
-            <div class="text-xs-center">
-              <v-chip color="green" text-color="white">{{text}}</v-chip>
-            </div>
 
-            <div class="text-xs-center">
-
-              <v-combobox
-                  v-model="chips"
-                  :items="items"
-                  label="Your favorite hobbies"
-                  chips
-                  clearable
-                  prepend-icon="filter_list"
-                  solo
-                  multiple
-              >
-                <template v-slot:selection="data">
-                  <v-chip
-                      :selected="data.selected"
-                      close
-                      @input="remove(data.item)"
-                  >
-                    <strong>{{ data.item }}</strong>&nbsp;
-                  </v-chip>
-                </template>
-              </v-combobox>
-
-            </div>
+            <v-layout row wrap align-center>
+              <v-flex xs12>
+                <div class="text-xs-center">
+                  <v-chip color="green" text-color="white">{{text}}</v-chip>
+                </div>
+              </v-flex>
+            </v-layout>
 
 
+            <v-layout row wrap align-center>
+              <v-flex xs12>
+                <v-radio-group v-model="radioGroup">
+                  <div class="text-xs-center">
+                    <v-chip v-for="radio of variants" small color="green" outline>
+                      <v-radio
+                          small
+                          :key="radio.id"
+                          :label="radio.label"
+                          :value="radio.value"
+                          class="text-xs-center text-truncate"
+                      ></v-radio>
+                    </v-chip>
+                  </div>
+                </v-radio-group>
+              </v-flex>
+            </v-layout>
 
 
-            <div class="text-xs-center">
-              <v-btn
-                  dark
-                  color="green"
-                  @click="onSubmit"
-              >Check</v-btn>
-            </div>
+            <v-layout row wrap align-center>
+              <v-flex xs12>
+                <div class="text-xs-center">
+                  <v-btn
+                      dark
+                      round
+                      color="green"
+                      @click="onSubmit">
+                    Check
+                  </v-btn>
+                </div>
+              </v-flex>
+            </v-layout>
+
+
+
+
+
+
           </v-card-text>
         </v-card>
 
@@ -58,20 +67,19 @@
   export default {
 	  data() {
 	    return {
-        text: 'This is the text that you should translate',
-	      chips: [],
-	      items: ['это', 'который', 'надо', 'текст', 'перевести']
+        text: 'What ___ your name?',
+        variants: [
+          {id: 1, label: 'is', value: 1},
+		      {id: 2, label: 'are', value: 2},
+		      {id: 3, label: 'be', value: 3},
+        ],
 	    }
 	  },
 	  methods: {
-	    remove (item) {
-		    this.chips.splice(this.chips.indexOf(item), 1);
-		    this.chips = [...this.chips]
-	    }
+
 	}
   }
 </script>
 
 <style>
-
 </style>

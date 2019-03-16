@@ -4,6 +4,7 @@
             app
             temporary
             v-model="drawer"
+            touchless
             v-if="(this.$route.path).indexOf('android') === -1">
       <v-list>
         <v-list-tile
