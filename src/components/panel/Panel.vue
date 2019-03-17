@@ -3,15 +3,27 @@
     <v-layout row>
       <v-flex xs12>
 
-        <v-flex xs4>
-          <v-treeview :items="items" hoverable></v-treeview>
+        <!--<v-chip>{{open}}</v-chip>-->
+        <v-chip>{{active}}</v-chip>
+
+        <v-flex xs4 md4>
+          <v-treeview
+              :active.sync="active"
+              :items="items"
+              :open.sync="open"
+              return-object
+              hoverable
+              activatable
+              >
+          </v-treeview>
         </v-flex>
 
-        <v-divider
-            class="mx-3"
-            inset
-            vertical
-        ></v-divider>
+        <v-flex xs4 md8>
+          <h1>Lorem ipsum dolor sit amet, .</h1>
+          <v-content>
+            <router-view></router-view>
+          </v-content>
+        </v-flex>
 
       </v-flex>
     </v-layout>
@@ -20,58 +32,37 @@
 
 <script>
   export default {
-	data() {
-	  return {
-	  items: [
-      {
-        id: 2,
-        name: 'Courses :',
-        children: [
-          {
-            id: 1,
-            name: 'TOEFL iBT',
-            children: [
-              {
-                id: 5,
-                name: 'Unit 1'
-              }
-            ]
-          },
-          {
-            id: 3,
-            name: 'CAE',
-            children: [
-              {
-                id: 6,
-                name: 'Unit 1',
-                children: [
-                  {
-                    id: 8,
-                    name: 'Psychology'
-                  },
-                  {
-                    id: 9,
-                    name: 'Theology'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            id: 4,
-            name: 'GMATH',
-            children: [
-              {
-                id: 7,
-                name: 'Unit 1',
-
-              }
-            ]
-          },
-        ]
-      },
-	  ]
-	  }
-	}
+	  data() {
+	    return {
+	      open: [],
+        active: [],
+	    }
+	  },
+    computed: {
+	    items() {
+	      return this.$store.getters.items;
+      }
+    },
+    watch: {
+	    active: 'clickTree'
+    },
+    methods: {
+	    clickTree() {
+	      if (this.active[0] !== null) {
+	        this.$store.dispatch('setSelected', this.active[0]);
+	        switch (this.active[0].type) {
+            case 'course':
+              this.$router.push('/panel/course/' + this.active[0].id);
+              break;
+            case 'unit':
+              this.$router.push('/panel/unit/' + this.active[0].id);
+              break;
+            case 'task':
+              this.$router.push('/panel/task/' + this.active[0].id);
+              break;
+          }
+        }
+      }
+    }
   }
 </script>
