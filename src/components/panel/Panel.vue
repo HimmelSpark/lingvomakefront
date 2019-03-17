@@ -1,10 +1,6 @@
 <template>
   <v-container>
     <v-layout row>
-      <v-flex xs12>
-
-        <!--<v-chip>{{open}}</v-chip>-->
-        <v-chip>{{active}}</v-chip>
 
         <v-flex xs4 md4>
           <v-treeview
@@ -20,12 +16,11 @@
 
         <v-flex xs4 md8>
           <h1>Lorem ipsum dolor sit amet, .</h1>
-          <v-content>
-            <router-view></router-view>
-          </v-content>
+            <v-content>
+              <router-view></router-view>
+            </v-content>
         </v-flex>
 
-      </v-flex>
     </v-layout>
   </v-container>
 </template>

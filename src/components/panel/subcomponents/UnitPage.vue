@@ -3,6 +3,7 @@
     <v-layout row>
       <v-flex xs12>
         <h1>This is Unit page</h1>
+        <h2>{{selected}}</h2>
       </v-flex>
     </v-layout>
   </v-container>
@@ -14,6 +15,14 @@
 	  return {
 
 	  }
+	},
+	computed: {
+	  selected() {
+		return this.$store.getters.selected;
+	  },
+	},
+	methods: {
+
 	}
   }
 </script>

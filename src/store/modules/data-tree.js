@@ -46,10 +46,12 @@ export default {
 		  {
 			id: 8,
 			name: 'GMATH',
+			type: 'course',
 			children: [
 			  {
 				id: 9,
 				name: 'Unit 1',
+				type: 'unit'
 			  }
 			]
 		  },
@@ -65,13 +67,16 @@ export default {
   actions: {
 	setSelected({commit}, payload) {
 	  if (payload !== null) {
-	    commit('', payload)
+	    commit('setSelected', payload)
 	  }
 	}
   },
   getters: {
     items(state) {
       return state.items
+	},
+	selected(state) {
+      return state.selected
 	}
   }
 }
