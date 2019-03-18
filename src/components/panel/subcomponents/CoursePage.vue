@@ -5,14 +5,16 @@
         <v-card>
 
           <v-img
-              src="https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg"
+              :src="selected.imgSrc"
               aspect-ratio="2.75"
           ></v-img>
 
           <v-card-title primary-title>
             <div>
-              <h3 class="headline mb-0">
-                {{selected.name}}: {{selected.children.length}} unit(s)</h3>
+              <h2 class="headline mb-0">
+                Course <v-chip dark color="primary">{{selected.name}}</v-chip>
+                has <v-chip dark color="primary">{{selected.children.length}} </v-chip> unit(s)
+              </h2>
               <div>{{selected.description}}</div>
             </div>
           </v-card-title>

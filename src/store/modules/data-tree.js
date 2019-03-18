@@ -6,6 +6,7 @@ export default {
 			id: 2,
 			name: 'TOEFL iBT',
 			description: 'This course is for those who pursue to get away from Russia and find better life in the USA',
+		  	imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
 			type: 'course',
 			children: [
 			  {
@@ -18,6 +19,8 @@ export default {
 	  	{
 			id: 4,
 			name: 'CAE',
+		  	description: 'This course is for those who want to suffer!',
+		  	imgSrc: "http://busidiomas.com/wp-content/uploads/2017/10/examen-cae-1024x559.jpg",
 			type: 'course',
 			children: [
 			  {
@@ -41,7 +44,9 @@ export default {
 		  },
 	  	{
 			id: 8,
-			name: 'GMATH',
+			name: 'GMAT',
+		  	description: 'This course is for those who think that maths in english sound so sexy!',
+		  	imgSrc: "https://www.newszii.com/wp-content/uploads/2018/11/GMAT.png",
 			type: 'course',
 			children: [
 			  {
