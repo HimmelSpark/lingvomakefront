@@ -2,7 +2,10 @@
   <v-container fill-height fluid justify-center>
     <v-layout row>
         <v-flex xs4 md3 lg2 >
-          <v-chip dark color="primary"><div><h1 class="headline mb-0">Courses</h1></div></v-chip>
+          <v-chip label dark color="primary">
+            <v-icon left>school</v-icon>
+            <div><h1 class="headline mb-0">Courses</h1></div>
+          </v-chip>
           <v-treeview
               :active.sync="active"
               :items="items"
@@ -17,7 +20,7 @@
         <v-divider vertical></v-divider>
 
         <v-flex xs8 md9 lg10>
-          <h1 v-if="selected === undefined">Click some tree item to VUE the data</h1>
+          <v-chip v-if="selected === undefined" color="primary" dark>Click some tree item to VUE the data</v-chip>
             <v-content>
               <v-scroll-y-transition mode="out-in">
                 <router-view></router-view>

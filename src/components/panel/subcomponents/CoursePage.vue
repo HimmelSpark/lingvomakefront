@@ -12,8 +12,8 @@
           <v-card-title primary-title>
             <div>
               <h2 class="headline mb-0">
-                Course <v-chip dark color="primary">{{selected.name}}</v-chip>
-                has <v-chip dark color="primary">{{selected.children.length}} </v-chip> unit(s)
+                Course <v-chip label dark color="primary">{{selected.name}}</v-chip>
+                has <v-chip label dark color="primary">{{selected.children.length}} </v-chip> unit(s)
               </h2>
               <div>{{selected.description}}</div>
             </div>
