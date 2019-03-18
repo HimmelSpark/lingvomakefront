@@ -3,24 +3,24 @@
     <v-layout row>
 
         <v-flex xs4 md4>
-          <div>
-            <h3 class="headline mb-0">Courses:</h3>
-          </div>
+          <v-chip dark color="primary"><div><h1 class="headline mb-0">Courses</h1></div></v-chip>
           <v-treeview
               :active.sync="active"
               :items="items"
               :open.sync="open"
               return-object
               hoverable
-              activatable>
+              activatable
+              transition>
           </v-treeview>
         </v-flex>
 
         <v-flex xs4 md8>
           <h1 v-if="selected === undefined">Click some tree item to VUE the data</h1>
             <v-content>
-              <router-view>
-              </router-view>
+              <v-scroll-y-transition mode="out-in">
+                <router-view></router-view>
+              </v-scroll-y-transition>
             </v-content>
         </v-flex>
 
