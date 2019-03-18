@@ -3,8 +3,8 @@ node_js:
   - "node"
   
 before_script:
-  - mkdir dist
-  - npm run build 
+  - pwd
+  - ls -la 
 deploy:
   provider: firebase
   token:
