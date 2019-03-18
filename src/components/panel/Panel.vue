@@ -3,21 +3,24 @@
     <v-layout row>
 
         <v-flex xs4 md4>
+          <div>
+            <h3 class="headline mb-0">Courses:</h3>
+          </div>
           <v-treeview
               :active.sync="active"
               :items="items"
               :open.sync="open"
               return-object
               hoverable
-              activatable
-              >
+              activatable>
           </v-treeview>
         </v-flex>
 
         <v-flex xs4 md8>
-          <h1>Lorem ipsum dolor sit amet, .</h1>
+          <h1 v-if="selected === undefined">Click some tree item to VUE the data</h1>
             <v-content>
-              <router-view></router-view>
+              <router-view>
+              </router-view>
             </v-content>
         </v-flex>
 
@@ -36,6 +39,9 @@
     computed: {
 	    items() {
 	      return this.$store.getters.items;
+      },
+      selected() {
+	      return this.$store.getters.selected;
       }
     },
     watch: {

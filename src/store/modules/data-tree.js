@@ -2,14 +2,10 @@ export default {
   state: {
     selected: null,
 	items: [
-	  {
-		id: 1,
-		name: 'Courses :',
-		type: null,
-		children: [
-		  {
+		{
 			id: 2,
 			name: 'TOEFL iBT',
+			description: 'This course is for those who pursue to get away from Russia and find better life in the USA',
 			type: 'course',
 			children: [
 			  {
@@ -19,7 +15,7 @@ export default {
 			  }
 			]
 		  },
-		  {
+	  	{
 			id: 4,
 			name: 'CAE',
 			type: 'course',
@@ -43,7 +39,7 @@ export default {
 			  }
 			]
 		  },
-		  {
+	  	{
 			id: 8,
 			name: 'GMATH',
 			type: 'course',
@@ -55,8 +51,6 @@ export default {
 			  }
 			]
 		  },
-		]
-	  },
 	]
   },
   mutations: {
