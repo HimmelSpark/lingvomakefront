@@ -23,17 +23,39 @@
 
             <v-tooltip bottom>
               <template v-slot:activator="{on}">
-                <v-btn flat icon large v-on="on"><v-icon>edit</v-icon></v-btn>
+                <v-btn flat icon large v-on="on" @click="openEditDialog"><v-icon>edit</v-icon></v-btn>
               </template>
               <span>edit this COURSE</span>
             </v-tooltip>
 
+            <v-dialog v-model="editDialog" persistent max-width="490">
+              <v-card>
+                <v-card-title class="headline">Editing current course</v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat @click="editDialog = false">Cancel</v-btn>
+                  <v-btn color="red" flat @click="saveAfterEdit">Save</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
             <v-tooltip bottom>
               <template v-slot:activator="{on}">
-                <v-btn icon large v-on="on"><v-icon>add</v-icon></v-btn>
+                <v-btn icon large v-on="on" @click="openAddDialog"><v-icon>add</v-icon></v-btn>
               </template>
               <span>add new UNIT</span>
             </v-tooltip>
+
+            <v-dialog v-model="addDialog" persistent max-width="490">
+              <v-card>
+                <v-card-title class="headline">Adding new Unit</v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat @click="addDialog = false">Cancel</v-btn>
+                  <v-btn color="red" flat @click="saveAddedUnit">Save</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
 
             <v-spacer></v-spacer>
 
@@ -68,7 +90,9 @@
   export default {
     data() {
       return {
-        deleteDialog: false
+        editDialog: false,
+        addDialog: false,
+        deleteDialog: false,
       }
     },
     computed: {
@@ -77,6 +101,20 @@
       },
     },
     methods: {
+      openEditDialog() {
+        this.editDialog = true
+      },
+      saveAfterEdit() {
+        //
+        this.editDialog = false
+      },
+      openAddDialog() {
+        this.addDialog = true
+      },
+      saveAddedUnit() {
+        //
+		    this.addDialog = false
+      },
       openDeleteDialog() {
         this.deleteDialog = true
       }
