@@ -12,7 +12,10 @@ export default {
 			  {
 				id: 3,
 				name: 'Unit 1',
-				type: 'unit'
+				description: 'some TOEFL unit',
+				imgSrc: "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
+				type: 'unit',
+				children: []
 			  }
 			]
 		  },
@@ -26,6 +29,8 @@ export default {
 			  {
 				id: 5,
 				name: 'Unit 1',
+				description: 'some CAE unit',
+				imgSrc: "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
 				type: 'unit',
 				children: [
 				  {

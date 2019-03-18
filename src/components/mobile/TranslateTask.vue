@@ -5,6 +5,7 @@
         <v-card>
           <v-card-text>
 
+
             <v-layout row wrap align-center>
               <v-flex xs12>
                 <div class="text-xs-center">
@@ -48,14 +49,8 @@
             </v-layout>
 
 
-
-
-
-
           </v-card-text>
         </v-card>
-
-
 
 
       </v-flex>

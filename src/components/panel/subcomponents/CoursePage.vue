@@ -34,7 +34,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" flat @click="editDialog = false">Cancel</v-btn>
-                  <v-btn color="red" flat @click="saveAfterEdit">Save</v-btn>
+                  <v-btn color="green" flat @click="saveAfterEdit">Save</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -52,7 +52,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" flat @click="addDialog = false">Cancel</v-btn>
-                  <v-btn color="red" flat @click="saveAddedUnit">Save</v-btn>
+                  <v-btn color="green" flat @click="saveAddedUnit">Save</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -97,7 +97,7 @@
     },
     computed: {
       selected() {
-      return this.$store.getters.selected;
+        return this.$store.getters.selected;
       },
     },
     methods: {
