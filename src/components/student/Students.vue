@@ -47,7 +47,7 @@
 	  },
     methods: {
       clickTree() {
-        this.$router.dispatch('setSelectedSTUD', this.active[0])
+        this.$store.dispatch('setSelectedSTUD', this.active[0])
       }
     },
     computed: {
