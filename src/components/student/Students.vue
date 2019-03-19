@@ -49,7 +49,7 @@ export default {
   methods: {
     clickTree() {
       if (this.active[0] !== null) {
-        this.$store.dispatch("setSelected", this.active[0]);
+        this.$store.dispatch("setSelectedSTUD", this.active[0]);
         switch (this.active[0].type) {
           case "group":
             this.$router.push("/student/group/" + this.active[0].id);
