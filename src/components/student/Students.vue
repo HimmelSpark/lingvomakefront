@@ -20,20 +20,21 @@
 
       <v-divider vertical></v-divider>
 
-      <v-flex xs7 md8 lg9>
+      <v-flex xs8 md9 lg10>
         <v-chip v-if="selected === undefined" color="primary" dark
-          >Click some tree item to VUE the data</v-chip
+        >Click some tree item to VUE the data</v-chip
         >
         <v-content>
           <v-scroll-y-transition mode="out-in">
             <router-view></router-view>
           </v-scroll-y-transition>
+          <h1>{{ selected }}</h1>
         </v-content>
-        <h1>{{ selected }}</h1>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
+
 
 <script>
 export default {

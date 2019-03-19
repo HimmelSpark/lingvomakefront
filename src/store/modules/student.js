@@ -7,6 +7,7 @@ export default {
         name: "Group TOEFL B2",
         imgSrc:
           "http://busidiomas.com/wp-content/uploads/2017/10/examen-cae-1024x559.jpg",
+        type: "group",
         children: [
           { id: 2, name: "Adamyan Petros Samwelovich", imgSrc: "" },
           { id: 3, name: "Britikov Konstantin Krymchanovich", imgSrc: "" }
@@ -17,13 +18,14 @@ export default {
         name: "Group IELTS B1",
         imgSrc:
           "http://busidiomas.com/wp-content/uploads/2017/10/examen-cae-1024x559.jpg",
+        type: "group",
         children: [
           { id: 5, name: "TchuWashOFF Jahor Kirovich", imgSrc: "" },
           { id: 6, name: "VanyashKEEN Jury^2", imgSrc: "" }
         ]
       },
-      { id: 6, name: "Group CAE C1" },
-      { id: 7, name: "Other group" }
+      { id: 6, name: "Group CAE C1",type: "group", },
+      { id: 7, name: "Other group" ,type: "group",}
     ]
   },
   mutations: {
