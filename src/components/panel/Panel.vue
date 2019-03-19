@@ -1,19 +1,19 @@
 <template>
   <v-container fill-height fluid justify-center>
     <v-layout row>
-        <v-flex xs4 md3 lg2 >
+        <v-flex xs4 md3 lg2>
           <v-chip label dark color="primary">
             <v-icon left>school</v-icon>
             <div><h1 class="headline mb-0">Courses</h1></div>
           </v-chip>
           <v-treeview
               :active.sync="active"
-              :items="items"
               :open.sync="open"
+              :items="items"
               return-object
-              hoverable
               activatable
-              transition>
+              transition
+              hoverable>
           </v-treeview>
         </v-flex>
 

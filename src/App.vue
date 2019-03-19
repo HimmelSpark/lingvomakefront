@@ -1,18 +1,17 @@
 <template>
   <v-app>
     <v-navigation-drawer
-            app
-            temporary
-            v-model="drawer"
-            touchless
-            v-if="(this.$route.path).indexOf('android') === -1">
+        app
+        temporary
+        v-model="drawer"
+        touchless
+        v-if="(this.$route.path).indexOf('android') === -1">
       <v-list>
         <v-list-tile
-                @click=""
-                v-for="link of links"
-                :key="link.title"
-                :to="link.url"
-        >
+            @click=""
+            v-for="link of links"
+            :key="link.title"
+            :to="link.url">
           <v-list-tile-action>
             <v-icon>{{link.icon}}</v-icon>
           </v-list-tile-action>
@@ -20,10 +19,8 @@
           <v-list-tile-content>
             <v-list-tile-title v-text="link.title"></v-list-tile-title>
           </v-list-tile-content>
-
         </v-list-tile>
       </v-list>
-
     </v-navigation-drawer>
 
     <v-toolbar
@@ -72,16 +69,19 @@
       links() {
         if (this.isUserLoggedIn) {
           return [
-			{title: 'Login', icon: 'lock', url: '/login'},
-			{title: 'Registration', icon: 'face', url: '/registration'},
-			{title: 'Panel', icon: 'work', url:'/panel' },
+			      {title: 'Login', icon: 'lock', url: '/login'},
+			      {title: 'Registration', icon: 'face', url: '/registration'},
+			      {title: 'Panel', icon: 'work', url:'/panel' },
+            {title: 'Students', icon: 'study', url: '/students'}
           ]
-        } else {
-         return [
-           {title: 'Login', icon: 'lock', url: '/login'},
-           {title: 'Registration', icon: 'face', url: '/registration'},
-           {title: 'Panel', icon: 'work', url:'/panel' },
-         ]
+        }
+        else {
+          return [
+          	{title: 'Login', icon: 'lock', url: '/login'},
+            {title: 'Registration', icon: 'face', url: '/registration'},
+            {title: 'Panel', icon: 'work', url:'/panel' },
+            {title: 'Students', icon: 'school', url: '/students'}
+          ]
         }
       }
     },

@@ -9,6 +9,7 @@ import Home from '@/components/Home'
 import Login from '@/components/auth/Login'
 import Registration from '@/components/auth/Registration'
 import Panel from '@/components/panel/Panel'
+import Students from '@/components/student/Students'
 //Panel sub-components
 import CoursePage from '@/components/panel/subcomponents/CoursePage'
 import UnitPage from '@/components/panel/subcomponents/UnitPage'
@@ -39,6 +40,11 @@ export default new Router({
 	  name: 'registration',
 	  component: Registration,
 	  beforeEnter: DoubleEnterGuard
+	},
+	{
+	  path: '/students',
+	  name: 'students',
+	  component: Students
 	},
 	{
 	  path: '/panel',
