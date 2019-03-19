@@ -1,5 +1,15 @@
 language: node_js
+node_js:  
+  - "node"
+  
+before_script:
+  - mkdir dist
+  - npm run build
+  - cd dist
+  - ls -la
+  - cd ..
 deploy:
+  skip_cleanup: true
   provider: firebase
   token:
     secure: "1/EAAhsrarCLzsIskk1MfRUL2x9nd72x29eFD8sbZbxrg"
