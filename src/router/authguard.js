@@ -1,9 +1,9 @@
-import store from '../store/index'
+import store from "../store/index";
 
-export default function (to, from, next) {
+export default function(to, from, next) {
   if (store.getters.user) {
-    next()
+    next();
   } else {
-    next('/login')
+    next("/login");
   }
 }

@@ -9,25 +9,20 @@ class HttpService {
    * @return {PromiseLike<T> | Promise<T>}
    */
 
-  static baseURL = 'http://178.128.138.0:8090';
+  static baseURL = "http://178.128.138.0:8090";
 
   static get(url, callbackfn) {
-
-	return this.request('GET', url)
-		.then (
-			response => {
-			  if (response.status === 200) {
-				try {
-				  callbackfn(null, response.json());
-				}
-				catch (err) {
-				  console.error('get error: ', err);
-				}
-			  } else {
-				callbackfn(response, null);
-			  }
-			}
-		);
+    return this.request("GET", url).then(response => {
+      if (response.status === 200) {
+        try {
+          callbackfn(null, response.json());
+        } catch (err) {
+          console.error("get error: ", err);
+        }
+      } else {
+        callbackfn(response, null);
+      }
+    });
   }
 
   /**
@@ -38,24 +33,18 @@ class HttpService {
    * @return {PromiseLike<T> | Promise<T>}
    */
   static post(url, body, callbackfn) {
-	return this.request('POST', url, body)
-		.then (
-			response => {
-			  if (response.status < 300) {
-				try {
-				  callbackfn(null, response.json());
-				}
-				catch (err) {
-				  console.error('post error: ', err);
-				  callbackfn(err);
-				}
-
-			  } else {
-				callbackfn(response);
-			  }
-
-			}
-		);
+    return this.request("POST", url, body).then(response => {
+      if (response.status < 300) {
+        try {
+          callbackfn(null, response.json());
+        } catch (err) {
+          console.error("post error: ", err);
+          callbackfn(err);
+        }
+      } else {
+        callbackfn(response);
+      }
+    });
   }
 
   /**
@@ -66,24 +55,23 @@ class HttpService {
    * @return {Promise<Response>}
    */
   static request(requestMethod, url, body) {
-	const headers = new Headers();
+    const headers = new Headers();
 
-	if (requestMethod ==='POST') {
-	  headers.append('Content-Type', 'application/json; charset=utf-8');
-	}
+    if (requestMethod === "POST") {
+      headers.append("Content-Type", "application/json; charset=utf-8");
+    }
 
-	const req = {
-	  method: requestMethod,
-	  headers: headers,
-	  body: body,
-	  credentials: 'include',
-	  mode: 'cors'
-	};
+    const req = {
+      method: requestMethod,
+      headers: headers,
+      body: body,
+      credentials: "include",
+      mode: "cors"
+    };
 
+    console.log(req);
 
-	console.log(req);
-
-	return fetch(`${this.baseURL}${url}`, req);
+    return fetch(`${this.baseURL}${url}`, req);
   }
 }
 

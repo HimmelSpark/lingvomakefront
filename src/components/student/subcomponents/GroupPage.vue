@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-container>
     <v-layout row>
       <v-flex xs12>
@@ -8,13 +8,13 @@
           <v-card-title primary-title>
             <div>
               <h2 class="headline mb-0">
-                Course
+                Group
                 <v-chip label dark color="primary">{{ selected.name }}</v-chip>
                 has
                 <v-chip label dark color="primary"
                   >{{ selected.children.length }}
                 </v-chip>
-                unit(s)
+                student(s)
               </h2>
               <div>{{ selected.description }}</div>
             </div>
@@ -27,13 +27,13 @@
                   ><v-icon>edit</v-icon></v-btn
                 >
               </template>
-              <span>edit this COURSE</span>
+              <span>edit this Group</span>
             </v-tooltip>
 
             <v-dialog v-model="editDialog" persistent max-width="490">
               <v-card>
                 <v-card-title class="headline"
-                  >Editing current course</v-card-title
+                  >Editing current group</v-card-title
                 >
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -51,12 +51,14 @@
                   ><v-icon>add</v-icon></v-btn
                 >
               </template>
-              <span>add new UNIT</span>
+              <span>add new student</span>
             </v-tooltip>
 
             <v-dialog v-model="addDialog" persistent max-width="490">
               <v-card>
-                <v-card-title class="headline">Adding new Unit</v-card-title>
+                <v-card-title class="headline"
+                  >Adding new students</v-card-title
+                >
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" flat @click="addDialog = false"
@@ -82,16 +84,16 @@
                   ><v-icon>delete</v-icon></v-btn
                 >
               </template>
-              <span>delete this COURSE</span>
+              <span>delete this UNIT</span>
             </v-tooltip>
 
             <v-dialog v-model="deleteDialog" persistent max-width="290">
               <v-card>
                 <v-card-title class="headline"
-                  >Do you want to delete this course?</v-card-title
+                  >Do you want to delete this group?</v-card-title
                 >
                 <v-card-text
-                  >This process is irreversible, you can't restore this course
+                  >This process is irreversible, you can't restore this group
                   later!</v-card-text
                 >
                 <v-card-actions>
@@ -123,7 +125,7 @@ export default {
   },
   computed: {
     selected() {
-      return this.$store.getters.selected;
+      return this.$store.getters.getSelectedSTUD;
     }
   },
   methods: {
