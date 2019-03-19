@@ -14,9 +14,10 @@ import Students from "@/components/student/Students";
 import CoursePage from "@/components/panel/subcomponents/CoursePage";
 import UnitPage from "@/components/panel/subcomponents/UnitPage";
 import TaskPage from "@/components/panel/subcomponents/TaskPage";
+//Student sub-components
+import GroupPage from "@/components/student/subcomponents/GroupPage";
 //Mobile web-view components
 import MobileTranslate from "@/components/mobile/TranslateTask";
-import GroupPage from "@/components/student/subcomponents/GroupPage";
 
 Vue.use(Router);
 

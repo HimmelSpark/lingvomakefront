@@ -13,8 +13,7 @@
           return-object
           activatable
           transition
-          hoverable
-        >
+          hoverable>
         </v-treeview>
       </v-flex>
 
@@ -28,7 +27,6 @@
           <v-scroll-y-transition mode="out-in">
             <router-view></router-view>
           </v-scroll-y-transition>
-          <h1>{{ selected }}</h1>
         </v-content>
       </v-flex>
     </v-layout>
@@ -49,14 +47,15 @@ export default {
   },
   methods: {
     clickTree() {
-      if (this.active[0] !== null) {
+
+      if (this.active[0] !== undefined) {
         this.$store.dispatch("setSelectedSTUD", this.active[0]);
         switch (this.active[0].type) {
           case "group":
-            this.$router.push("/student/group/" + this.active[0].id);
+            this.$router.push("/students/group/" + this.active[0].id);
             break;
           case "student":
-            this.$router.push("/student/student/" + this.active[0].id);
+            this.$router.push("/students/student/" + this.active[0].id);
             break;
         }
       }

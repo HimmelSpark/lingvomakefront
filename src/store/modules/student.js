@@ -9,8 +9,8 @@ export default {
           "http://busidiomas.com/wp-content/uploads/2017/10/examen-cae-1024x559.jpg",
         type: "group",
         children: [
-          { id: 2, name: "Adamyan Petros Samwelovich", imgSrc: "" },
-          { id: 3, name: "Britikov Konstantin Krymchanovich", imgSrc: "" }
+          { id: 2, name: "Adamyan Petros Samwelovich", imgSrc: "", type: 'student', children: []},
+          { id: 3, name: "Britikov Konstantin Krymchanovich", imgSrc: "", type: 'student', children: []}
         ]
       },
       {
@@ -20,12 +20,12 @@ export default {
           "http://busidiomas.com/wp-content/uploads/2017/10/examen-cae-1024x559.jpg",
         type: "group",
         children: [
-          { id: 5, name: "TchuWashOFF Jahor Kirovich", imgSrc: "" },
-          { id: 6, name: "VanyashKEEN Jury^2", imgSrc: "" }
+          { id: 5, name: "TchuWashOFF Jahor Kirovich", imgSrc: "", type: 'student', children: [] },
+          { id: 6, name: "VanyashKEEN Jury^2", imgSrc: "", type: 'student', children: []}
         ]
       },
-      { id: 6, name: "Group CAE C1",type: "group", },
-      { id: 7, name: "Other group" ,type: "group",}
+      { id: 6, name: "Group CAE C1",type: "group", children: []},
+      { id: 7, name: "Other group" ,type: "group", children: []}
     ]
   },
   mutations: {
