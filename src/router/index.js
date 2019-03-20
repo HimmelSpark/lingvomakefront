@@ -18,6 +18,7 @@ import TaskPage from "@/components/panel/subcomponents/TaskPage";
 import GroupPage from "@/components/student/subcomponents/GroupPage";
 //Mobile web-view components
 import MobileTranslate from "@/components/mobile/TranslateTask";
+import StudentPage from "../components/student/subcomponents/StudentPage";
 
 Vue.use(Router);
 
@@ -50,7 +51,7 @@ export default new Router({
         {
           path: "student/:id",
           props: true,
-          component: GroupPage
+          component: StudentPage
         }
       ]
     },
