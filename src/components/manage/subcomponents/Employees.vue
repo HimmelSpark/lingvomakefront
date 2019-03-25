@@ -14,6 +14,7 @@
         </v-layout>
 
         <v-layout row>
+
           <v-flex xs11>
             <v-text-field
                 class="mx-3"
@@ -23,6 +24,7 @@
                 solo-inverted>
             </v-text-field>
           </v-flex>
+
           <v-flex xs1>
             <v-btn
                 icon
@@ -33,9 +35,10 @@
               <v-icon>add</v-icon>
             </v-btn>
           </v-flex>
+
         </v-layout>
 
-          <v-data-table
+        <v-data-table
               :headers="headers"
               :items="employees"
               class="elevation-1">
@@ -44,18 +47,17 @@
               <td class="center">{{ props.item.email }}</td>
               <td class="text-xs-center password">{{ props.item.password }}</td>
               <td class="text-xs-center">
-                <v-btn icon @click="editEmpById(props.item.id)">
+                <v-btn icon @click="openEditEmployeeDialog(props.item.id)">
                   <v-icon>edit</v-icon>
                 </v-btn>
               </td>
               <td class="text-xs-center">
-                <v-btn icon @click="deleteEmpById(props.item.id)">
-                  <v-icon color="red">delete</v-icon>
+                <v-btn icon>
+                  <v-icon color="red" @click="openDeleteEmployeeDialog">delete</v-icon>
                 </v-btn>
               </td>
             </template>
           </v-data-table>
-
 
         <v-dialog v-model="addEmployeeDialog" persistent max-width="490">
           <v-card>
@@ -92,15 +94,6 @@
                     :rules="passwordConfirmRules"
                     v-model="passwordConfirm"
                 ></v-text-field>
-                <v-dialog v-model="loading" hide-overlay persistent width="300">
-                  <v-card color="dark" dark>
-                    <v-card-text>
-                      Please stand by
-                      <v-progress-linear indeterminate color="white" class="mb-0">
-                      </v-progress-linear>
-                    </v-card-text>
-                  </v-card>
-                </v-dialog>
               </v-form>
             </v-card-text>
             <v-card-actions>
@@ -108,6 +101,42 @@
               <v-btn color="primary" flat @click="addEmployeeDialog = false"
               >Cancel</v-btn>
               <v-btn color="green" flat @click="addEmployeeDialog = false">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="deleteEmployeeDialog" persistent max-width="290">
+          <v-card>
+            <v-card-title class="headline">Do you want to delete this employee?</v-card-title>
+            <v-card-text>This process is irreversible, you can't restore this employee later!</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" flat @click="deleteEmployeeDialog = false">Cancel</v-btn>
+              <v-btn color="red" flat @click="deleteEmployeeDialog = false">Delete</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="editEmployeeDialog" persistent max-width="290">
+          <v-card>
+            <v-card-title class="headline">Do you want to delete this employee?</v-card-title>
+            <v-card-text>
+              <v-form v-model="valid" ref="form" validation>
+                <v-text-field
+                    prepend-icon="lock"
+                    label="change password"
+                    id="password"
+                    type="password"
+                    :counter="8"
+                    :rules="passwordRules"
+                    v-model="password"
+                ></v-text-field>
+              </v-form>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" flat @click="editEmployeeDialog = false">Cancel</v-btn>
+              <v-btn color="green" flat @click="editEmployeeDialog = false">Change</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -129,6 +158,24 @@
             { text: 'Id', align: 'left', sortable: false, value: 'id'},
             { text: 'Email', value: 'name' },
         ],
+        valid: false,
+        emailRules: [
+          v => !!v || "E-mail is required",
+          v => /.+@.+/.test(v) || "E-mail must be valid"
+        ],
+        passwordRules: [
+          v => !!v || "Password is required",
+          v => (v && v.length >= 8) || "Too short password"
+        ],
+        passwordConfirmRules: [
+          v => !!v || "Password confirmation is required",
+          v => v === this.password || "Passwords didn't match"
+        ],
+
+        deleteEmployeeDialog: false,
+
+        editEmployeeDialog: false,
+
         employees: [
           {
             id: 1,
@@ -176,6 +223,13 @@
     methods: {
       openAddEmployeeDialog() {
         this.addEmployeeDialog = true;
+      },
+      openDeleteEmployeeDialog() {
+        this.deleteEmployeeDialog = true;
+      },
+      openEditEmployeeDialog(id) {
+        this.password = '';
+        this.editEmployeeDialog = true;
       }
     }
   };

@@ -40,7 +40,7 @@
       return {
         open: [],
         active: [],
-        items: [,
+        items: [
           {id: 0, name: 'Application', to: '/application'},
           {id: 1, name: 'Employees', to: '/employees'},
         ]
@@ -51,7 +51,9 @@
     },
     methods: {
       clickTree() {
-        this.$router.push('/manage' + this.active[0].to)
+        if (this.active[0] !== undefined) {
+          this.$router.push('/manage' + this.active[0].to)
+        }
       }
     },
     computed: {
