@@ -71,14 +71,16 @@ export default {
           { title: "Login", icon: "lock", url: "/login" },
           { title: "Registration", icon: "face", url: "/registration" },
           { title: "Panel", icon: "work", url: "/panel" },
-          { title: "Students", icon: "study", url: "/students" }
+          { title: "Students", icon: "study", url: "/students" },
+		      { title: "Manage", icon: "settings", url: "/settings" }
         ];
       } else {
         return [
           { title: "Login", icon: "lock", url: "/login" },
           { title: "Registration", icon: "face", url: "/registration" },
           { title: "Panel", icon: "work", url: "/panel" },
-          { title: "Students", icon: "school", url: "/students" }
+          { title: "Students", icon: "school", url: "/students" },
+          { title: "Manage", icon: "settings", url: "/manage" }
         ];
       }
     }
