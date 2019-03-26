@@ -5,15 +5,13 @@
       temporary
       v-model="drawer"
       touchless
-      v-if="this.$route.path.indexOf('android') === -1"
-    >
+      v-if="this.$route.path.indexOf('android') === -1">
       <v-list>
         <v-list-tile
           @click=""
           v-for="link of links"
           :key="link.title"
-          :to="link.url"
-        >
+          :to="link.url">
           <v-list-tile-action>
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-tile-action>

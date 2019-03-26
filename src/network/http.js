@@ -9,8 +9,8 @@ class HttpService {
    * @return {PromiseLike<T> | Promise<T>}
    */
 
-  static baseURL = "http://178.128.138.0:8090";
-
+  // static baseURL = "http://178.128.138.0:8090";
+  static baseURL = "http://localhost:8090";
   static get(url, callbackfn) {
     return this.request("GET", url).then(response => {
       if (response.status === 200) {
