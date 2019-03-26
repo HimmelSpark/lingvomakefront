@@ -3,7 +3,7 @@
   <div class="color-picker">
     <div class="color-picker__overlay" v-if="isVisible" v-on:click="hide"></div>
     <transition name="pop">
-      <div class="color-picker__flyout" v-if="isVisible">C
+      <div class="color-picker__flyout" v-if="isVisible">
         <div class="color-chip" v-bind:style="{'background': color}">
           <div class="color-chip__inner">
             <h1 class="color-chip__title">HSL</h1>
@@ -33,7 +33,7 @@
     props: ["change", "initial"],
     data() {
       return {
-      isVisible: true,
+      isVisible: false,
       h: 265,
       s: 80,
       l: 99
