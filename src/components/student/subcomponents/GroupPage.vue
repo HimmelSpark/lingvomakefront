@@ -12,7 +12,7 @@
                 <v-chip label dark color="primary">{{ selected.name }}</v-chip>
                 has
                 <v-chip label dark color="primary"
-                  >{{ selected.children.length }}
+                  >{{ students.length }}
                 </v-chip>
                 student(s)
               </h2>
@@ -84,7 +84,7 @@
                   ><v-icon>delete</v-icon></v-btn
                 >
               </template>
-              <span>delete this UNIT</span>
+              <span>delete this group</span>
             </v-tooltip>
 
             <v-dialog v-model="deleteDialog" persistent max-width="290">
@@ -126,6 +126,9 @@ export default {
   computed: {
     selected() {
       return this.$store.getters.getSelectedSTUD;
+    },
+    students() {
+      return this.$store.getters.getStudents;
     }
   },
   methods: {
