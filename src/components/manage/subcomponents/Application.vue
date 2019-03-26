@@ -41,7 +41,7 @@
               </v-img>
             </v-flex>
 
-            <!--<color-picker :change="updateColor"></color-picker>-->
+            <color-picker :change="updateColor"></color-picker>
 
           </v-layout>
 

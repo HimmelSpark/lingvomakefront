@@ -118,8 +118,8 @@
 	  }
 	},
 	  mounted: function () {
-	  this.h = parseInt(Math.random() * 360)
-	}
+	    this.h = parseInt(Math.random() * 360)
+	  }
   };
 
 
@@ -137,32 +137,32 @@
   // });
 
   function hsb2hsl(h, s, b) {
-	var hsl = {
-	  h: h
-	};
-	hsl.l = (2 - s) * b;
-	hsl.s = s * b;
+    var hsl = {
+      h: h
+    };
+    hsl.l = (2 - s) * b;
+    hsl.s = s * b;
 
-	if (hsl.l <= 1 && hsl.l > 0) {
-	  hsl.s /= hsl.l;
-	} else {
-	  hsl.s /= 2 - hsl.l;
-	}
+    if (hsl.l <= 1 && hsl.l > 0) {
+      hsl.s /= hsl.l;
+    } else {
+      hsl.s /= 2 - hsl.l;
+    }
 
-	hsl.l /= 2;
+    hsl.l /= 2;
 
-	if (hsl.s > 1) {
-	  hsl.s = 1;
-	}
+    if (hsl.s > 1) {
+      hsl.s = 1;
+    }
 
-	if (!hsl.s > 0) hsl.s = 0
+    if (!hsl.s > 0) hsl.s = 0
 
 
-	hsl.h *= 360;
-	hsl.s *= 100;
-	hsl.l *= 100;
+    hsl.h *= 360;
+    hsl.s *= 100;
+    hsl.l *= 100;
 
-	return hsl;
+    return hsl;
   }
 </script>
 
