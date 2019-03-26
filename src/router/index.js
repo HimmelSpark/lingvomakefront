@@ -24,6 +24,8 @@ import Employees from "@/components/manage/subcomponents/Employees"
 //Mobile web-view components
 import MobileTranslate from "@/components/mobile/TranslateTask";
 
+import ColorPicker from "@/components/extra/Color";
+
 Vue.use(Router);
 
 export default new Router({
@@ -66,6 +68,10 @@ export default new Router({
       children: [
         {
           path: "application",
+		  // components: {
+           //  'Application': Application,
+           //  'color-picker': ColorPicker
+		  // },
           component: Application
         },
         {

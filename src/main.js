@@ -5,9 +5,11 @@ import store from "./store";
 import router from "./router/index";
 import axios from "axios";
 import VueAxios from "vue-axios";
-Vue.config.productionTip = false;
 
+
+Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
+
 new Vue({
   router,
   store,

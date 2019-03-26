@@ -13,6 +13,8 @@
           </v-flex>
         </v-layout>
 
+        <br>
+
         <v-layout row>
 
           <v-flex xs11>
@@ -105,7 +107,7 @@
           </v-card>
         </v-dialog>
 
-        <v-dialog v-model="deleteEmployeeDialog" persistent max-width="290">
+        <v-dialog v-model="deleteEmployeeDialog" persistent max-width="320">
           <v-card>
             <v-card-title class="headline">Do you want to delete this employee?</v-card-title>
             <v-card-text>This process is irreversible, you can't restore this employee later!</v-card-text>
@@ -117,9 +119,9 @@
           </v-card>
         </v-dialog>
 
-        <v-dialog v-model="editEmployeeDialog" persistent max-width="290">
+        <v-dialog v-model="editEmployeeDialog" persistent max-width="320">
           <v-card>
-            <v-card-title class="headline">Do you want to delete this employee?</v-card-title>
+            <v-card-title class="headline">You are editing employee</v-card-title>
             <v-card-text>
               <v-form v-model="valid" ref="form" validation>
                 <v-text-field
