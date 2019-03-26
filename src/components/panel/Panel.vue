@@ -22,7 +22,8 @@
 
       <v-flex xs8 md9 lg10>
         <v-chip v-if="selected === undefined" color="primary" dark>
-          Click some tree item to VUE the data</v-chip>
+          Click some tree item to VUE the data</v-chip
+        >
         <v-content>
           <v-scroll-y-transition mode="out-in">
             <router-view></router-view>

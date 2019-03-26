@@ -34,6 +34,7 @@ export default {
             id: 5,
             name: "Unit 1",
             description: "some CAE unit",
+
             imgSrc:
               "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
             type: "unit",
@@ -59,6 +60,7 @@ export default {
           "This course is for those who think that maths in english sound so sexy!",
         imgSrc: "https://www.newszii.com/wp-content/uploads/2018/11/GMAT.png",
         type: "course",
+        position: "1",
         children: [
           {
             id: 9,

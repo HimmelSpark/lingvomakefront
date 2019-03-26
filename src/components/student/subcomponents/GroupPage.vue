@@ -5,6 +5,63 @@
         <v-card>
           <v-img :src="selected.imgSrc" aspect-ratio="2.75"></v-img>
 
+
+          <v-dialog v-model="editGroupDialog" persistent max-width="490">
+            <v-card>
+              <v-card-title class="headline">
+                Adding new group
+              </v-card-title>
+              <v-card-text>
+                <v-form v-model="valid" ref="form" validation>
+                  <v-text-field
+                          name="name"
+                          label="Name"
+                          type="text"
+                          v-model="Gname"
+                  ></v-text-field>
+                  <v-text-field
+                          name="startDate"
+                          label="StartDate"
+                          type="text"
+                          v-model="GstartDate"
+                  ></v-text-field>
+                  <v-text-field
+                          name="description"
+                          label="Description"
+                          type="text"
+                          v-model="Gdescription"
+                  ></v-text-field>
+
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" flat @click="editGroupDialog = false"
+                >Cancel</v-btn>
+                <v-btn color="green" flat @click="editGroup">Save</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+
+
+          <v-dialog v-model="deleteGroupDialog" persistent max-width="490">
+            <v-card>
+              <v-card-title class="headline">
+                Are you sure, you want to delete group?
+              </v-card-title>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" flat @click="deleteGroupDialog = false"
+                >Cancel</v-btn>
+                <v-btn color="green" flat @click="deleteGroup()">Yes</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+
+
           <v-card-title primary-title>
             <div>
               <h2 class="headline mb-0">
@@ -12,7 +69,7 @@
                 <v-chip label dark color="primary">{{ selected.name }}</v-chip>
                 has
                 <v-chip label dark color="primary"
-                  >{{ selected.children.length }}
+                  >{{ students.length }}
                 </v-chip>
                 student(s)
               </h2>
@@ -23,51 +80,13 @@
           <v-card-actions>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-btn flat icon large v-on="on" @click="openEditDialog"
+                <v-btn flat icon large v-on="on" @click="openEditGroupDialog(selected)"
                   ><v-icon>edit</v-icon></v-btn
                 >
               </template>
               <span>edit this Group</span>
             </v-tooltip>
 
-            <v-dialog v-model="editDialog" persistent max-width="490">
-              <v-card>
-                <v-card-title class="headline"
-                  >Editing current group</v-card-title
-                >
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" flat @click="editDialog = false"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="green" flat @click="saveAfterEdit">Save</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon large v-on="on" @click="openAddDialog"
-                  ><v-icon>add</v-icon></v-btn
-                >
-              </template>
-              <span>add new student</span>
-            </v-tooltip>
-
-            <v-dialog v-model="addDialog" persistent max-width="490">
-              <v-card>
-                <v-card-title class="headline"
-                  >Adding new students</v-card-title
-                >
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" flat @click="addDialog = false"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="green" flat @click="saveAddedUnit">Save</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
 
             <v-spacer></v-spacer>
 
@@ -80,33 +99,14 @@
                   large
                   v-on="on"
                   color="red"
-                  @click="openDeleteDialog"
+                  @click="deleteGroupDialog = true"
                   ><v-icon>delete</v-icon></v-btn
                 >
               </template>
-              <span>delete this UNIT</span>
+              <span>delete this group</span>
             </v-tooltip>
 
-            <v-dialog v-model="deleteDialog" persistent max-width="290">
-              <v-card>
-                <v-card-title class="headline"
-                  >Do you want to delete this group?</v-card-title
-                >
-                <v-card-text
-                  >This process is irreversible, you can't restore this group
-                  later!</v-card-text
-                >
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" flat @click="deleteDialog = false"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="red" flat @click="deleteDialog = false"
-                    >Delete</v-btn
-                  >
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -118,33 +118,67 @@
 export default {
   data() {
     return {
-      editDialog: false,
+      deleteGroupDialog: false,
+      editGroupDialog: false,
       addDialog: false,
-      deleteDialog: false
+      deleteDialog: false,
+      Gname: null,
+      Gdescription: null,
+      GstartDate: null,
+      Gid: null,
     };
   },
   computed: {
     selected() {
       return this.$store.getters.getSelectedSTUD;
+    },
+    students() {
+      return this.$store.getters.getStudents;
+    },
+    groups() {
+      return this.$store.getters.getGroups;
     }
   },
   methods: {
-    openEditDialog() {
-      this.editDialog = true;
+    openEditGroupDialog(group) {
+      this.editGroupDialog = true;
+      this.Gname = group.name;
+      this.Gid = group.id;
+      this.Gdescription = group.description;
+      // this.GstartDate = group.startdate;
+
     },
-    saveAfterEdit() {
-      //
-      this.editDialog = false;
+    editGroup(){
+      this.selected.name = this.Gname;
+      this.selected.description = this.Gdescription;
+      this.editGroupDialog = false
+      // this.selected.st = this.Gname;
     },
-    openAddDialog() {
-      this.addDialog = true;
-    },
+
     saveAddedUnit() {
       //
       this.addDialog = false;
     },
-    openDeleteDialog() {
-      this.deleteDialog = true;
+
+    deleteGroup(){
+      var i, j = null;
+      for( i in this.students){
+        for( j in this.students[i].groups){
+          if(this.students[i].groups[j] === this.selected.id){
+            this.students[i].groups.pop(j);
+          }
+          if(this.students[i].groupName[j] === this.selected.name){
+            this.students[i].groupName.pop(j);
+          }
+
+        }
+      }
+      for( i in this.groups){
+        if(this.groups[i].id === this.selected.id){
+          this.groups.pop(i);
+          break;
+        }
+      }
     }
   }
 };
