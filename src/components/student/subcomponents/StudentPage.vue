@@ -81,7 +81,6 @@
               </template>
               <span>delete this UNIT</span>
             </v-tooltip>
-
             <v-dialog v-model="deleteDialog" persistent max-width="290">
               <v-card>
                 <v-card-title class="headline"

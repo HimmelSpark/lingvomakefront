@@ -10,15 +10,21 @@ import Login from "@/components/auth/Login";
 import Registration from "@/components/auth/Registration";
 import Panel from "@/components/panel/Panel";
 import Students from "@/components/student/Students";
+import Manage from "@/components/manage/Manage"
 //Panel sub-components
 import CoursePage from "@/components/panel/subcomponents/CoursePage";
 import UnitPage from "@/components/panel/subcomponents/UnitPage";
 import TaskPage from "@/components/panel/subcomponents/TaskPage";
 //Student sub-components
 import GroupPage from "@/components/student/subcomponents/GroupPage";
+import StudentPage from "../components/student/subcomponents/StudentPage";
+//Management suv-components
+import Application from "@/components/manage/subcomponents/Application"
+import Employees from "@/components/manage/subcomponents/Employees"
 //Mobile web-view components
 import MobileTranslate from "@/components/mobile/TranslateTask";
-import StudentPage from "../components/student/subcomponents/StudentPage";
+
+import ColorPicker from "@/components/extra/Color";
 
 Vue.use(Router);
 
@@ -52,6 +58,25 @@ export default new Router({
           path: "student/:id",
           props: true,
           component: StudentPage
+        }
+      ]
+    },
+    {
+      name: 'manage',
+      path: '/manage',
+      component: Manage,
+      children: [
+        {
+          path: "application",
+		  // components: {
+           //  'Application': Application,
+           //  'color-picker': ColorPicker
+		  // },
+          component: Application
+        },
+        {
+          path: "employees",
+          component: Employees
         }
       ]
     },

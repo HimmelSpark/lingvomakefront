@@ -5,9 +5,13 @@ import store from "./store";
 import router from "./router/index";
 import axios from "axios";
 import VueAxios from "vue-axios";
-Vue.config.productionTip = false;
+import ColorPicker from "./components/extra/Color";
 
+
+Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
+Vue.component("color-picker", ColorPicker);
+
 new Vue({
   router,
   store,
