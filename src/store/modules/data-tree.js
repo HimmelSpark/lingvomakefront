@@ -15,8 +15,23 @@ export default {
             id: 3,
             name: "Unit 1",
             description: "some TOEFL unit",
-            imgSrc:
-              "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
+            imgSrc: "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
+            type: "unit",
+            children: []
+          },
+          {
+            id: 100500,
+            name: "Unit 2",
+			description: "another TOEFL unit",
+			imgSrc: "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
+            type: "unit",
+            children: []
+          },
+          {
+            id: 1251,
+            name: "Unit 3",
+            description: "third TOEFL unit",
+			imgSrc: "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
             type: "unit",
             children: []
           }

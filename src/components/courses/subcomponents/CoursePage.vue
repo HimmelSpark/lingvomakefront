@@ -2,23 +2,33 @@
   <v-container>
     <v-layout row>
       <v-flex xs12>
-        <v-card>
-          <v-img :src="selected.imgSrc" aspect-ratio="2.75"></v-img>
 
-          <v-card-title primary-title>
-            <div>
-              <h2 class="headline mb-0">
-                Course
-                <v-chip label dark color="primary">{{ selected.name }}</v-chip>
-                has
-                <v-chip label dark color="primary"
-                  >{{ selected.children.length }}
-                </v-chip>
-                unit(s)
-              </h2>
-              <div>{{ selected.description }}</div>
-            </div>
-          </v-card-title>
+        <v-card>
+
+          <v-layout row>
+
+            <v-flex xs10>
+              <v-card-title primary-title>
+                <div>
+                  <h2 class="headline mb-0">
+                    Course
+                    <v-chip label dark color="primary">{{ selected.name }}</v-chip>
+                    has
+                    <v-chip label dark color="primary">
+                      {{ selected.children.length }}
+                    </v-chip>
+                    unit(s)
+                  </h2>
+                  <div>{{ selected.description }}</div>
+                </div>
+              </v-card-title>
+            </v-flex>
+
+            <v-flex xs2>
+              <v-img :src="selected.imgSrc" aspect-ratio="2"></v-img>
+            </v-flex>
+
+          </v-layout>
 
           <v-card-actions>
             <v-tooltip bottom>
@@ -107,6 +117,49 @@
             </v-dialog>
           </v-card-actions>
         </v-card>
+
+        <br>
+
+        <v-card>
+          <v-list two-line>
+          <template v-for="(unit, index) in selected.children">
+
+            <v-list-tile
+                :key="unit.name"
+                @click="">
+
+              <v-list-tile-content>
+                <v-layout row align-center>
+                  <span class="headline mb-4">
+                    <v-chip dark label color="green">{{unit.name}}</v-chip> has
+                    <v-chip dark label color="green">{{unit.children.length}}</v-chip> tasks.
+                    | {{unit.description}}
+                  </span>
+                </v-layout>
+              </v-list-tile-content>
+
+              <v-list-tile-action>
+                <v-btn icon ripple>
+                  <v-icon color="grey darken-3">edit</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+
+              <v-list-tile-action>
+                <v-btn icon ripple>
+                  <v-icon color="red darken-3">delete</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+
+
+
+            </v-list-tile>
+
+            <v-divider></v-divider>
+
+          </template>
+        </v-list>
+        </v-card>
+
       </v-flex>
     </v-layout>
   </v-container>

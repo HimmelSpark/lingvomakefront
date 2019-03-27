@@ -70,10 +70,6 @@ export default new Router({
       children: [
         {
           path: "application",
-		  // components: {
-           //  'Application': Application,
-           //  'color-picker': ColorPicker
-		  // },
           component: Application
         },
         {

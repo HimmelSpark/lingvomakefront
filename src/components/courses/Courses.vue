@@ -67,9 +67,14 @@ export default {
           case "task":
             this.$router.push("/courses/task/" + this.active[0].id);
             break;
+          case "all":
+            this.$router.push("/all")
         }
       }
     }
   }
 };
+
+
+
 </script>
