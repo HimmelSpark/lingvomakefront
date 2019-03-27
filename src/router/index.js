@@ -8,13 +8,13 @@ import DoubleEnterGuard from "./doubleEnterGuard";
 import Home from "@/components/Home";
 import Login from "@/components/auth/Login";
 import Registration from "@/components/auth/Registration";
-import Panel from "@/components/panel/Panel";
+import Panel from "@/components/courses/Courses";
 import Students from "@/components/student/Students";
 import Manage from "@/components/manage/Manage"
 //Panel sub-components
-import CoursePage from "@/components/panel/subcomponents/CoursePage";
-import UnitPage from "@/components/panel/subcomponents/UnitPage";
-import TaskPage from "@/components/panel/subcomponents/TaskPage";
+import CoursePage from "@/components/courses/subcomponents/CoursePage";
+import UnitPage from "@/components/courses/subcomponents/UnitPage";
+import TaskPage from "@/components/courses/subcomponents/TaskPage";
 //Student sub-components
 import GroupPage from "@/components/student/subcomponents/GroupPage";
 import StudentPage from "../components/student/subcomponents/StudentPage";
@@ -89,7 +89,7 @@ export default new Router({
       beforeEnter: DoubleEnterGuard
     },
     {
-      path: "/panel",
+      path: "/courses",
       component: Panel,
       beforeEnter: AuthGuard,
       children: [

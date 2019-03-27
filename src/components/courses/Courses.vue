@@ -59,13 +59,13 @@ export default {
         this.$store.dispatch("setSelected", this.active[0]);
         switch (this.active[0].type) {
           case "course":
-            this.$router.push("/panel/course/" + this.active[0].id);
+            this.$router.push("/courses/course/" + this.active[0].id);
             break;
           case "unit":
-            this.$router.push("/panel/unit/" + this.active[0].id);
+            this.$router.push("/courses/unit/" + this.active[0].id);
             break;
           case "task":
-            this.$router.push("/panel/task/" + this.active[0].id);
+            this.$router.push("/courses/task/" + this.active[0].id);
             break;
         }
       }

@@ -77,9 +77,9 @@ export default {
     links() {
       if (this.isUserLoggedIn) {
         return [
-          { title: "Panel", icon: "work", url: "/panel" },
+          { title: "Courses", icon: "work", url: "/courses" },
           { title: "Students", icon: "accessibility", url: "/students" },
-		      { title: "Manage", icon: "settings", url: "/settings" }
+		      { title: "Manage", icon: "settings", url: "/manage/application" }
         ];
       } else {
         return [
