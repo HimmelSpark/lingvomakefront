@@ -48,6 +48,7 @@ export default new Router({
       path: "/students",
       name: "students",
       component: Students,
+      beforeEnter: AuthGuard,
       children: [
         {
           path: "group/:id",
@@ -65,6 +66,7 @@ export default new Router({
       name: 'manage',
       path: '/manage',
       component: Manage,
+      beforeEnter: AuthGuard,
       children: [
         {
           path: "application",
@@ -89,12 +91,12 @@ export default new Router({
     {
       path: "/panel",
       component: Panel,
+      beforeEnter: AuthGuard,
       children: [
         {
           path: "course/:id",
           props: true,
-          component: CoursePage,
-          beforeEnter: AuthGuard
+          component: CoursePage
         },
         {
           path: "unit/:id",
@@ -111,7 +113,8 @@ export default new Router({
     {
       path: "/mobile/translate",
       name: "translate",
-      component: MobileTranslate
+      component: MobileTranslate,
+      beforeEnter: AuthGuard
     }
   ]
 });
