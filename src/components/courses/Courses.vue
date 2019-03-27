@@ -6,6 +6,9 @@
           <v-icon left>school</v-icon>
           <div><h1 class="headline mb-0">Courses</h1></div>
         </v-chip>
+        <v-btn fab dark small color="indigo"  @click="openAddGroupDialog">
+          <v-icon dark>add</v-icon>
+        </v-btn>
         <v-treeview
           :active.sync="active"
           :open.sync="open"
