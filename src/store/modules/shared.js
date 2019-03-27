@@ -1,7 +1,8 @@
 export default {
   state: {
     loading: false,
-    error: null
+    error: null,
+    renderPermission: false
   },
   mutations: {
     setLoading(state, payload) {
@@ -12,6 +13,9 @@ export default {
     },
     clearError(state) {
       state.error = null;
+    },
+    setRenderPermission(state, payload) {
+      state.renderPermission = payload;
     }
   },
   actions: {
@@ -31,6 +35,7 @@ export default {
     },
     error(state) {
       return state.error;
-    }
+    },
+    renderPermission: state => state.renderPermission
   }
 };

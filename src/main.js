@@ -6,6 +6,8 @@ import router from "./router/index";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ColorPicker from "./components/extra/Color";
+import { HTTP } from "./network/http-common";
+import bus from "./modules/bus";
 
 
 Vue.config.productionTip = false;
@@ -17,7 +19,20 @@ new Vue({
   store,
   render: h => h(App),
   created() {
-    //TODO проверить хранится ли локально пользователь
-    //TODO если нет, то залогинить
+    this.$store.commit('setRenderPermission', false);
+    const promise = HTTP.get('/admin/info');
+    promise.then(
+      resp => {
+        console.log(resp.data);
+        this.$store.commit('setUser', resp.data);
+        bus.emit('onAuth', resp.data);
+        this.$store.commit('setRenderPermission', true);
+      }
+    ).catch(
+      () => {
+        bus.emit('onAuth', null);
+        this.$store.commit('setRenderPermission', true);
+      }
+    )
   }
 }).$mount("#app");

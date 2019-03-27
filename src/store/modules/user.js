@@ -1,6 +1,4 @@
 import { HTTP } from "../../network/http-common";
-import HttpService from "../../network/http";
-import User from "./usr";
 
 export default {
   state: {

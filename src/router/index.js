@@ -93,7 +93,8 @@ export default new Router({
         {
           path: "course/:id",
           props: true,
-          component: CoursePage
+          component: CoursePage,
+          beforeEnter: AuthGuard
         },
         {
           path: "unit/:id",

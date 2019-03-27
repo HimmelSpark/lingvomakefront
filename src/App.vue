@@ -36,12 +36,20 @@
       <v-icon @click="doPaskhalka">toys</v-icon>
       <v-toolbar-title>Lingvomake</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat v-for="link in links" :key="link.title" :to="link.url">
+      <transition
+        name="fade"
+      >
+      <v-toolbar-items class="hidden-sm-and-down" v-if="renderPermission">
+        <v-btn 
+        flat 
+        v-for="link in links" 
+        :key="link.title" 
+        :to="link.url">
           <v-icon left>{{ link.icon }}</v-icon>
           {{ link.title }}
         </v-btn>
       </v-toolbar-items>
+      </transition>
     </v-toolbar>
 
     <v-content>
@@ -63,22 +71,20 @@ export default {
     isUserLoggedIn() {
       return this.$store.getters.isUserLoggedIn;
     },
+    renderPermission() {
+      return this.$store.getters.renderPermission;
+    },
     links() {
       if (this.isUserLoggedIn) {
         return [
-          { title: "Login", icon: "lock", url: "/login" },
-          { title: "Registration", icon: "face", url: "/registration" },
           { title: "Panel", icon: "work", url: "/panel" },
-          { title: "Students", icon: "study", url: "/students" },
+          { title: "Students", icon: "accessibility", url: "/students" },
 		      { title: "Manage", icon: "settings", url: "/settings" }
         ];
       } else {
         return [
           { title: "Login", icon: "lock", url: "/login" },
-          { title: "Registration", icon: "face", url: "/registration" },
-          { title: "Panel", icon: "work", url: "/panel" },
-          { title: "Students", icon: "school", url: "/students" },
-          { title: "Manage", icon: "settings", url: "/manage" }
+          { title: "Registration", icon: "face", url: "/registration" }
         ];
       }
     }
@@ -94,3 +100,12 @@ export default {
   }
 };
 </script>
+<style scoped>
+  .fade-enter-active {
+    transition: all .3s ease;
+  }
+  .fade-enter {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+</style>
