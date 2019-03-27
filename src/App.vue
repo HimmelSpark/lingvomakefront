@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app dark>
     <v-navigation-drawer
       app
       temporary
@@ -26,7 +26,6 @@
     <v-toolbar
       app
       dark
-      color="primary"
       v-if="this.$route.path.indexOf('mobile') === -1"
     >
       <v-toolbar-side-icon
@@ -55,6 +54,24 @@
     <v-content>
       <router-view></router-view>
     </v-content>
+
+    <v-footer
+        height="auto">
+
+      <v-layout
+          justify-center
+          row
+          wrap>
+        <v-flex
+            lighten-2
+            py-3
+            text-xs-center
+            white--text
+            xs12>
+          &copy;2018 — <strong>RHA Team</strong>
+        </v-flex>
+      </v-layout>
+    </v-footer>
   </v-app>
 </template>
 
