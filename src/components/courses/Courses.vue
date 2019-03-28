@@ -34,7 +34,7 @@
             <template v-slot:activator>
               <v-list-tile>
                 <v-list-tile-content>
-                  <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                  <v-btn flat  small :loading="loadingUnits">{{ item.name }}</v-btn>
                 </v-list-tile-content>
               </v-list-tile>
             </template>
@@ -131,6 +131,9 @@ export default {
     },
     renderTreePermission() {
       return this.$store.getters.renderTreePermission;
+    },
+    loadingUnits() {
+      return this.$store.getters.loadingUnits;
     }
   },
   methods: {
@@ -142,6 +145,11 @@ export default {
         this.$store.dispatch("setSelected", item);
         switch (item.type) {
           case "course":
+            //TODO подгрузить юниты курса (если их нет)
+            if (item.children.length === 0) {
+              this.$store.dispatch("setLoadingUnits", true);
+              this.$store.dispatch("loadUnitsByCourse", item);
+            }
             this.$router.push("/courses/course/" + item.id);
             break;
           case "unit":
