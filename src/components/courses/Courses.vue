@@ -162,7 +162,7 @@ export default {
             this.$router.push("/all");
             break;
         }
-	    }
+      }
     },
 	  openAddCourseDialog() {
       this.addCourseDialog = true;

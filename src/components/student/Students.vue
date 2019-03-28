@@ -450,6 +450,16 @@
                 return this.$store.getters.getStudents;
 
             },
+            // loadingGroups() {
+            //     return this.$store.getters.loadGroups;
+            // },
+            // loadingStudents() {
+            //     return this.$store.getters.loadAllStudents;
+            // },
+        },
+        created() {
+            this.$store.dispatch('loadGroups');
+            this.$store.dispatch('loadAllStudents');
         }
     };
 </script>
