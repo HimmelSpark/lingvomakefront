@@ -70,22 +70,6 @@ export default {
           }
         ]
       },
-      {
-        id: 8,
-        name: "GMAT",
-        description:
-          "This course is for those who think that maths in english sound so sexy!",
-        imgSrc: "https://www.newszii.com/wp-content/uploads/2018/11/GMAT.png",
-        type: "course",
-        position: "1",
-        children: [
-          {
-            id: 9,
-            name: "Unit 1",
-            type: "unit"
-          }
-        ]
-      }
     ]
   },
   mutations: {
@@ -103,6 +87,20 @@ export default {
 		children: []
 	  };
       state.items.push(newCousre);
+    },
+	loadCourses(state, payload) {
+      if (payload !== null && payload.length !== 0) {
+		payload.forEach(curr => {
+          state.items.push({
+            id: curr.id,
+            name: curr.name,
+            description: curr.description,
+            imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
+            children: [],
+            type: "course"
+          });
+		});
+      }
     }
   },
   actions: {
@@ -127,6 +125,18 @@ export default {
 		}
 		commit('setLoading', false);
       }
+    },
+    async loadCourses({commit}, _) {
+	  commit('clearError');
+	  try {
+		const response = await HTTP.get('/course/');
+		if (200 <= response.status < 300) {
+          console.log(response.data);
+		  commit('loadCourses', response.data)
+		}
+      } catch (e) {
+		commit('setError', e);
+	  }
     }
   },
   getters: {

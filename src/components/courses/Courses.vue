@@ -87,7 +87,7 @@ export default {
       active: [],
       addCourseDialog: false,
       loading: false,
-	    courseName: null
+	    courseName: null,
     };
   },
   computed: {
@@ -96,6 +96,9 @@ export default {
     },
     selected() {
       return this.$store.getters.selected;
+    },
+    renderTreePermission() {
+      return this.$store.getters.renderTreePermission;
     }
   },
   watch: {
@@ -124,7 +127,14 @@ export default {
       this.addCourseDialog = true;
     },
 	  createCourse() {
-      this.$store.dispatch('createCourse', {name: this.courseName, school_id: 3})
+      this.$store.dispatch('createCourse', {name: this.courseName, school_id: 3});
+	    this.addCourseDialog = false;
+    }
+  },
+  created() {
+    if (this.$store.getters.items.length === 2) {
+      // TODO поменять на 0, когда уберем захардкоженные курсы
+      this.$store.dispatch('loadCourses');
     }
   }
 };
