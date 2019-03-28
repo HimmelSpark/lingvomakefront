@@ -18,8 +18,7 @@
                         return-object
                         activatable
                         transition
-                        hoverable
-                >
+                        hoverable>
                 </v-treeview>
             </v-flex>
 
@@ -52,13 +51,6 @@
                 </div>
 
 
-
-
-
-
-
-
-
                 <v-dialog v-model="addStudentDialog" persistent max-width="490">
                     <v-card>
                         <v-card-title class="headline">
@@ -66,6 +58,7 @@
                         </v-card-title>
                         <v-card-text>
                             <v-form v-model="valid" ref="form" validation>
+
                                 <v-text-field
                                         prepend-icon="person"
                                         name="email"
@@ -74,6 +67,7 @@
                                         :rules="emailRules"
                                         v-model="email"
                                 ></v-text-field>
+
                                 <v-text-field
                                         prepend-icon="person"
                                         name="surname"
@@ -81,6 +75,7 @@
                                         type="text"
                                         v-model="surname"
                                 ></v-text-field>
+
                                 <v-text-field
                                         prepend-icon="person"
                                         name="name"
@@ -96,6 +91,7 @@
                                     multiple
                                     v-model="sgroups"
                                 ></v-combobox>
+
                                 <v-text-field
                                         prepend-icon="phone"
                                         name="phone"
@@ -103,6 +99,7 @@
                                         type="text"
                                         v-model="phone"
                                 ></v-text-field>
+
                                 <v-text-field
                                         prepend-icon="lock"
                                         name="password"
@@ -113,6 +110,7 @@
                                         :rules="passwordRules"
                                         v-model="password"
                                 ></v-text-field>
+
                                 <v-text-field
                                         prepend-icon="lock"
                                         name="passwordConfirm"

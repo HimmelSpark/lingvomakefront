@@ -1,3 +1,5 @@
+import {HTTP} from "../../network/http-common";
+
 export default {
   state: {
     selected: null,
@@ -89,12 +91,41 @@ export default {
   mutations: {
     setSelected(state, payload) {
       state.selected = payload;
+    },
+    addCourse(state, payload) {
+      const newCousre = {
+		//TODO разобраться с айдишниками
+		id: state.items.length * 7,
+		name: payload.name,
+		description: 'default description',
+		imgSrc: 'https://bumper-stickers.ru/38068-thickbox_default/znak-elektronnoj-pochty-mailru.jpg',
+		type: 'course',
+		children: []
+	  };
+      state.items.push(newCousre);
     }
   },
   actions: {
     setSelected({ commit }, payload) {
       if (payload !== null) {
         commit("setSelected", payload);
+      }
+    },
+    async createCourse({commit}, payload) {
+      if (payload != null) {
+		commit('clearError');
+		commit('setLoading', true);
+		console.log(payload);
+		try {
+          // Создание курса
+		  const response = await HTTP.post('/course/create', payload);
+		  if (200 <= response.status < 300) {
+		    commit('addCourse', payload)
+		  }
+		} catch (e) {
+		  commit('setError', e);
+		}
+		commit('setLoading', false);
       }
     }
   },
