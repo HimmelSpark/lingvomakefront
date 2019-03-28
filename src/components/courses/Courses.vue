@@ -13,15 +13,47 @@
           <v-icon dark>add</v-icon>
         </v-btn>
 
-        <v-treeview
-          :active.sync="active"
-          :open.sync="open"
-          :items="items"
-          return-object
-          activatable
-          transition
-          hoverable>
-        </v-treeview>
+        <!--<v-treeview-->
+          <!--:active.sync="active"-->
+          <!--:open.sync="open"-->
+          <!--:items="items"-->
+          <!--return-object-->
+          <!--activatable-->
+          <!--transition-->
+          <!--hoverable>-->
+        <!--</v-treeview>-->
+
+        <v-list>
+          <v-list-group
+            v-for="item in items"
+            :key="item.id"
+            :prepend-icon="'school'"
+            :open.sync="open"
+            @click="clickList(item)">
+
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile
+                v-for="subItem in item.children"
+                :key="subItem.id"
+                @click="clickList(subItem)">
+
+              <v-list-tile-content>
+                <v-list-tile-title>{{ subItem.name }}</v-list-tile-title>
+              </v-list-tile-content>
+
+            </v-list-tile>
+
+          </v-list-group>
+        </v-list>
+
+        <span>{{active}}</span>
 
       </v-flex>
 
@@ -84,7 +116,7 @@ export default {
   data() {
     return {
       open: [],
-      active: [],
+      active: null,
       addCourseDialog: false,
       loading: false,
 	    courseName: null,
@@ -101,27 +133,28 @@ export default {
       return this.$store.getters.renderTreePermission;
     }
   },
-  watch: {
-    active: "clickTree"
-  },
   methods: {
     clickTree() {
-      if (this.active[0] !== null) {
-        this.$store.dispatch("setSelected", this.active[0]);
-        switch (this.active[0].type) {
+
+    },
+    clickList(item) {
+      if (item !== null) {
+        this.$store.dispatch("setSelected", item);
+        switch (item.type) {
           case "course":
-            this.$router.push("/courses/course/" + this.active[0].id);
+            this.$router.push("/courses/course/" + item.id);
             break;
           case "unit":
-            this.$router.push("/courses/unit/" + this.active[0].id);
+            this.$router.push("/courses/unit/" + item.id);
             break;
           case "task":
-            this.$router.push("/courses/task/" + this.active[0].id);
+            this.$router.push("/courses/task/" + item.id);
             break;
           case "all":
-            this.$router.push("/all")
+            this.$router.push("/all");
+            break;
         }
-      }
+	    }
     },
 	  openAddCourseDialog() {
       this.addCourseDialog = true;
