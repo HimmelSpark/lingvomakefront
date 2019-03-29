@@ -166,14 +166,19 @@
                                         type="text"
                                         v-model="Gdescription"
                                 ></v-text-field>
-
+                                <v-combobox
+                                        name="course_id"
+                                        :items="courses"
+                                        label="Select course for group"
+                                        v-model="Gcourseid"
+                                ></v-combobox>
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="primary" flat @click="addGroupDialog = false"
                             >Cancel</v-btn>
-                            <v-btn color="green" flat @click="addGroupDialog = false">Save</v-btn>
+                            <v-btn color="green" flat @click="createGroup">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -353,9 +358,10 @@
                 editStudentDialog: false,
                 deleteStudentDialog: false,
                 addGroupDialog: false,
-                Gname: false,
-                Gdescription: false,
-                Gstartdate: false,
+                Gname: null,
+                Gdescription: null,
+                GstartDate: null,
+                Gcourseid:null
             };
         },
         watch: {
@@ -430,7 +436,17 @@
                     }
                     }
                 this.deleteStudentDialog = false;
+                },
+            createGroup() {
+                var i =0;
+                for (i in this.$store.getters.getCourses){
+                    if(this.$store.getters.getCourses[i].name === this.Gcourseid){
+                        this.Gcourseid = this.$store.getters.getCourses[i].id;
+                    }
                 }
+                this.$store.dispatch('createsGroup', {name: this.Gname, description: this.Gdescription, start_date: this.GstartDate, course_id: this.Gcourseid});
+                this.addGroupDialog = false;
+            }
         },
         computed: {
             groupNames() {
@@ -438,6 +454,9 @@
             },
             groups() {
                 return this.$store.getters.getGroups;
+            },
+            courses() {
+                return this.$store.getters.getCourseNames;
             },
 
             selected() {
@@ -448,7 +467,6 @@
             },
             students() {
                 return this.$store.getters.getStudents;
-
             },
             // loadingGroups() {
             //     return this.$store.getters.loadGroups;
@@ -460,6 +478,7 @@
         created() {
             this.$store.dispatch('loadGroups');
             this.$store.dispatch('loadAllStudents');
+            this.$store.dispatch('loadCourses');
         }
     };
 </script>

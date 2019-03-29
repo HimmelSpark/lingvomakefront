@@ -119,7 +119,7 @@ export default {
       active: null,
       addCourseDialog: false,
       loading: false,
-	    courseName: null,
+      courseName: null,
     };
   },
   computed: {

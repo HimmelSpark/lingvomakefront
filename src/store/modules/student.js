@@ -33,6 +33,7 @@ export default {
 
 
       ],
+    courses: [],
     students: [
       // {
       //   id: 2,
@@ -104,6 +105,9 @@ export default {
     setSelectedSTUD(state, payload) {
       state.selectedSTUD = payload;
     },
+    addCourse(state, payload) {
+      state.courses.push(payload);
+    },
   addGroup(state, payload) {
     const newGroup = {
       //TODO разобраться с айдишниками
@@ -115,6 +119,20 @@ export default {
     };
     state.groups.push(newGroup);
   },
+    loadCourses(state, payload) {
+      if (payload !== null && payload.length !== 0) {
+        payload.forEach(curr => {
+          state.courses.push({
+            id: curr.id,
+            name: curr.name,
+            description: curr.description,
+            imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
+            children: [],
+            type: "course"
+          });
+        });
+      }
+    },
   loadsGroups(state, payload) {
 
     if (payload !== null && payload.length !== 0) {
@@ -123,6 +141,7 @@ export default {
           id: curr.id,
           name: curr.name,
           description: curr.description,
+          course_id:curr.course_id,
           type: "group",
           imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
           children: [],
@@ -165,13 +184,27 @@ export default {
   }
   },
   actions: {
-    async createGroup({commit}, payload) {
+  async loadCourses({commit}) {
+    commit('clearError');
+    try {
+      const response = await HTTP.get('/course/');
+      if (200 <= response.status < 300) {
+        console.log(response.data);
+        commit('loadCourses', response.data)
+      }
+    } catch (e) {
+      commit('setError', e);
+    }
+  },
+    async createsGroup( {commit}, payload) {
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
         console.log(payload);
+
         try {
           // Создание курса
+
           const response = await HTTP.post('/group/create', payload);
           if (200 <= response.status < 300) {
             commit('addGroup', payload)
@@ -221,6 +254,14 @@ export default {
       }
       return names;
     },
+    getCourseNames(state){
+      var i = 0;
+      var resp = [];
+      for (i in state.courses){
+        resp.push(state.courses[i].name);
+      }
+      return resp;
+    },
     getStudents(state){
       if (state.selectedSTUD!==null && state.selectedSTUD.type === "group") {
         var student = [];
@@ -251,6 +292,9 @@ export default {
     },
     getSelectedSTUD(state) {
       return state.selectedSTUD;
+    },
+    getCourses(state){
+      return state.courses;
     }
   }
 };
