@@ -308,12 +308,18 @@
                         <td>{{ props.item.email }}</td>
                         <td>{{ props.item.phone }}</td>
                         <td>
-                            <v-btn small fab @click="openEditStudentDialog(props.item)">
+                            <v-btn flat icon large v-on="on" @click="openEditStudentDialog(props.item)">
                                 <v-icon>edit</v-icon>
                             </v-btn>
                         </td>
                         <td>
-                            <v-btn small fab color="red" @click="openDeleteStudentDialog(props.item.id)">
+                            <v-btn flat
+                                   dark
+                                   icon
+                                   large
+                                   v-on="on"
+                                   color="red"
+                                   @click="openDeleteStudentDialog(props.item.id)">
                                 <v-icon>delete</v-icon>
                             </v-btn>
                         </td>
@@ -444,6 +450,16 @@
                 return this.$store.getters.getStudents;
 
             },
+            // loadingGroups() {
+            //     return this.$store.getters.loadGroups;
+            // },
+            // loadingStudents() {
+            //     return this.$store.getters.loadAllStudents;
+            // },
+        },
+        created() {
+            this.$store.dispatch('loadGroups');
+            this.$store.dispatch('loadAllStudents');
         }
     };
 </script>

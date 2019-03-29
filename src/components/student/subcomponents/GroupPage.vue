@@ -3,79 +3,30 @@
     <v-layout row>
       <v-flex xs12>
         <v-card>
-          <v-img :src="selected.imgSrc" aspect-ratio="2.75"></v-img>
 
+          <v-layout row>
+          <v-flex xs10>
+            <v-card-title primary-title>
+              <div>
+                <h2 class="headline mb-0">
+                  Group
+                  <v-chip label dark color="primary">{{ selected.name }}</v-chip>
+                  has
+                  <v-chip label dark color="primary">
+                    {{ students.length }}
+                  </v-chip>
+                  student(s)
+                </h2>
+                <div>{{ selected.description }}</div>
+              </div>
+            </v-card-title>
+          </v-flex>
 
-          <v-dialog v-model="editGroupDialog" persistent max-width="490">
-            <v-card>
-              <v-card-title class="headline">
-                Adding new group
-              </v-card-title>
-              <v-card-text>
-                <v-form v-model="valid" ref="form" validation>
-                  <v-text-field
-                          name="name"
-                          label="Name"
-                          type="text"
-                          v-model="Gname"
-                  ></v-text-field>
-                  <v-text-field
-                          name="startDate"
-                          label="StartDate"
-                          type="text"
-                          v-model="GstartDate"
-                  ></v-text-field>
-                  <v-text-field
-                          name="description"
-                          label="Description"
-                          type="text"
-                          v-model="Gdescription"
-                  ></v-text-field>
+          <v-flex xs2>
+            <v-img :src="selected.imgSrc" aspect-ratio="2"></v-img>
+          </v-flex>
+          </v-layout>
 
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click="editGroupDialog = false"
-                >Cancel</v-btn>
-                <v-btn color="green" flat @click="editGroup">Save</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-
-
-
-          <v-dialog v-model="deleteGroupDialog" persistent max-width="490">
-            <v-card>
-              <v-card-title class="headline">
-                Are you sure, you want to delete group?
-              </v-card-title>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click="deleteGroupDialog = false"
-                >Cancel</v-btn>
-                <v-btn color="green" flat @click="deleteGroup()">Yes</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-
-
-
-          <v-card-title primary-title>
-            <div>
-              <h2 class="headline mb-0">
-                Group
-                <v-chip label dark color="primary">{{ selected.name }}</v-chip>
-                has
-                <v-chip label dark color="primary"
-                  >{{ students.length }}
-                </v-chip>
-                student(s)
-              </h2>
-              <!--<div>{{ selected.description }}</div>-->
-            </div>
-          </v-card-title>
 
           <v-card-actions>
             <v-tooltip bottom>
@@ -109,6 +60,59 @@
 
           </v-card-actions>
         </v-card>
+        <v-dialog v-model="editGroupDialog" persistent max-width="490">
+          <v-card>
+            <v-card-title class="headline">
+              Adding new group
+            </v-card-title>
+            <v-card-text>
+              <v-form v-model="valid" ref="form" validation>
+                <v-text-field
+                        name="name"
+                        label="Name"
+                        type="text"
+                        v-model="Gname"
+                ></v-text-field>
+                <v-text-field
+                        name="startDate"
+                        label="StartDate"
+                        type="text"
+                        v-model="GstartDate"
+                ></v-text-field>
+                <v-text-field
+                        name="description"
+                        label="Description"
+                        type="text"
+                        v-model="Gdescription"
+                ></v-text-field>
+
+              </v-form>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" flat @click="editGroupDialog = false"
+              >Cancel</v-btn>
+              <v-btn color="green" flat @click="editGroup">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+
+
+        <v-dialog v-model="deleteGroupDialog" persistent max-width="490">
+          <v-card>
+            <v-card-title class="headline">
+              Are you sure, you want to delete group?
+            </v-card-title>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" flat @click="deleteGroupDialog = false"
+              >Cancel</v-btn>
+              <v-btn color="green" flat @click="deleteGroup()">Yes</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-flex>
     </v-layout>
   </v-container>
