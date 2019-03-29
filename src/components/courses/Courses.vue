@@ -35,6 +35,7 @@
               <v-list-tile>
                 <v-list-tile-content>
                   <v-btn flat  small :loading="loadingUnits">{{ item.name }}</v-btn>
+                  <!--<span>kaka</span>-->
                 </v-list-tile-content>
               </v-list-tile>
             </template>
@@ -46,6 +47,7 @@
 
               <v-list-tile-content>
                 <v-list-tile-title>{{ subItem.name }}</v-list-tile-title>
+                <!--<v-list-tile-title>maka</v-list-tile-title>-->
               </v-list-tile-content>
 
             </v-list-tile>
@@ -115,6 +117,7 @@
 export default {
   data() {
     return {
+      valid: false,
       open: [],
       active: null,
       addCourseDialog: false,
@@ -172,8 +175,8 @@ export default {
 	    this.addCourseDialog = false;
     }
   },
-  created() {
-    if (this.$store.getters.items.length === 2) {
+  beforeCreate() {
+    if (this.$store.getters.items.length === 0) {
       // TODO поменять на 0, когда уберем захардкоженные курсы
       this.$store.dispatch('loadCourses');
     }
