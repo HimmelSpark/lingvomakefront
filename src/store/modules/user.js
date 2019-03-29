@@ -1,5 +1,5 @@
 import { HTTP } from "../../network/http-common";
-
+import { Bus } from "../../modules/bus";
 export default {
   state: {
     user: null,
@@ -20,18 +20,12 @@ export default {
     	console.log(payload);
     	try {
     	  	// Создание пользователя
+		  	payload.user.schoolName = payload.school;
     		const response = await HTTP.post('/admin/register', payload.user);
     		commit('setLoading', false);
     		if (200 <= response.status < 300) {
     		  commit('setUser', payload);
-
-    		  // Создание школы
-    		  commit('setLoading', true);
-    		  const response2 = await HTTP.post('/school/create', {name: payload.school});
-    		  commit('setLoading', false);
-    		  if (200 <= response2.status < 300) {
-    			commit('setSchool', payload.school)
-    		  }
+			  commit('setSchool', payload.school);
     		} else {
     			// commit('setError', {code: response.code, message: response.data});
     			throw new Error(response) //TODO продумать эту часть
@@ -70,7 +64,28 @@ export default {
         commit("setError", e);
         throw e;
       }
-    }
+    },
+    async logout({commit}) {
+	  commit("clearError");
+	  commit("setLoading", true);
+	  commit('renderPermission', false);
+	  console.log('-- in logout');
+	  try {
+		const response = await HTTP.post("/admin/logout");
+		// commit('renderPermission', true);
+		if (200 <= response.status < 300) {
+		  commit("setLoading", false);
+		  commit("setUser", null);
+		} else {
+		  throw new Error(response);
+		}
+	  } catch (e) {
+		commit("setLoading", false);
+		commit("setError", e);
+		// commit('renderPermission', true);
+		throw e;
+	  }
+	}
   },
   getters: {
     user(state) {

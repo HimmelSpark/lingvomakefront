@@ -4,74 +4,7 @@ export default {
   state: {
     selected: null,
 	loadingUnits: false,
-    items: [
-      {
-        id: 2,
-        name: "TOEFL iBT",
-        description:
-          "This course is for those who pursue to get away from Russia and find better life in the USA",
-        imgSrc:
-          "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
-        type: "course",
-        children: [
-          {
-            id: 3,
-            name: "Unit 1",
-            description: "some TOEFL unit",
-            imgSrc: "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
-            type: "unit",
-            children: []
-          },
-          {
-            id: 100500,
-            name: "Unit 2",
-			description: "another TOEFL unit",
-			imgSrc: "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
-            type: "unit",
-            children: []
-          },
-          {
-            id: 1251,
-            name: "Unit 3",
-            description: "third TOEFL unit",
-			imgSrc: "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
-            type: "unit",
-            children: []
-          }
-        ]
-      },
-      {
-        id: 4,
-        name: "CAE",
-        description: "This course is for those who want to suffer!",
-        imgSrc:
-          "http://busidiomas.com/wp-content/uploads/2017/10/examen-cae-1024x559.jpg",
-        type: "course",
-        children: [
-          {
-            id: 5,
-            name: "Unit 1",
-            description: "some CAE unit",
-
-            imgSrc:
-              "https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
-            type: "unit",
-            children: [
-              {
-                id: 6,
-                name: "Psychology",
-                type: "task"
-              },
-              {
-                id: 7,
-                name: "Theology",
-                type: "task"
-              }
-            ]
-          }
-        ]
-      },
-    ]
+    items: []
   },
   mutations: {
     setSelected(state, payload) {
@@ -116,19 +49,22 @@ export default {
 	},
 	setLoadingUnits(state, payload) {
       state.loadingUnits = payload;
+	},
+	deleteCourse(state, payload) {
+      state.items.every((currentItem, index) => {
+        if (currentItem.id === payload.id) {
+          state.items.splice(index, 1);
+          return false;
+		}
+		return true;
+	  });
 	}
   },
   actions: {
-    setSelected({ commit }, payload) {
-      if (payload !== null) {
-        commit("setSelected", payload);
-      }
-    },
     async createCourse({commit}, payload) {
       if (payload != null) {
 		commit('clearError');
 		commit('setLoading', true);
-		console.log(payload);
 		try {
           // Создание курса
 		  const response = await HTTP.post('/course/create', payload);
@@ -141,18 +77,36 @@ export default {
 		commit('setLoading', false);
       }
     },
-    async loadCourses({commit}, _) {
-	  commit('clearError');
+	async loadCourses({ commit }) {
+	  commit("clearError");
+	  commit("setLoading", true);
 	  try {
-		const response = await HTTP.get('/course/');
+		const response = await HTTP.get("/course/");
+		commit("setLoading", false);
 		if (200 <= response.status < 300) {
-          console.log(response.data);
-		  commit('loadCourses', response.data)
+		  commit("loadCourses", response.data);
+		} else {
+		  commit("setError", { code: response.code, message: response.data });
 		}
-      } catch (e) {
-		commit('setError', e);
+	  } catch (e) {
+		commit("setLoading", false);
+		commit("setError", e);
 	  }
-    },
+	},
+	async deleteCourse({commit}, payload) {
+	  commit("clearError");
+	  try {
+		const response = HTTP.post("/course/delete", payload.id);
+		if (200 <= response.status < 300) {
+		  console.log('deleted course ' + payload.id); //TODO убрать
+		  commit("deleteCourse", payload.id);
+		} else {
+		  commit("setError", { code: response.code, message: response.data });
+		}
+	  } catch (e) {
+		commit("setError", e);
+	  }
+	},
 	async loadUnitsByCourse({commit}, payload) {
 	  commit('clearError');
 	  try {
@@ -164,6 +118,11 @@ export default {
 		commit('setError', e);
 	  }
 	  commit('setLoadingUnits', false);
+	},
+	setSelected({ commit }, payload) {
+	  if (payload !== null) {
+		commit("setSelected", payload);
+	  }
 	},
 	setLoadingUnits({commit}, payload) {
       commit('setLoadingUnits', payload);
@@ -178,6 +137,9 @@ export default {
     },
 	loadingUnits(state) {
       return state.loadingUnits;
+	},
+	courses(state) {
+	  return state.courses;
 	}
   }
 };

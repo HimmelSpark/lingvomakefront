@@ -31,25 +31,26 @@
           </v-layout>
 
           <v-card-actions>
+
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-btn flat icon large v-on="on" @click="openEditDialog"
-                  ><v-icon>edit</v-icon></v-btn
-                >
+                <v-btn flat icon large v-on="on" @click="openEditDialog">
+                  <v-icon>edit</v-icon>
+                </v-btn>
               </template>
               <span>edit this COURSE</span>
             </v-tooltip>
 
             <v-dialog v-model="editDialog" persistent max-width="490">
               <v-card>
-                <v-card-title class="headline"
-                  >Editing current course</v-card-title
-                >
+                <v-card-title class="headline">
+                  Editing current course
+                </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat @click="editDialog = false"
-                    >Cancel</v-btn
-                  >
+                  <v-btn color="primary" flat @click="editDialog = false">
+                    Cancel
+                  </v-btn>
                   <v-btn color="green" flat @click="saveAfterEdit">Save</v-btn>
                 </v-card-actions>
               </v-card>
@@ -95,26 +96,34 @@
               <span>delete this COURSE</span>
             </v-tooltip>
 
-            <v-dialog v-model="deleteDialog" persistent max-width="290">
+            <v-dialog v-model="deleteDialog" persistent max-width="440">
               <v-card>
-                <v-card-title class="headline"
-                  >Do you want to delete this course?</v-card-title
-                >
-                <v-card-text
-                  >This process is irreversible, you can't restore this course
-                  later!</v-card-text
-                >
+
+                <v-card-title class="headline">
+                  Do you want to delete this course?
+                </v-card-title>
+
+                <v-card-text>
+                  This process is irreversible, you can't restore this course later!
+                </v-card-text>
+
                 <v-card-actions>
+
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat @click="deleteDialog = false"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="red" flat @click="deleteDialog = false"
-                    >Delete</v-btn
-                  >
+
+                  <v-btn color="primary" flat @click="deleteDialog = false">
+                    Cancel
+                  </v-btn>
+
+                  <v-btn color="red" flat :loading="loadingToDelete" @click="deleteCourse(selected)">
+                    Delete
+                  </v-btn>
+
                 </v-card-actions>
+
               </v-card>
             </v-dialog>
+
           </v-card-actions>
         </v-card>
 
@@ -151,7 +160,6 @@
               </v-list-tile-action>
 
 
-
             </v-list-tile>
 
             <v-divider></v-divider>
@@ -171,7 +179,8 @@ export default {
     return {
       editDialog: false,
       addDialog: false,
-      deleteDialog: false
+      deleteDialog: false,
+      loadingToDelete: false
     };
   },
   computed: {
@@ -196,6 +205,19 @@ export default {
     },
     openDeleteDialog() {
       this.deleteDialog = true;
+    },
+	  deleteCourse(selected) {
+      this.loadingToDelete = true;
+      this.$store.dispatch('deleteCourse', selected)
+          .then(() => {
+			      this.deleteDialog = false;
+			      this.loadingToDelete = false;
+          })
+          .catch((e) => {
+            console.error(e);
+            this.deleteDialog = false;
+            this.loadingToDelete = false;
+          });
     }
   }
 };
