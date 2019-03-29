@@ -171,7 +171,7 @@ export default {
       this.addCourseDialog = true;
     },
 	  createCourse() {
-      this.$store.dispatch('createCourse', {name: this.courseName, school_id: 3});
+      this.$store.dispatch('createCourse', {name: this.courseName});
 	    this.addCourseDialog = false;
     }
   },
