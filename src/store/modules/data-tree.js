@@ -65,6 +65,7 @@ export default {
 		console.log(payload);
 		try {
           // Создание курса
+		  console.log(payload);
 		  const response = await HTTP.post('/course/create', payload);
 		  if (200 <= response.status < 300) {
 		    commit('addCourse', payload)

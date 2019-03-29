@@ -20,34 +20,59 @@
             <v-list-tile-title v-text="link.title"></v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
+        <v-list-tile
+            v-if="isUserLoggedIn"
+            @click="logout">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title>Log Out</v-list-tile-title>
+          </v-list-tile-content>
+
+        </v-list-tile>
+
       </v-list>
     </v-navigation-drawer>
 
     <v-toolbar
       app
       dark
-      v-if="this.$route.path.indexOf('mobile') === -1"
-    >
+      v-if="this.$route.path.indexOf('mobile') === -1">
       <v-toolbar-side-icon
         @click="drawer = !drawer"
-        class="hidden-md-and-up"
-      ></v-toolbar-side-icon>
+        class="hidden-md-and-up">
+      </v-toolbar-side-icon>
       <v-icon @click="doPaskhalka">toys</v-icon>
       <v-toolbar-title>Lingvomake</v-toolbar-title>
       <v-spacer></v-spacer>
-      <transition
-        name="fade"
-      >
-      <v-toolbar-items class="hidden-sm-and-down" v-if="renderPermission">
-        <v-btn 
-        flat 
-        v-for="link in links" 
-        :key="link.title" 
-        :to="link.url">
-          <v-icon left>{{ link.icon }}</v-icon>
-          {{ link.title }}
-        </v-btn>
-      </v-toolbar-items>
+      <transition name="fade">
+        <v-toolbar-items class="hidden-sm-and-down" v-if="renderPermission">
+          <v-btn
+            flat
+            v-for="link in links"
+            :key="link.title"
+            :to="link.url">
+            <v-icon left>{{ link.icon }}</v-icon>
+            {{ link.title }}
+          </v-btn>
+
+          <v-divider
+            class="mx-1"
+            inset
+            vertical>
+          </v-divider>
+
+          <v-btn
+            v-if="isUserLoggedIn"
+            flat
+            @click="logout">
+            <v-icon left>exit_to_app</v-icon>
+            Log Out
+          </v-btn>
+        </v-toolbar-items>
       </transition>
     </v-toolbar>
 
@@ -76,7 +101,10 @@
 </template>
 
 <script>
-export default {
+
+
+
+  export default {
   data() {
     return {
       paskhalka: 0,
@@ -96,7 +124,7 @@ export default {
         return [
           { title: "Courses", icon: "work", url: "/courses" },
           { title: "Students", icon: "accessibility", url: "/students" },
-		      { title: "Manage", icon: "settings", url: "/manage/application" }
+		      { title: "Manage", icon: "settings", url: "/manage/application" },
         ];
       } else {
         return [
@@ -113,6 +141,12 @@ export default {
         this.paskhalka = 0;
         alert("ЪАЪ! Ты у меня дотыкаешься!");
       }
+    },
+    logout() {
+      this.$store.dispatch("logout")
+          .then(() => {
+            this.$router.push('/login');
+          });
     }
   }
 };
