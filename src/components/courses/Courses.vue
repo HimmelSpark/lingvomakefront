@@ -175,12 +175,13 @@ export default {
 	    this.addCourseDialog = false;
     }
   },
-  beforeCreate() {
-    if (this.$store.getters.items.length === 0) {
-      // TODO поменять на 0, когда уберем захардкоженные курсы
-      this.$store.dispatch('loadCourses');
-    }
-  }
+  //TODO раскомментировать
+  // beforeCreate() {
+  //   if (this.$store.getters.items.length === 0) {
+  //     // TODO поменять на 0, когда уберем захардкоженные курсы
+  //     this.$store.dispatch('loadCourses');
+  //   }
+  // }
 };
 
 </script>
