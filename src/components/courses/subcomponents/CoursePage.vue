@@ -151,48 +151,54 @@
             </v-dialog>
 
           </v-card-actions>
+
         </v-card>
 
         <br>
 
-        <v-card v-if="selected.children.length !== 0">
-          <v-list two-line>
-          <template v-for="(unit, index) in selected.children">
+        <v-template>
+          <v-card>
+            <v-list two-line>
+              <template
+                  v-for="(unit, index) in selected.children">
 
-            <v-list-tile
-                :key="unit.name"
-                @click="">
+                <v-list-tile
+                    :key="unit.name"
+                    @click="clickUnit(unit)">
 
-              <v-list-tile-content>
-                <v-layout row align-center>
+                  <v-list-tile-content>
+                    <v-layout row align-center>
                   <span class="headline mb-4">
                     <v-chip dark label color="green">{{unit.name}}</v-chip> has
                     <v-chip dark label color="green">{{unit.children.length}}</v-chip> tasks.
                     | {{unit.description}}
                   </span>
-                </v-layout>
-              </v-list-tile-content>
+                    </v-layout>
+                  </v-list-tile-content>
 
-              <v-list-tile-action>
-                <v-btn icon ripple>
-                  <v-icon color="grey darken-3">edit</v-icon>
-                </v-btn>
-              </v-list-tile-action>
+                  <v-list-tile-action>
+                    <v-btn icon ripple>
+                      <v-icon color="darken-3">edit</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
 
-              <v-list-tile-action>
-                <v-btn icon ripple>
-                  <v-icon color="red darken-3">delete</v-icon>
-                </v-btn>
-              </v-list-tile-action>
+                  <v-list-tile-action>
+                    <v-btn icon ripple>
+                      <v-icon color="red darken-3">delete</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
 
 
-            </v-list-tile>
+                </v-list-tile>
 
-            <v-divider></v-divider>
+                <v-divider></v-divider>
 
-          </template>
-        </v-list>
-        </v-card>
+              </template>
+            </v-list>
+          </v-card>
+        </v-template>
+
+
 
       </v-flex>
     </v-layout>
@@ -206,6 +212,8 @@
 export default {
   data() {
     return {
+	    valid: false,
+
       loadingToDelete: false,
 
       editDialog: false,
@@ -277,7 +285,13 @@ export default {
       this.unitName = null;
       this.unitDescr = null;
       this.addUnitDialog = false;
+    },
+    clickUnit(unit) {
+      if (unit !== null) {
+        this.$store.dispatch("setSelected", unit)
+            .then(this.$router.push("/courses/unit/" + unit.id));
+      }
     }
-  }
+  },
 };
 </script>

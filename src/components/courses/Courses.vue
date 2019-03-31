@@ -13,15 +13,6 @@
           <v-icon dark>add</v-icon>
         </v-btn>
 
-        <!--<v-treeview-->
-          <!--:active.sync="active"-->
-          <!--:open.sync="open"-->
-          <!--:items="items"-->
-          <!--return-object-->
-          <!--activatable-->
-          <!--transition-->
-          <!--hoverable>-->
-        <!--</v-treeview>-->
 
         <v-list>
           <v-list-group
@@ -35,7 +26,6 @@
               <v-list-tile>
                 <v-list-tile-content>
                   <v-btn flat  small :loading="loadingUnits">{{ item.name }}</v-btn>
-                  <!--<span>kaka</span>-->
                 </v-list-tile-content>
               </v-list-tile>
             </template>
@@ -46,7 +36,7 @@
                 @click="clickList(subItem)">
 
               <v-list-tile-content>
-                <v-list-tile-title>{{ subItem.name }}</v-list-tile-title>
+                <v-list-tile-title>{{ subItem.unit_name }}</v-list-tile-title>
                 <!--<v-list-tile-title>maka</v-list-tile-title>-->
               </v-list-tile-content>
 
@@ -123,6 +113,7 @@ export default {
       addCourseDialog: false,
       loading: false,
 	    courseName: null,
+      dispatchBeforeLeave: {name: null, payload: null}
     };
   },
   computed: {
@@ -145,26 +136,35 @@ export default {
     },
     clickList(item) {
       if (item !== null) {
-        this.$store.dispatch("setSelected", item);
-        switch (item.type) {
-          case "course":
-            //TODO подгрузить юниты курса (если их нет)
-            if (item.children.length === 0) {
-              this.$store.dispatch("setLoadingUnits", true);
-              this.$store.dispatch("loadUnitsByCourse", item);
-            }
-            this.$router.push("/courses/course/" + item.id);
-            break;
-          case "unit":
-            this.$router.push("/courses/unit/" + item.id);
-            break;
-          case "task":
-            this.$router.push("/courses/task/" + item.id);
-            break;
-          case "all":
-            this.$router.push("/all");
-            break;
-        }
+        console.log('item !== null');
+        console.log(item.type);
+        this.$store.dispatch("setSelected", item)
+            .then(() => {
+			        switch (item.type) {
+				        case "course":
+				          //TODO подгрузить юниты курса (если их нет)
+				          if (item.children === undefined || item.children.length === 0) {
+                    this.$store.dispatch("setLoadingUnits", true);
+                    this.dispatchBeforeLeave = {name: 'loadUnitsByCourse', payload: item};
+					          this.$router.push("/courses/course/" + item.id);
+        				  } else {
+                    this.$router.push("/courses/course/" + item.id);
+                  }
+				          break;
+				        case "unit":
+				          console.log("in type unit");
+				          console.log(this.selected);
+				          this.$router.push("/courses/unit/" + item.id);
+				          break;
+				        case "task":
+				          this.$router.push("/courses/task/" + item.id);
+				          break;
+				        case "all":
+				          this.$router.push("/all");
+				          break;
+			        }
+            });
+
       }
     },
 	  openAddCourseDialog() {
@@ -176,12 +176,26 @@ export default {
     }
   },
   //TODO раскомментировать
-  // beforeCreate() {
-  //   if (this.$store.getters.items.length === 0) {
-  //     // TODO поменять на 0, когда уберем захардкоженные курсы
-  //     this.$store.dispatch('loadCourses');
-  //   }
-  // }
+  beforeCreate() {
+    if (this.$store.getters.items.length === 0) {
+      // TODO поменять на 0, когда уберем захардкоженные курсы
+      this.$store.dispatch('loadCourses');
+    }
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log("dispath before leave: ", this.dispatchBeforeLeave);
+    this.$store.dispatch(this.dispatchBeforeLeave.name, {
+      router: {
+        to: to,
+        from: from,
+        next: next
+      },
+      payload:  this.dispatchBeforeLeave.payload
+    })
+        .then(() => {
+		      this.$store.dispatch("setLoadingUnits", false);
+        });
+  }
 };
 
 </script>

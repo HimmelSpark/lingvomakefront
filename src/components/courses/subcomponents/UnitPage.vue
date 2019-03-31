@@ -33,9 +33,7 @@
           <v-card-actions>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-btn flat icon large v-on="on" @click="openEditDialog"
-                  ><v-icon>edit</v-icon></v-btn
-                >
+                <v-btn flat icon large v-on="on" @click="openEditDialog"><v-icon>edit</v-icon></v-btn>
               </template>
               <span>edit this UNIT</span>
             </v-tooltip>
@@ -230,10 +228,6 @@
 
               </v-layout>
             </template>
-
-
-
-
 
           </v-card>
         </v-dialog>
