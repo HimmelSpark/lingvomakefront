@@ -4,6 +4,7 @@ import Router from "vue-router";
 //Router guards
 import AuthGuard from "./authguard";
 import DoubleEnterGuard from "./doubleEnterGuard";
+import DataReadyGuard from "./dataReadyGuard";
 //Admin components
 import Home from "@/components/Home";
 import Login from "@/components/auth/Login";
@@ -92,7 +93,7 @@ export default new Router({
         {
           path: "course/:id",
           props: true,
-          component: CoursePage
+          component: CoursePage,
         },
         {
           path: "unit/:id",

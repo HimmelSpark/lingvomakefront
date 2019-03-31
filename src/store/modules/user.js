@@ -23,17 +23,11 @@ export default {
 		  	payload.user.schoolName = payload.school;
     		const response = await HTTP.post('/admin/register', payload.user);
     		commit('setLoading', false);
-    		if (200 <= response.status < 300) {
-    		  commit('setUser', payload);
-			  commit('setSchool', payload.school);
-    		} else {
-    			// commit('setError', {code: response.code, message: response.data});
-    			throw new Error(response) //TODO продумать эту часть
-    		}
+        commit('setUser', payload);
+			  commit('setSchool', payload.school); 
     	} catch (e) {
     		commit('setLoading', false);
-    		commit('setError', e);
-    		throw e
+        commit('setError', e.response.data);
     	}
 
     },
@@ -43,47 +37,32 @@ export default {
       console.log("login user");
       try {
         const response = await HTTP.post("/admin/auth", payload);
-        // commit('setLoading', false);
-        if (200 <= response.status < 300) {
-          try {
-            const responseWithUserData = await HTTP.get("/admin/info");
-            if (200 <= response.status < 300) {
-              commit("setLoading", false);
-              commit("setUser", payload);
-            } else {
-              throw new Error(response); //TODO продумать эту часть
-            }
-          } catch (e) {
-            commit("setLoading", false);
-            commit("setError", e);
-            throw e;
-          }
+        try {
+          const responseWithUserData = await HTTP.get("/admin/info");
+          commit("setLoading", false);
+          commit("setUser", payload);
+        } catch (e) {
+          commit("setLoading", false);
+          commit("setError", e.response.data);
         }
       } catch (e) {
         commit("setLoading", false);
-        commit("setError", e);
-        throw e;
+        commit("setError", e.response.data);
       }
     },
     async logout({commit}) {
-	  commit("clearError");
-	  commit("setLoading", true);
-	  commit('renderPermission', false);
-	  console.log('-- in logout');
-	  try {
-		const response = await HTTP.post("/admin/logout");
-		// commit('renderPermission', true);
-		if (200 <= response.status < 300) {
-		  commit("setLoading", false);
-		  commit("setUser", null);
-		} else {
-		  throw new Error(response);
-		}
-	  } catch (e) {
-		commit("setLoading", false);
-		commit("setError", e);
-		// commit('renderPermission', true);
-		throw e;
+	    commit("clearError");
+	    commit("setLoading", true);
+	    commit('setRenderPermission', false);
+	    try {
+        const response = await HTTP.post("/admin/logout");
+        commit("setLoading", false);
+        commit("setUser", null);
+        commit('setRenderPermission', true); 
+	    } catch (e) {
+		    commit("setLoading", false);
+		    commit("setError", e.response.data);
+		    commit('setRenderPermission', true);
 	  }
 	}
   },

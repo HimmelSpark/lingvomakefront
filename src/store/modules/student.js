@@ -220,11 +220,9 @@ export default {
           // Создание курса
 
           const response = await HTTP.post('/group/create', payload);
-          if (200 <= response.status < 300) {
-            commit('addGroup', payload)
-          }
+          commit('addGroup', payload)
         } catch (e) {
-          commit('setError', e);
+          commit('setError', e.response.data);
         }
         commit('setLoading', false);
       }
@@ -290,23 +288,19 @@ export default {
       commit('clearError');
       try {
         const response = await HTTP.get('/group/');
-        if (200 <= response.status < 300) {
-          console.log(response.data);
-          commit('loadsGroups', response.data)
-        }
+        console.log(response.data);
+        commit('loadsGroups', response.data)
       } catch (e) {
-        commit('setError', e);
+        commit('setError', e.response.data);
       }
     },
     async loadAllStudents({commit}) {
       commit('clearError');
       try {
         const response = await HTTP.get('/student/');
-        if (200 <= response.status < 300) {
-          commit('loadStudents', response.data);
-        }
+        commit('loadStudents', response.data);
       } catch (e) {
-        commit('setError', e);
+        commit('setError', e.response.data);
       }
       commit('setLoadingStudents', false);
     },
