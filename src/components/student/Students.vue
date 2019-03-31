@@ -111,23 +111,23 @@
                                         v-model="password"
                                 ></v-text-field>
 
-                                <v-text-field
-                                        prepend-icon="lock"
-                                        name="passwordConfirm"
-                                        label="Confirm password"
-                                        id="passwordConfirm"
-                                        type="password"
-                                        :counter="8"
-                                        :rules="passwordConfirmRules"
-                                        v-model="passwordConfirm"
-                                ></v-text-field>
+                                <!--<v-text-field-->
+                                        <!--prepend-icon="lock"-->
+                                        <!--name="passwordConfirm"-->
+                                        <!--label="Confirm password"-->
+                                        <!--id="passwordConfirm"-->
+                                        <!--type="password"-->
+                                        <!--:counter="8"-->
+                                        <!--:rules="passwordConfirmRules"-->
+                                        <!--v-model="passwordConfirm"-->
+                                <!--&gt;</v-text-field>-->
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="primary" flat @click="addStudentDialog = false"
                             >Cancel</v-btn>
-                            <v-btn color="green" flat @click="addStudentDialog = false">Save</v-btn>
+                            <v-btn color="green" flat @click="createStudent">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -244,16 +244,16 @@
                                         :rules="passwordRules"
                                         v-model="password"
                                 ></v-text-field>
-                                <v-text-field
-                                        prepend-icon="lock"
-                                        name="passwordConfirm"
-                                        label="Confirm password"
-                                        id="passwordConfirm"
-                                        type="password"
-                                        :counter="8"
-                                        :rules="passwordConfirmRules"
-                                        v-model="passwordConfirm"
-                                ></v-text-field>
+                                <!--<v-text-field-->
+                                        <!--prepend-icon="lock"-->
+                                        <!--name="passwordConfirm"-->
+                                        <!--label="Confirm password"-->
+                                        <!--id="passwordConfirm"-->
+                                        <!--type="password"-->
+                                        <!--:counter="8"-->
+                                        <!--:rules="passwordConfirmRules"-->
+                                        <!--v-model="passwordConfirm"-->
+                                <!--&gt;</v-text-field>-->
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -281,16 +281,6 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
-
-
-
-
-
-
-
-
-
-
 
                 <v-data-table
                         :headers="headers"
@@ -350,6 +340,7 @@
                 password: null,
                 email: null,
                 passwordConfirm: null,
+                igroups: [],
                 sgroups: [],
                 phone: null,
                 active: [],
@@ -410,25 +401,24 @@
                 this.editStudentDialog = true;
             },
             editStudent(id){
-                var i = null;
-                for (i in this.$store.getters.getStudents){
-                    if(this.$store.getters.getStudents[i].id === id){
-                        this.$store.getters.getStudents[i].email = this.email;
-
-                        this.$store.getters.getStudents[i].password = this.password;
-                        this.$store.getters.getStudents[i].name = this.name;
-                        this.$store.getters.getStudents[i].surname = this.surname;
-
-                        this.$store.getters.getStudents[i].phone = this.phone;
-
-                        this.$store.getters.getStudents[i].groupName = this.sgroups;
-                        break;
+                this.igroups = [];
+                var i,j = 0;
+                for(j in this.sgroups) {
+                    for (i in this.$store.getters.getGroups){
+                        if (this.$store.getters.getGroups[i].name === this.sgroups[j][0]) {
+                            this.igroups.push(this.$store.getters.getGroups[i].id );
+                            break;
+                        }
                     }
                 }
+                this.$store.dispatch('changesStudent', {id: id, email: this.email,name: this.name, surname: this.surname, password: this.password, group_id: this.igroups, phone:this.phone});
+
                 this.editStudentDialog = false;
             },
             deleteStudent(){
                 var i = null;
+                this.$store.dispatch('deletesStudent', this.id);
+
                 for (i in this.$store.getters.getStudents){
                     if(this.$store.getters.getStudents[i].id === this.id) {
                         this.$store.getters.getStudents.pop(i);
@@ -446,6 +436,21 @@
                 }
                 this.$store.dispatch('createsGroup', {name: this.Gname, description: this.Gdescription, start_date: this.GstartDate, course_id: this.Gcourseid});
                 this.addGroupDialog = false;
+            },
+            createStudent() {
+                var i,j =0;
+                this.igroups = [];
+
+                    for(j in this.sgroups) {
+                        for (i in this.$store.getters.getGroups){
+                        if (this.$store.getters.getGroups[i].name === this.sgroups[j][0]) {
+                            this.igroups.push(this.$store.getters.getGroups[i].id );
+                            break;
+                        }
+                    }
+                }
+                this.$store.dispatch('createsStudent', {email: this.email,name: this.name, surname: this.surname, password: this.password, group_id: this.igroups, phone:this.phone});
+                this.addStudentDialog = false
             }
         },
         computed: {

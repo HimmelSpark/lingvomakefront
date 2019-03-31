@@ -119,6 +119,21 @@ export default {
     };
     state.groups.push(newGroup);
   },
+    addStudent(state, payload){
+      state.students.push({
+        id: payload.id,
+        name: payload.name,
+        surname: payload.surname,
+        description: payload.description,
+        email: payload.email,
+        group: payload.group,
+        phone: payload.phone,
+        groupName: payload.groupName,
+        type: "student",
+        imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
+        children: [],
+      });
+    },
     loadCourses(state, payload) {
       if (payload !== null && payload.length !== 0) {
         payload.forEach(curr => {
@@ -134,8 +149,7 @@ export default {
       }
     },
   loadsGroups(state, payload) {
-
-    if (payload !== null && payload.length !== 0) {
+    if (payload !== null && payload.length !== 0 && state.groups.length<2) {
       payload.forEach(curr => {
         state.groups.push({
           id: curr.id,
@@ -151,7 +165,7 @@ export default {
   },
   loadStudents(state, payload) {
     console.log(payload);
-    if (payload !== null && payload.length !== 0) {
+    if (payload !== null && payload.length !== 0 && state.students.length<1) {
       payload.forEach(curr => {
         var i,j = null;
         var gName = []
@@ -215,6 +229,63 @@ export default {
         commit('setLoading', false);
       }
     },
+    async createsStudent( {commit}, payload) {
+      if (payload != null) {
+        commit('clearError');
+        commit('setLoading', true);
+        console.log(payload);
+
+        try {
+          // Создание курса
+
+          const response = await HTTP.post('/student/create', payload);
+          if (200 <= response.status < 300) {
+            commit('addStudent', payload)
+          }
+        } catch (e) {
+          commit('setError', e);
+        }
+        commit('setLoading', false);
+      }
+    },
+    async changesGroup( {commit}, payload) {
+      if (payload != null) {
+        commit('clearError');
+        commit('setLoading', true);
+        console.log(payload);
+
+        try {
+          // Создание курса
+
+          const response = await HTTP.post('/group/edit', payload);
+          if (200 <= response.status < 300) {
+            commit('addGroup', payload)
+          }
+        } catch (e) {
+          commit('setError', e);
+        }
+        commit('setLoading', false);
+      }
+    },
+      async changesStudent( {commit}, payload) {
+          if (payload != null) {
+              commit('clearError');
+              commit('setLoading', true);
+              console.log(payload);
+
+              try {
+                  // Создание курса
+
+                  const response = await HTTP.post('/student/change', payload);
+                  if (200 <= response.status < 300) {
+                      commit('addGroup', payload)
+                  }
+              } catch (e) {
+                  commit('setError', e);
+              }
+              commit('setLoading', false);
+          }
+      },
     async loadGroups({commit}) {
       commit('clearError');
       try {
@@ -241,7 +312,45 @@ export default {
     },
     setSelectedSTUD({ commit }, payload) {
       commit("setSelectedSTUD", payload);
-    }
+    },
+    async deletesGroup( {commit}, payload) {
+      if (payload != null) {
+        commit('clearError');
+        commit('setLoading', true);
+        console.log(payload);
+
+        try {
+          // Создание курса
+
+          const response = await HTTP.post('/group/delete', payload);
+          if (200 <= response.status < 300) {
+            // commit('deleteGroup', payload)
+          }
+        } catch (e) {
+          commit('setError', e);
+        }
+        commit('setLoading', false);
+      }
+    },
+      async deletesStudent( {commit}, payload) {
+          if (payload != null) {
+              commit('clearError');
+              commit('setLoading', true);
+              console.log(payload);
+
+              try {
+                  // Создание курса
+
+                  const response = await HTTP.post('/student/delete', payload);
+                  if (200 <= response.status < 300) {
+                      // commit('deleteGroup', payload)
+                  }
+              } catch (e) {
+                  commit('setError', e);
+              }
+              commit('setLoading', false);
+          }
+      },
   },
   getters: {
     getGroupNames(state){
