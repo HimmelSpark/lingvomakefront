@@ -2,12 +2,16 @@
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
-        <v-card class="elevation-12">
+        <v-card class="elevation-12" @keyup.enter="onSubmit">
           <v-toolbar dark color="primary">
             <v-toolbar-title>Login form</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form v-model="valid" ref="form" validation>
+            <v-form 
+              v-model="valid" 
+              ref="form" 
+              validation 
+            >
               <v-text-field
                 prepend-icon="person"
                 name="login"

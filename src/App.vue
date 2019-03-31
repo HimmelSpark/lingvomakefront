@@ -80,6 +80,19 @@
       <router-view></router-view>
     </v-content>
 
+    <template v-if="errorMessage">
+      <v-snackbar
+        :timeout="5000"
+        :multi-line="true"
+        :color="error"
+        @input="closeError"
+        :value="true"
+      >
+        {{ errorMessage }}
+        <v-btn flat color="pink" @click.native="closeError"> Close</v-btn>
+      </v-snackbar>
+    </template>
+
     <v-footer
         height="auto">
 
@@ -119,6 +132,9 @@
     renderPermission() {
       return this.$store.getters.renderPermission;
     },
+    errorMessage() {
+      return this.$store.getters.error;
+    },
     links() {
       if (this.isUserLoggedIn) {
         return [
@@ -147,6 +163,9 @@
           .then(() => {
             this.$router.push('/login');
           });
+    },
+    closeError() {
+      this.$store.commit("clearError");
     }
   }
 };

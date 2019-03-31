@@ -2,7 +2,7 @@ import {HTTP} from "../../network/http-common";
 
 export default {
   state: {
-    selected: null,
+  selected: null,
 	loadingUnits: false,
     items: [
 	  {
@@ -87,9 +87,12 @@ export default {
 		type: "course",
 		children: [
 		  {
-			id: 9,
-			name: "Unit 1",
-			type: "unit"
+				id: 9,
+				name: "Unit 1",
+				type: "unit",
+				children: [
+					
+				]
 		  }
 		]
 	  }
@@ -169,62 +172,52 @@ export default {
   actions: {
     async createCourse({commit}, payload) {
       if (payload != null) {
-		commit('clearError');
-		commit('setLoading', true);
-		try {
+				commit('clearError');
+				commit('setLoading', true);
+				try {
           // Создание курса
-		  const response = await HTTP.post('/course/create', payload);
-		  if (200 <= response.status < 300) {
-		    commit('addCourse', payload)
-		  }
-		} catch (e) {
-		  commit('setError', e);
-		}
-		commit('setLoading', false);
+		  		const response = await HTTP.post('/course/create', payload);
+		  		commit('addCourse', payload);
+				} catch (e) {
+		  		commit('setError', e);
+				}
+				commit('setLoading', false);
       }
-    },
+  },
 	async loadCourses({ commit }) {
 	  commit("clearError");
 	  commit("setLoading", true);
 	  try {
-		const response = await HTTP.get("/course/");
-		commit("setLoading", false);
-		if (200 <= response.status < 300) {
-		  commit("loadCourses", response.data);
-		} else {
-		  commit("setError", { code: response.code, message: response.data });
-		}
+			const response = await HTTP.get("/course/");
+			commit("setLoading", false);
+			commit("loadCourses", response.data);
 	  } catch (e) {
-		commit("setLoading", false);
-		commit("setError", e);
+			commit("setLoading", false);
+			commit("setError", e.response.data);
 	  }
 	},
 
 	async createUnit({commit}, payload) {
-      //TODO возможно есть смысл потом запросить созданный юнит, чтобы получить его id
-      if (payload !== null) {
-		commit('clearError');
-		commit('setLoading', true);
-		try {
-		  const response = await HTTP.post('/unit/create', payload);
-		  if (200 <= response.status < 300) {
-			commit('addUnit', payload)
-		  }
-		} catch (e) {
-		  commit('setError', e);
-		}
-		commit('setLoading', false);
+		//TODO возможно есть смысл потом запросить созданный юнит, чтобы получить его id
+		if (payload !== null) {
+			commit('clearError');
+			commit('setLoading', true);
+			try {
+		  		const response = await HTTP.post('/unit/create', payload);
+		  		commit('addUnit', payload)
+			} catch (e) {
+		  	commit('setError', e.response.data);
+			}
+			commit('setLoading', false);
 	  }
 	},
 	async loadUnitsByCourse({commit}, payload) {
 	  commit('clearError');
 	  try {
-		const response = await HTTP.get('/unit/' + payload.id);
-		if (200 <= response.status < 300) {
-		  commit('loadUnits', {id: payload.id, data: response.data});
-		}
+			const response = await HTTP.get('/unit/' + payload.id);
+			commit('loadUnits', {id: payload.id, data: response.data});
 	  } catch (e) {
-		commit('setError', e);
+			commit('setError', e.response.data);
 	  }
 	  commit('setLoadingUnits', false);
 	},
@@ -232,21 +225,17 @@ export default {
 	async deleteCourse({commit}, payload) {
 	  commit("clearError");
 	  try {
-		const response = HTTP.post("/course/delete", payload.id);
-		if (200 <= response.status < 300) {
-		  console.log('deleted course ' + payload.id); //TODO убрать
-		  commit("deleteCourse", payload.id);
-		} else {
-		  commit("setError", { code: response.code, message: response.data });
-		}
+			const response = HTTP.post("/course/delete", payload.id);
+			console.log('deleted course ' + payload.id); //TODO убрать
+			commit("deleteCourse", payload.id);
 	  } catch (e) {
-		commit("setError", e);
+			commit("setError", e.response.data);
 	  }
 	},
 
 	setSelected({ commit }, payload) {
 	  if (payload !== null) {
-		commit("setSelected", payload);
+			commit("setSelected", payload);
 	  }
 	},
 	setLoadingUnits({commit}, payload) {
