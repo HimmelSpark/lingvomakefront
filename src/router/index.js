@@ -96,7 +96,6 @@ export default new Router({
           props: true,
           component: CoursePage,
           beforeEnter: LoadUnitsGuard, //TODO добавить хук на изменение
-		  beforeRouteUpdate: LoadUnitsGuard
         },
         {
           path: "unit/:id",

@@ -82,6 +82,9 @@
           case "course":
             this.$router.push("/courses/course/" + clickedItem.id);
             break;
+          case "unit":
+            this.$router.push("/courses/unit/" + clickedItem.id)
+            break;
         }
       }
     },
@@ -96,8 +99,8 @@
 		 //    this.$store.dispatch('loadCourses');
 	   //  }
     // },
-    beforeRouteUpdate(to, from, next) {
 
+    beforeRouteUpdate(to, from, next) {
 
 	    const splitedPath = to.path.split('/');
 	    console.log(splitedPath);
@@ -106,12 +109,25 @@
 		    next(false)
 	    } else {
 
-		  for (let i = 0; i < this.items.length; i++) {
-		    if (this.items[i].id === parseInt(splitedPath[splitedPath.length - 1])) {
-			    this.$store.dispatch('loadUnitsByCourse', {next: next, payload: this.items[i]});
-			    break;
-		    }
-		  }
+	      switch (splitedPath[splitedPath.length-2]) {
+
+          case "course":
+
+            for (let i = 0; i < this.items.length; i++) {
+              if (this.items[i].id === parseInt(splitedPath[splitedPath.length - 1])) {
+                this.$store.dispatch('loadUnitsByCourse', {next: next, payload: this.items[i]});
+                break;
+              }
+            }
+
+            break;
+
+          case "unit":
+
+            console.log("should load unit data by id")
+        }
+
+
 
 	  }
 

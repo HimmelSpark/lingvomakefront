@@ -2,18 +2,26 @@ import store from "../store/index";
 
 export default function (to, from, next) {
   const splitedPath = to.path.split('/');
-  console.log(splitedPath);
-  if (splitedPath.length !== 4) {
-    store.dispatch('setError', "Unexpected Error");
-    next(false)
+  console.log("loadUnitsGuard", splitedPath);
+
+  if (store.getters.items.length === 0) {
+    store.dispatch('loadCourses')
+		.then(() => {
+		  if (splitedPath.length === 4) {
+		    loadUnitsByCourseId(next, parseInt(splitedPath[splitedPath.length - 1]));
+		  }
+		})
   } else {
+    next()
+  }
 
-    for (let i = 0; i < store.getters.items.length; i++) {
-      if (store.getters.items[i].id === parseInt(splitedPath[splitedPath.length - 1])) {
-		store.dispatch('loadUnitsByCourse', {next: next, payload: store.getters.items[i]});
-		break;
-	  }
+}
+
+function loadUnitsByCourseId(next, id) {
+  for (let i = 0; i < store.getters.items.length; i++) {
+	if (store.getters.items[i].id === id) {
+	  store.dispatch('loadUnitsByCourse', {next: next, payload: store.getters.items[i]});
+	  break;
 	}
-
   }
 }

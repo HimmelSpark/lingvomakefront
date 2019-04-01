@@ -160,7 +160,6 @@ export default {
 	  }
 	  commit('setLoadingUnits', false);
 	},
-
 	async deleteCourse({commit}, payload) {
 	  commit("clearError");
 	  try {
