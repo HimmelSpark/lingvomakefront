@@ -4,12 +4,13 @@ import Router from "vue-router";
 //Router guards
 import AuthGuard from "./authguard";
 import DoubleEnterGuard from "./doubleEnterGuard";
-import DataReadyGuard from "./dataReadyGuard";
+import LoadUnitsGuard from "./loadUnitsGuard";
 //Admin components
 import Home from "@/components/Home";
 import Login from "@/components/auth/Login";
 import Registration from "@/components/auth/Registration";
-import Panel from "@/components/courses/Courses";
+import Panel from "@/components/courses/Courses"; // TODO не забыть
+import Courses2 from "@/components/courses/Courses2"; // TODO не забыть
 import Students from "@/components/student/Students";
 import Manage from "@/components/manage/Manage"
 //Panel sub-components
@@ -87,13 +88,15 @@ export default new Router({
     },
     {
       path: "/courses",
-      component: Panel,
+      component: Courses2,
       beforeEnter: AuthGuard,
       children: [
         {
           path: "course/:id",
           props: true,
           component: CoursePage,
+          beforeEnter: LoadUnitsGuard, //TODO добавить хук на изменение
+		  beforeRouteUpdate: LoadUnitsGuard
         },
         {
           path: "unit/:id",

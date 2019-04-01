@@ -69,8 +69,6 @@ class HttpService {
       mode: "cors"
     };
 
-    console.log(req);
-
     return fetch(`${this.baseURL}${url}`, req);
   }
 }

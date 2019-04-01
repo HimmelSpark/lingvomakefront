@@ -18,8 +18,8 @@
           <v-list-group
             v-for="item in items"
             :key="item.id"
-            :prepend-icon="'school'"
             :open.sync="open"
+            :prepend-icon="'school'"
             @click="clickList(item)">
 
             <template v-slot:activator>
@@ -37,15 +37,12 @@
 
               <v-list-tile-content>
                 <v-list-tile-title>{{ subItem.unit_name }}</v-list-tile-title>
-                <!--<v-list-tile-title>maka</v-list-tile-title>-->
               </v-list-tile-content>
 
             </v-list-tile>
 
           </v-list-group>
         </v-list>
-
-        <span>{{active}}</span>
 
       </v-flex>
 
@@ -99,6 +96,7 @@
         </v-card>
       </v-dialog>
 
+
     </v-layout>
   </v-container>
 </template>
@@ -136,8 +134,6 @@ export default {
     },
     clickList(item) {
       if (item !== null) {
-        console.log('item !== null');
-        console.log(item.type);
         this.$store.dispatch("setSelected", item)
             .then(() => {
 			        switch (item.type) {
@@ -152,8 +148,6 @@ export default {
                   }
 				          break;
 				        case "unit":
-				          console.log("in type unit");
-				          console.log(this.selected);
 				          this.$router.push("/courses/unit/" + item.id);
 				          break;
 				        case "task":
@@ -183,7 +177,6 @@ export default {
     }
   },
   beforeRouteUpdate(to, from, next) {
-    console.log("dispath before leave: ", this.dispatchBeforeLeave);
     this.$store.dispatch(this.dispatchBeforeLeave.name, {
       router: {
         to: to,
@@ -194,6 +187,7 @@ export default {
     })
         .then(() => {
 		      this.$store.dispatch("setLoadingUnits", false);
+		      this.dispatchBeforeLeave = null;
         });
   }
 };

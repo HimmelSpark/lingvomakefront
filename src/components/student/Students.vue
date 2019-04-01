@@ -483,7 +483,10 @@
         created() {
             this.$store.dispatch('loadGroups');
             this.$store.dispatch('loadAllStudents');
-            this.$store.dispatch('loadCourses');
+            // if (this.$store.getters.items.length === 0) {
+            //   // TODO поменять на 0, когда уберем захардкоженные курсы
+            //   this.$store.dispatch('loadCourses');
+            // }
         }
     };
 </script>

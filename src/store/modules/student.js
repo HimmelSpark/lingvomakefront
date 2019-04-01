@@ -164,7 +164,6 @@ export default {
     }
   },
   loadStudents(state, payload) {
-    console.log(payload);
     if (payload !== null && payload.length !== 0 && state.students.length<1) {
       payload.forEach(curr => {
         var i,j = null;
@@ -203,7 +202,6 @@ export default {
     try {
       const response = await HTTP.get('/course/');
       if (200 <= response.status < 300) {
-        console.log(response.data);
         commit('loadCourses', response.data)
       }
     } catch (e) {
@@ -214,7 +212,6 @@ export default {
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
-        console.log(payload);
 
         try {
           // Создание курса
@@ -231,7 +228,6 @@ export default {
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
-        console.log(payload);
 
         try {
           // Создание курса
@@ -250,7 +246,6 @@ export default {
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
-        console.log(payload);
 
         try {
           // Создание курса
@@ -269,7 +264,6 @@ export default {
           if (payload != null) {
               commit('clearError');
               commit('setLoading', true);
-              console.log(payload);
 
               try {
                   // Создание курса
@@ -288,7 +282,6 @@ export default {
       commit('clearError');
       try {
         const response = await HTTP.get('/group/');
-        console.log(response.data);
         commit('loadsGroups', response.data)
       } catch (e) {
         commit('setError', e.response.data);
@@ -311,7 +304,6 @@ export default {
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
-        console.log(payload);
 
         try {
           // Создание курса
@@ -330,7 +322,6 @@ export default {
           if (payload != null) {
               commit('clearError');
               commit('setLoading', true);
-              console.log(payload);
 
               try {
                   // Создание курса

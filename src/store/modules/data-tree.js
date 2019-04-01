@@ -4,96 +4,7 @@ export default {
   state: {
     selected: null,
 	loadingUnits: false,
-    items: [
-	  // {
-	  //   id: 10500,
-	  //   name: 'Mocked name',
-		// description: 'Mocked description',
-		// imgSrc: 'https://bumper-stickers.ru/38068-thickbox_default/znak-elektronnoj-pochty-mailru.jpg',
-		// type: 'course',
-		// children: []
-	  // },
-	  // {
-		// id: 2,
-		// name: "TOEFL iBT",
-		// description:
-		// 	"This course is for those who pursue to get away from Russia and find better life in the USA",
-		// imgSrc:
-		// 	"https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
-		// type: "course",
-		// children: [
-		//   {
-		// 	id: 3,
-		// 	name: "Unit 1",
-		// 	description: "some TOEFL unit",
-		// 	imgSrc:
-		// 		"https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
-		// 	type: "unit",
-		// 	children: []
-		//   }
-		// ]
-	  // },
-	  // {
-		// id: 4,
-		// name: "CAE",
-		// description: "This course is for those who want to suffer!",
-		// imgSrc:
-		// 	"http://busidiomas.com/wp-content/uploads/2017/10/examen-cae-1024x559.jpg",
-		// type: "course",
-		// children: [
-		//   {
-		// 	id: 5,
-		// 	name: "Unit 1",
-		// 	description: "some CAE unit",
-		// 	imgSrc:
-		// 		"https://ak2.picdn.net/shutterstock/videos/1731232/thumb/1.jpg",
-		// 	type: "unit",
-		// 	children: [
-		// 	  {
-		// 		id: 6,
-		// 		type: "T1",
-		// 		data: "Psychology",
-		// 	  },
-		// 	  {
-		// 		id: 7,
-		// 		type: "T2",
-		// 		data: "Theology",
-		// 	  },
-		// 	  {
-		// 		id: 7123,
-		// 		data: "Theology",
-		// 		type: "T3"
-		// 	  },
-		// 	  {
-		// 		id: 7324,
-		// 		data: "Theology",
-		// 		type: "T2"
-		// 	  },
-		// 	  {
-		// 		id: 7239847,
-		// 		data: "Theology",
-		// 		type: "T3"
-		// 	  }
-		// 	]
-		//   }
-		// ]
-	  // },
-	  // {
-		// id: 8,
-		// name: "GMAT",
-		// description:
-		// 	"This course is for those who think that maths in english sound so sexy!",
-		// imgSrc: "https://www.newszii.com/wp-content/uploads/2018/11/GMAT.png",
-		// type: "course",
-		// children: [
-		//   {
-		// 	id: 9,
-		// 	name: "Unit 1",
-		// 	type: "unit"
-		//   }
-		// ]
-	  // }
-	]
+    items: []
   },
   mutations: {
     setSelected(state, payload) {
@@ -113,10 +24,13 @@ export default {
       state.items.push(newCousre);
     },
 
+
 	loadCourses(state, payload) {
+	  console.log("in mutation");
+      let res = [];
       if (payload !== null && payload.length !== 0) {
 		payload.forEach(curr => {
-          state.items.push({
+          res.push({
             id: curr.id,
             name: curr.name,
             description: curr.description,
@@ -125,6 +39,7 @@ export default {
             type: "course"
           });
 		});
+		state.items = res;
       }
     },
 
@@ -155,16 +70,29 @@ export default {
 
 	loadUnits(state, payload) {
       //TODO найти более оптимальный способ
-	  console.log(payload);
-	  state.items.forEach(curr => {
-	    if (curr.id === payload.id) {
-	      payload.data.forEach(costyl => {
-	        costyl.type = "unit";
-	        curr.children.push(costyl);
+	  // state.items.forEach(curr => {
+	   //  if (curr.id === payload.id) {
+	   //    payload.data.forEach(costyl => {
+	   //      costyl.type = "unit";
+	   //      curr.children.push(costyl);
+		//   });
+		// }
+	  // });
+
+	  for (let i = 0; i < state.items.length; i++) {
+	    if (state.items[i].id === payload.id) {
+	      let preparedData = null;
+		  payload.data.forEach((currUnit) => {
+		    currUnit.type = "unit";
+		    currUnit.children = [];
 		  });
+		  preparedData = payload.data;
+		  state.items[i].children = preparedData;
+		  break;
 		}
-	  });
-	  payload.router.next()
+	  }
+
+	  payload.next()
 	},
 
 	setLoadingUnits(state, payload) {
@@ -187,16 +115,22 @@ export default {
 				}
 				commit('setLoading', false);
       }
-  },
+  	},
+
+
 	async loadCourses({ commit }) {
 	  commit("clearError");
 	  commit("setLoading", true);
 	  try {
 			const response = await HTTP.get("/course/");
 			commit("setLoading", false);
+
+			console.log("in action");
+
 			commit("loadCourses", response.data);
 	  } catch (e) {
 			commit("setLoading", false);
+			console.log(e);
 			commit("setError", e.response.data);
 	  }
 	},
@@ -215,11 +149,12 @@ export default {
 			commit('setLoading', false);
 	  }
 	},
-	async loadUnitsByCourse({commit}, {router, payload}) {
+	async loadUnitsByCourse({commit}, {next, payload}) {
+      console.log("in action",payload);
 	  commit('clearError');
 	  try {
 			const response = await HTTP.get('/unit/' + payload.id);
-			commit('loadUnits', {id: payload.id, data: response.data, router: router});
+			commit('loadUnits', {id: payload.id, data: response.data, next: next});
 	  } catch (e) {
 			commit('setError', e.response.data);
 	  }
@@ -230,7 +165,6 @@ export default {
 	  commit("clearError");
 	  try {
 			const response = HTTP.post("/course/delete", payload.id);
-			console.log('deleted course ' + payload.id); //TODO убрать
 			commit("deleteCourse", payload.id);
 	  } catch (e) {
 			commit("setError", e.response.data);
@@ -258,6 +192,7 @@ export default {
 	},
 	courses(state) {
 	  return state.courses;
-	}
+	},
+	// getCourseById(s)
   }
 };
