@@ -91,6 +91,13 @@
                         label="Select course for group"
                         v-model="Gcourseid"
                 ></v-combobox>
+                <v-combobox
+                        <!--TODO заделать юниты-->
+                        name="current_unit"
+                        :items="courses"
+                        label="Select course for group"
+                        v-model="Gcourseid"
+                ></v-combobox>
 
               </v-form>
             </v-card-text>
