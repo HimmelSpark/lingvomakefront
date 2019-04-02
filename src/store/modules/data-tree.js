@@ -65,14 +65,6 @@ export default {
 	},
 	loadUnits(state, payload) {
       //TODO найти более оптимальный способ
-	  // state.items.forEach(curr => {
-	   //  if (curr.id === payload.id) {
-	   //    payload.data.forEach(costyl => {
-	   //      costyl.type = "unit";
-	   //      curr.children.push(costyl);
-		//   });
-		// }
-	  // });
 
 	  for (let i = 0; i < state.items.length; i++) {
 	    if (state.items[i].id === payload.id) {
@@ -94,27 +86,27 @@ export default {
 	},
 
 	loadTasks(state, {next, id, tasks}) {
-      let flag = false;
-      for (let i = 0; i < state.items.length; i++) {
 
-        if (flag) {
-          break;
-		}
+	  let flag = false;
 
-        for (let j = 0; j < state.items[i].children.length; j++) {
-          if (state.items[i].children[j].id === parseInt(id)) {
-            state.items[i].children[j].children = tasks;
+      state.items.forEach((currCourse) => {
+        currCourse.children.forEach((currUnit) => {
+          if (currUnit.id === parseInt(id)) {
+            currUnit.children = tasks;
             flag = true;
-		  }
-		}
+          }
+		});
+      });
+	  //
+	  // console.log(next);
+	  //
+	  // if (flag) {
+       //  next()
+	  // } else {
+       //  next(false)
+	  // }
 
-	  }
-
-	  if (flag) {
-        next()
-	  } else {
-        next(false)
-	  }
+	  next()
 
 	}
 
@@ -190,7 +182,31 @@ export default {
 	  commit('clearError');
 	  try {
 		const response = await HTTP.get('/task/' + id);
-		commit('loadTasks', {next: next, id: id, tasks: response.data})
+		const mockedResponseData = [
+		  {
+		    id: 1,
+			type: "T1",
+			data: {
+		      text: "lorem ipsum dolor sit amet consectetur adipicising elit"
+			}
+		  },
+		  {
+		    id: 2,
+			type: "T1",
+			data: {
+		      text: "this is task #2"
+			}
+		  },
+		  {
+		    id: 3,
+			type: "T1",
+			data: {
+		      text: "this is task #3"
+			}
+		  }
+		];
+		// commit('loadTasks', {next: next, id: id, tasks: response.data}) //TODO вернуть
+		commit('loadTasks', {next: next, id: id, tasks: mockedResponseData}) //TODO мока
 	  } catch (e) {
 		commit('setError', e.response.data);
 	  }
