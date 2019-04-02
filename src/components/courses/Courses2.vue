@@ -46,15 +46,11 @@
 
         </v-list>
 
-        <span v-if="clickedItem !== null">{{clickedItem}}</span>
-
       </v-flex>
 
       <v-divider vertical></v-divider>
 
       <v-flex xs8 md9 lg10>
-
-        <span>{{items}}</span>
 
         <v-content>
           <v-scroll-y-transition mode="out-in">

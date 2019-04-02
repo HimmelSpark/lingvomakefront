@@ -3,201 +3,200 @@
     <v-layout row>
       <v-flex xs12>
 
-        <!--<v-card>-->
+        <v-card>
 
-          <!--<v-layout row>-->
+          <v-layout row>
 
-            <!--<v-flex xs10>-->
-              <!--<v-card-title primary-title>-->
-                <!--<div>-->
-                  <!--<h2 class="headline mb-0">-->
-                    <!--Course-->
-                    <!--<v-chip label dark color="primary">{{ selected.name }}</v-chip>-->
-                    <!--has-->
-                    <!--<v-chip label dark color="primary">-->
-                      <!--{{ selected.children.length }}-->
-                    <!--</v-chip>-->
-                    <!--unit(s)-->
-                  <!--</h2>-->
-                  <!--<div>{{ selected.description }}</div>-->
-                <!--</div>-->
-              <!--</v-card-title>-->
-            <!--</v-flex>-->
+            <v-flex xs10>
+              <v-card-title primary-title>
+                <div>
+                  <h2 class="headline mb-0">
+                    Course
+                    <v-chip label dark color="primary">{{ courseById.name }}</v-chip>
+                    has
+                    <v-chip label dark color="primary">
+                      {{ courseById.children.length }}
+                    </v-chip>
+                    unit(s)
+                  </h2>
+                  <div>{{ courseById.description }}</div>
+                </div>
+              </v-card-title>
+            </v-flex>
 
-            <!--<v-flex xs2>-->
-              <!--<v-img :src="selected.imgSrc" aspect-ratio="2"></v-img>-->
-            <!--</v-flex>-->
+            <v-flex xs2>
+              <v-img :src="courseById.imgSrc" aspect-ratio="2"></v-img>
+            </v-flex>
 
-          <!--</v-layout>-->
+          </v-layout>
 
-          <!--<v-card-actions>-->
+          <v-card-actions>
 
-            <!--<v-tooltip bottom>-->
-              <!--<template v-slot:activator="{ on }">-->
-                <!--<v-btn flat icon large v-on="on" @click="openEditDialog">-->
-                  <!--<v-icon>edit</v-icon>-->
-                <!--</v-btn>-->
-              <!--</template>-->
-              <!--<span>edit this COURSE</span>-->
-            <!--</v-tooltip>-->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn flat icon large v-on="on" @click="openEditDialog">
+                  <v-icon>edit</v-icon>
+                </v-btn>
+              </template>
+              <span>edit this COURSE</span>
+            </v-tooltip>
 
-            <!--<v-dialog v-model="editDialog" persistent max-width="490">-->
-              <!--<v-card>-->
-                <!--<v-card-title class="headline">-->
-                  <!--Editing current course-->
-                <!--</v-card-title>-->
-                <!--<v-card-actions>-->
-                  <!--<v-spacer></v-spacer>-->
-                  <!--<v-btn color="primary" flat @click="editDialog = false">-->
-                    <!--Cancel-->
-                  <!--</v-btn>-->
-                  <!--<v-btn color="green" flat @click="saveAfterEdit">Save</v-btn>-->
-                <!--</v-card-actions>-->
-              <!--</v-card>-->
-            <!--</v-dialog>-->
+            <v-dialog v-model="editDialog" persistent max-width="490">
+              <v-card>
+                <v-card-title class="headline">
+                  Editing current course
+                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat @click="editDialog = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn color="green" flat @click="saveAfterEdit">Save</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
 
-            <!--<v-tooltip bottom>-->
-              <!--<template v-slot:activator="{ on }">-->
-                <!--<v-btn icon large v-on="on" @click="openAddUnitDialog"-->
-                  <!--&gt;<v-icon>add</v-icon></v-btn>-->
-              <!--</template>-->
-              <!--<span>Adding new unit</span>-->
-            <!--</v-tooltip>-->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn icon large v-on="on" @click="openAddUnitDialog"
+                  ><v-icon>add</v-icon></v-btn>
+              </template>
+              <span>Adding new unit</span>
+            </v-tooltip>
 
-            <!--<v-dialog v-model="addUnitDialog" persistent max-width="490">-->
-              <!--<v-card>-->
+            <v-dialog v-model="addUnitDialog" persistent max-width="490">
+              <v-card>
 
-                <!--<v-card-title class="headline">-->
-                  <!--Creating new Course-->
-                <!--</v-card-title>-->
+                <v-card-title class="headline">
+                  Creating new Course
+                </v-card-title>
 
-                <!--<v-card-text>-->
-                  <!--<v-form v-model="valid" ref="form" validation>-->
-                    <!--<v-text-field-->
-                        <!--name="name"-->
-                        <!--label="Unit Name"-->
-                        <!--type="text"-->
-                        <!--v-model="unitName"-->
-                    <!--&gt;</v-text-field>-->
-                    <!--<v-text-field-->
-                        <!--name="description"-->
-                        <!--label="Unit Description"-->
-                        <!--type="text"-->
-                        <!--v-model="unitDescr"-->
-                    <!--&gt;</v-text-field>-->
-                  <!--</v-form>-->
-                <!--</v-card-text>-->
+                <v-card-text>
+                  <v-form v-model="valid" ref="form" validation>
+                    <v-text-field
+                        name="name"
+                        label="Unit Name"
+                        type="text"
+                        v-model="unitName"
+                    ></v-text-field>
+                    <v-text-field
+                        name="description"
+                        label="Unit Description"
+                        type="text"
+                        v-model="unitDescr"
+                    ></v-text-field>
+                  </v-form>
+                </v-card-text>
 
-                <!--<v-card-actions>-->
+                <v-card-actions>
 
-                  <!--<v-spacer></v-spacer>-->
+                  <v-spacer></v-spacer>
 
-                  <!--<v-btn color="red" flat @click="addUnitDialog = false">-->
-                    <!--Cancel-->
-                  <!--</v-btn>-->
+                  <v-btn color="red" flat @click="addUnitDialog = false">
+                    Cancel
+                  </v-btn>
 
-                  <!--<v-btn color="green" :loading="loading" flat @click="createUnit(selected)">-->
-                    <!--Save-->
-                  <!--</v-btn>-->
+                  <v-btn color="green" :loading="loading" flat @click="createUnit(courseById)">
+                    Save
+                  </v-btn>
 
-                <!--</v-card-actions>-->
-              <!--</v-card>-->
-            <!--</v-dialog>-->
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
 
-            <!--<v-spacer></v-spacer>-->
+            <v-spacer></v-spacer>
 
-            <!--<v-tooltip bottom>-->
-              <!--<template v-slot:activator="{ on }">-->
-                <!--<v-btn-->
-                  <!--flat-->
-                  <!--dark-->
-                  <!--icon-->
-                  <!--large-->
-                  <!--v-on="on"-->
-                  <!--color="red"-->
-                  <!--@click="openDeleteDialog"-->
-                  <!--&gt;<v-icon>delete</v-icon></v-btn-->
-                <!--&gt;-->
-              <!--</template>-->
-              <!--<span>delete this COURSE</span>-->
-            <!--</v-tooltip>-->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  flat
+                  dark
+                  icon
+                  large
+                  v-on="on"
+                  color="red"
+                  @click="openDeleteDialog"
+                  ><v-icon>delete</v-icon></v-btn
+                >
+              </template>
+              <span>delete this COURSE</span>
+            </v-tooltip>
 
-            <!--<v-dialog v-model="deleteDialog" persistent max-width="440">-->
-              <!--<v-card>-->
+            <v-dialog v-model="deleteDialog" persistent max-width="440">
+              <v-card>
 
-                <!--<v-card-title class="headline">-->
-                  <!--Do you want to delete this course?-->
-                <!--</v-card-title>-->
+                <v-card-title class="headline">
+                  Do you want to delete this course?
+                </v-card-title>
 
-                <!--<v-card-text>-->
-                  <!--This process is irreversible, you can't restore this course later!-->
-                <!--</v-card-text>-->
+                <v-card-text>
+                  This process is irreversible, you can't restore this course later!
+                </v-card-text>
 
-                <!--<v-card-actions>-->
+                <v-card-actions>
 
-                  <!--<v-spacer></v-spacer>-->
+                  <v-spacer></v-spacer>
 
-                  <!--<v-btn color="primary" flat @click="deleteDialog = false">-->
-                    <!--Cancel-->
-                  <!--</v-btn>-->
+                  <v-btn color="primary" flat @click="deleteDialog = false">
+                    Cancel
+                  </v-btn>
 
-                  <!--<v-btn color="red" flat :loading="loadingToDelete" @click="deleteCourse(selected)">-->
-                    <!--Delete-->
-                  <!--</v-btn>-->
+                  <v-btn color="red" flat :loading="loadingToDelete" @click="deleteCourse(courseById)">
+                    Delete
+                  </v-btn>
 
-                <!--</v-card-actions>-->
+                </v-card-actions>
 
-              <!--</v-card>-->
-            <!--</v-dialog>-->
+              </v-card>
+            </v-dialog>
 
-          <!--</v-card-actions>-->
+          </v-card-actions>
 
-        <!--</v-card>-->
+        </v-card>
 
-        <!--<br>-->
+        <br>
 
-        <!--<v-card>-->
-            <!--<v-list two-line>-->
-              <!--<template-->
-                  <!--v-for="(unit, index) in selected.children">-->
+        <v-card>
+            <v-list two-line>
+              <template
+                  v-for="(unit, index) in courseById.children">
 
-                <!--<v-list-tile-->
-                    <!--:key="unit.name"-->
-                    <!--@click="clickUnit(unit)">-->
+                <v-list-tile
+                    :key="unit.name"
+                    @click="clickUnit(unit)">
 
-                  <!--<v-list-tile-content>-->
-                    <!--<v-layout row align-center>-->
-                  <!--<span class="headline mb-4">-->
-                    <!--<v-chip dark label color="green">{{unit.name}}</v-chip> has-->
-                    <!--<v-chip dark label color="green">{{unit.children.length}}</v-chip> tasks.-->
-                    <!--| {{unit.description}}-->
-                  <!--</span>-->
-                    <!--</v-layout>-->
-                  <!--</v-list-tile-content>-->
+                  <v-list-tile-content>
+                    <v-layout row align-center>
+                  <span class="headline mb-4">
+                    <v-chip dark label color="green">{{unit.name}}</v-chip> has
+                    <v-chip dark label color="green">{{unit.children.length}}</v-chip> tasks.
+                    | {{unit.description}}
+                  </span>
+                    </v-layout>
+                  </v-list-tile-content>
 
-                  <!--<v-list-tile-action>-->
-                    <!--<v-btn icon ripple>-->
-                      <!--<v-icon color="darken-3">edit</v-icon>-->
-                    <!--</v-btn>-->
-                  <!--</v-list-tile-action>-->
+                  <v-list-tile-action>
+                    <v-btn icon ripple>
+                      <v-icon color="darken-3">edit</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
 
-                  <!--<v-list-tile-action>-->
-                    <!--<v-btn icon ripple>-->
-                      <!--<v-icon color="red darken-3">delete</v-icon>-->
-                    <!--</v-btn>-->
-                  <!--</v-list-tile-action>-->
+                  <v-list-tile-action>
+                    <v-btn icon ripple>
+                      <v-icon color="red darken-3">delete</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
 
 
-                <!--</v-list-tile>-->
+                </v-list-tile>
 
-                <!--<v-divider></v-divider>-->
+                <v-divider></v-divider>
 
-              <!--</template>-->
-            <!--</v-list>-->
-          <!--</v-card>-->
-        <!---->
+              </template>
+            </v-list>
+          </v-card>
+
       </v-flex>
-
 
     </v-layout>
 
@@ -208,6 +207,7 @@
 
 <script>
 export default {
+  props: ['id'],
   data() {
     return {
 
@@ -227,6 +227,12 @@ export default {
     };
   },
   computed: {
+
+    courseById() {
+      const id = this.id;
+      return this.$store.getters.courseById(id)
+    },
+
     selected() {
       return this.$store.getters.selected;
     }
@@ -252,9 +258,9 @@ export default {
     openAddUnitDialog() {
       this.addUnitDialog = true;
     },
-	  deleteCourse(selected) {
+	  deleteCourse(courseById) {
       this.loadingToDelete = true;
-      this.$store.dispatch('deleteCourse', selected)
+      this.$store.dispatch('deleteCourse', courseById)
           .then(() => {
 			      this.deleteDialog = false;
 			      this.loadingToDelete = false;
@@ -265,6 +271,7 @@ export default {
             this.loadingToDelete = false;
           });
     },
+
 	  createUnit() {
 
       this.loading = true;
@@ -273,8 +280,8 @@ export default {
           {
             unit_name: this.unitName,
             description: this.unitDescr,
-            course_id: this.selected.id,
-			      position: this.selected.children.length + Math.random() * 100
+            course_id: this.courseById.id,
+			      position: this.courseById.children.length + Math.random() * 100
           }).then(() => {
 
           }).catch();

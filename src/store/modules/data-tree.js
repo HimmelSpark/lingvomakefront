@@ -192,6 +192,15 @@ export default {
 	courses(state) {
 	  return state.courses;
 	},
+	courseById: state => {
+      return id => {
+        for (let i = 0; i < state.items.length; i++) {
+          if (state.items[i].id === parseInt(id)) {
+            return state.items[i]
+		  }
+		}
+	  }
+	}
 	// getCourseById(s)
   }
 };
