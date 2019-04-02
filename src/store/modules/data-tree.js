@@ -108,6 +108,15 @@ export default {
 
 	  next()
 
+	},
+	addNewTask(state, newTask) {
+      state.items.forEach(course => {
+        course.children.forEach(unit => {
+          if (unit.id === newTask.unit_id) {
+            unit.children.push(newTask);
+		  }
+		});
+	  });
 	}
 
 
@@ -211,8 +220,21 @@ export default {
 		commit('setError', e.response.data);
 	  }
 	},
+	async createTask({commit}, newTask) {
+      if (newTask.unit_id !== null) {
+		commit('clearError');
+		commit('setLoading', true);
+		try {
+		  const response = await HTTP.post('/task/create', newTask);
+		  commit('addNewTask', response.data);
+		} catch (e) {
+		  commit('setError', e);
+		}
+		commit('setLoading', false);
+	  }
+	},
 
-	setSelected({ commit }, payload) {
+	setSelected({commit}, payload) {
 	  if (payload !== null) {
 		commit("setSelected", payload);
 	  }
