@@ -4,9 +4,8 @@ export default function(to, from, next) {
   if (store.getters.user) {
     console.log('authGuard - if before bus debug');
 
-    console.log(to);
     const splitedPath = to.path.split('/'); // ["", "path1", "path2"]
-    console.log(splitedPath);
+
     if (splitedPath.length <= 2) {
 	  switch (to.path) {
 		case '/courses':
@@ -19,9 +18,12 @@ export default function(to, from, next) {
 		  }
 		  break;
 	  }
-    }
+    } else {
+
+	}
 
     next();
+
   } else {
     console.log('authGuard - else before bus debug');
     bus.on('onAuth', data => {
@@ -32,7 +34,7 @@ export default function(to, from, next) {
 		console.log(to);
 		const splitedPath = to.path.split('/'); // ["", "path1", "path2"]
 		console.log(splitedPath);
-		if (splitedPath.length <= 2) {
+		if (splitedPath.length >= 2) {
 		  switch (to.path) {
 			case '/courses':
 			  if (store.getters.items.length === 0) {
@@ -44,6 +46,8 @@ export default function(to, from, next) {
 			  }
 			  break;
 		  }
+		} else {
+
 		}
 
 		next()

@@ -23,10 +23,7 @@ export default {
 	  };
       state.items.push(newCousre);
     },
-
-
 	loadCourses(state, payload) {
-	  console.log("in mutation");
       let res = [];
       if (payload !== null && payload.length !== 0) {
 		payload.forEach(curr => {
@@ -42,10 +39,9 @@ export default {
 		state.items = res;
       }
     },
-
 	deleteCourse(state, payload) {
 	  state.items.every((currentItem, index) => {
-		if (currentItem.id === payload.id) {
+		if (currentItem.id == payload.id) {
 		  state.items.splice(index, 1);
 		  return false;
 		}
@@ -67,7 +63,6 @@ export default {
 		return true;
 	  });
 	},
-
 	loadUnits(state, payload) {
       //TODO найти более оптимальный способ
 	  // state.items.forEach(curr => {
@@ -94,10 +89,34 @@ export default {
 
 	  payload.next()
 	},
-
 	setLoadingUnits(state, payload) {
       state.loadingUnits = payload;
 	},
+
+	loadTasks(state, {next, id, tasks}) {
+      let flag = false;
+      for (let i = 0; i < state.items.length; i++) {
+
+        if (flag) {
+          break;
+		}
+
+        for (let j = 0; j < state.items[i].children.length; j++) {
+          if (state.items[i].children[j].id === parseInt(id)) {
+            state.items[i].children[j].children = tasks;
+            flag = true;
+		  }
+		}
+
+	  }
+
+	  if (flag) {
+        next()
+	  } else {
+        next(false)
+	  }
+
+	}
 
 
   },
@@ -116,22 +135,26 @@ export default {
 				commit('setLoading', false);
       }
   	},
-
-
 	async loadCourses({ commit }) {
 	  commit("clearError");
 	  commit("setLoading", true);
 	  try {
 			const response = await HTTP.get("/course/");
 			commit("setLoading", false);
-
-			console.log("in action");
-
 			commit("loadCourses", response.data);
 	  } catch (e) {
 			commit("setLoading", false);
 			console.log(e);
 			commit("setError", e.response.data);
+	  }
+	},
+	async deleteCourse({commit}, payload) {
+	  commit("clearError");
+	  try {
+		const response = HTTP.post("/course/delete", payload.id);
+		commit("deleteCourse", payload);
+	  } catch (e) {
+		commit("setError", e.response.data);
 	  }
 	},
 
@@ -150,7 +173,6 @@ export default {
 	  }
 	},
 	async loadUnitsByCourse({commit}, {next, payload}) {
-      console.log("in action",payload);
 	  commit('clearError');
 	  try {
 			const response = await HTTP.get('/unit/' + payload.id);
@@ -160,13 +182,17 @@ export default {
 	  }
 	  commit('setLoadingUnits', false);
 	},
-	async deleteCourse({commit}, payload) {
-	  commit("clearError");
+	setLoadingUnits({commit}, payload) {
+	  commit('setLoadingUnits', payload);
+	},
+
+	async loadTasksByUnit({commit}, {next, id}) {
+	  commit('clearError');
 	  try {
-			const response = HTTP.post("/course/delete", payload.id);
-			commit("deleteCourse", payload.id);
+		const response = await HTTP.get('/task/' + id);
+		commit('loadTasks', {next: next, id: id, tasks: response.data})
 	  } catch (e) {
-			commit("setError", e.response.data);
+		commit('setError', e.response.data);
 	  }
 	},
 
@@ -175,9 +201,7 @@ export default {
 		commit("setSelected", payload);
 	  }
 	},
-	setLoadingUnits({commit}, payload) {
-      commit('setLoadingUnits', payload);
-	}
+
   },
   getters: {
     items(state) {
@@ -200,7 +224,18 @@ export default {
 		  }
 		}
 	  }
+	},
+	unitById: state => {
+      return id => {
+        for (let i = 0; i < state.items.length; i++) {
+          for (let j = 0; j < state.items[i].children.length; j++) {
+            if (state.items[i].children[j].id === parseInt(id)) {
+              return state.items[i].children[j]
+			}
+		  }
+		}
+	  }
 	}
-	// getCourseById(s)
+
   }
 };

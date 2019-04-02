@@ -12,20 +12,20 @@
                 <div>
                   <h2 class="headline mb-0">
                     Unit
-                    <v-chip label dark color="primary">{{ selected.name }}</v-chip>
+                    <v-chip label dark color="primary">{{ unitById.unit_name }}</v-chip>
                     has
                     <v-chip label dark color="primary"
-                    >{{ selected.children.length }}
+                    >{{ unitById.children.length }}
                     </v-chip>
                     task(s)
                   </h2>
-                  <div>{{ selected.description }}</div>
+                  <div>{{ unitById.description }}</div>
                 </div>
               </v-card-title>
             </v-flex>
 
             <v-flex xs2>
-              <v-img :src="selected.imgSrc" aspect-ratio="1.95"></v-img>
+              <v-img :src="unitById.imgSrc" aspect-ratio="1.95"></v-img>
             </v-flex>
 
           </v-layout>
@@ -124,7 +124,7 @@
           <v-layout row wrap>
 
             <template
-                v-for="task in selected.children">
+                v-for="task in unitById.children">
 
               <v-flex xs4>
 
@@ -240,6 +240,8 @@
 
 <script>
 export default {
+  props: ['id'],
+
   data() {
     return {
       editDialog: false,
@@ -255,6 +257,9 @@ export default {
   computed: {
     selected() {
       return this.$store.getters.selected;
+    },
+    unitById() {
+      return this.$store.getters.unitById(this.id);
     }
   },
   methods: {

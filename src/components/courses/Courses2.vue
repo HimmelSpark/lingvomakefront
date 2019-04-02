@@ -9,7 +9,7 @@
           <div><h1 class="headline mb-0">Courses</h1></div>
         </v-chip>
 
-        <v-btn fab dark small color="indigo"  @click="">
+        <v-btn fab dark small color="indigo"  @click="addCourseDialog = true">
           <v-icon dark>add</v-icon>
         </v-btn>
 
@@ -60,6 +60,40 @@
 
       </v-flex>
 
+      <v-dialog v-model="addCourseDialog" persistent max-width="490">
+        <v-card>
+
+          <v-card-title class="headline">
+            Creating new Course
+          </v-card-title>
+
+          <v-card-text>
+            <v-form v-model="valid" ref="form" validation>
+              <v-text-field
+                  name="name"
+                  label="Name"
+                  type="text"
+                  v-model="courseName"
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+
+          <v-card-actions>
+
+            <v-spacer></v-spacer>
+
+            <v-btn color="red" flat @click="addCourseDialog = false">
+              Cancel
+            </v-btn>
+
+            <v-btn color="green" :loading="loading" flat @click="createCourse">
+              Save
+            </v-btn>
+
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-layout>
   </v-container>
 </template>
@@ -68,7 +102,12 @@
   export default {
     data() {
       return {
-		    clickedItem: null
+		    clickedItem: null,
+
+        addCourseDialog: false,
+        valid: false,
+		    courseName: null,
+        loading: false
       }
     },
     methods: {
@@ -79,9 +118,13 @@
             this.$router.push("/courses/course/" + clickedItem.id);
             break;
           case "unit":
-            this.$router.push("/courses/unit/" + clickedItem.id)
+            this.$router.push("/courses/unit/" + clickedItem.id);
             break;
         }
+      },
+      createCourse() {
+        this.$store.dispatch('createCourse', {name: this.courseName})
+            .then(() => {this.addCourseDialog = false});
       }
     },
     computed: {
@@ -120,10 +163,14 @@
 
           case "unit":
 
-            console.log("should load unit data by id")
+            for (let i = 0; i < this.items.length; i++) {
+              for (let j = 0; j < this.items[i].children.length; j++) {
+                if (this.items[i].children[j].id === parseInt(splitedPath[splitedPath.length - 1])) {
+                  this.$store.dispatch('loadTasksByUnit', {next: next, id: parseInt(splitedPath[splitedPath.length - 1])});
+                }
+              }
+            }
         }
-
-
 
 	  }
 

@@ -156,45 +156,45 @@
 
         <br>
 
-        <v-card>
-            <v-list two-line>
-              <template
-                  v-for="(unit, index) in courseById.children">
+        <v-container fluid grid-list-sm>
+          <v-layout row wrap>
+            <template
+                v-for="unit in courseById.children">
+              <v-flex xs4>
 
-                <v-list-tile
-                    :key="unit.name"
-                    @click="clickUnit(unit)">
+                <v-card>
 
-                  <v-list-tile-content>
-                    <v-layout row align-center>
-                  <span class="headline mb-4">
-                    <v-chip dark label color="green">{{unit.name}}</v-chip> has
-                    <v-chip dark label color="green">{{unit.children.length}}</v-chip> tasks.
-                    | {{unit.description}}
+                  <v-card-title>
+                    <span class="headline mb-4">
+                    Unit: <v-chip dark label color="green">{{unit.unit_name}}</v-chip>
+                    has <v-chip dark label color="green">{{unit.children.length}}</v-chip> tasks.
                   </span>
-                    </v-layout>
-                  </v-list-tile-content>
+                  </v-card-title>
 
-                  <v-list-tile-action>
-                    <v-btn icon ripple>
+                  <v-card-actions>
+
+                    <v-btn icon ripple @click="clickUnit(unit)">
+                      <v-icon color="darken-3">remove_red_eye</v-icon>
+                    </v-btn>
+
+                    <v-spacer></v-spacer>
+
+                    <v-btn icon ripple @click="openAddUnitDialog">
                       <v-icon color="darken-3">edit</v-icon>
                     </v-btn>
-                  </v-list-tile-action>
 
-                  <v-list-tile-action>
                     <v-btn icon ripple>
                       <v-icon color="red darken-3">delete</v-icon>
                     </v-btn>
-                  </v-list-tile-action>
 
+                  </v-card-actions>
 
-                </v-list-tile>
+                </v-card>
 
-                <v-divider></v-divider>
-
-              </template>
-            </v-list>
-          </v-card>
+              </v-flex>
+            </template>
+          </v-layout>
+        </v-container>
 
       </v-flex>
 
@@ -269,7 +269,11 @@ export default {
             console.error(e);
             this.deleteDialog = false;
             this.loadingToDelete = false;
-          });
+          })
+          .finally(() => {
+			      this.deleteDialog = false;
+			      this.loadingToDelete = false;
+          })
     },
 
 	  createUnit() {
@@ -301,3 +305,7 @@ export default {
   },
 };
 </script>
+
+<style>
+
+</style>
