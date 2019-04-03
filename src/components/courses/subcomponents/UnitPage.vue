@@ -418,7 +418,7 @@ export default {
       newTask: {
         name: null,
         unit_id: [],
-		    task_type: "T1",
+		    task_type: 1,
         task: {
           answers: [],
           correct: null,
