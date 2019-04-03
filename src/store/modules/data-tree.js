@@ -138,8 +138,9 @@ export default {
 				commit('setLoading', true);
 				try {
           // Создание курса
-		  		const response = await HTTP.post('/course/create', payload);
-		  		commit('addCourse', payload);
+					const response = await HTTP.post('/course/create', payload);
+					console.log("creating course  -  ", response.data);
+		  		commit('addCourse', payload.data);
 				} catch (e) {
 		  		commit('setError', e);
 				}
@@ -175,10 +176,10 @@ export default {
 			commit('clearError');
 			commit('setLoading', true);
 			try {
-			  	console.log("creating unit", payload);
+			  	console.log("creating unit  - ", payload);
 		  		const response = await HTTP.post('/unit/create', payload);
-		  		console.log("created unit", response.data);
-		  		commit('addUnit', payload)
+		  		console.log("created unit  - ", response.data);
+		  		commit('addUnit', response.data);
 			} catch (e) {
 		  	commit('setError', e.response.data);
 			}
@@ -246,7 +247,8 @@ export default {
 		commit('clearError');
 		commit('setLoading', true);
 		try {
-		  const response = await HTTP.post('/task/create', newTask);
+			const response = await HTTP.post('/task/create', newTask);
+			console.log("creating task - ", response.data);
 		  commit('addNewTask', response.data);
 		} catch (e) {
 		  commit('setError', e);
