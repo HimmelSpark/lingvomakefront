@@ -131,11 +131,12 @@
                 <v-card>
 
                   <v-card-title>
-                    data: {{task.data}}
+                    <span>name: {{task.name}}</span>
                   </v-card-title>
 
                   <v-card-text>
-                    Type: {{task.type}}
+                    <span>data: {{task.task}}</span>
+                    <span>Type: {{task.task_type}}</span>
                   </v-card-text>
 
                   <v-card-actions>
@@ -273,8 +274,8 @@
                           name="text"
                           label="text"
                           type="text"
-                          v-model="newTask.data.text"
-                      ></v-text-field>
+                          :v-model="newTaskText">
+                      </v-text-field>
 
                       <v-combobox
                           v-model="model"
@@ -286,16 +287,14 @@
                           label="Search for an option"
                           multiple
                           small-chips
-                          solo
-                      >
+                          solo>
                         <template v-slot:no-data>
                           <v-list-tile>
                             <span class="subheading">Create</span>
                             <v-chip
                                 :color="`${colors[nonce - 1]} lighten-3`"
                                 label
-                                small
-                            >
+                                small>
                               {{ search }}
                             </v-chip>
                           </v-list-tile>
@@ -355,12 +354,12 @@
                           name="correct"
                           label="correct answer"
                           type="text"
-                          v-model="newTask.data.correct"
+                          v-model="newTaskCorrect"
                       ></v-text-field>
 
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn flat dark @click="createNewTask">SAVE</v-btn>
+                        <v-btn flat dark @click="saveCreatedTask">SAVE</v-btn>
                       </v-card-actions>
 
 
@@ -404,6 +403,7 @@ export default {
   data() {
     return {
       editDialog: false,
+      valid: false,
 
       addDialog: false,
       deleteDialog: false,
@@ -412,11 +412,14 @@ export default {
 	    createTaskDialog: false,
       editingTask: null,
 
+      newTaskText: null,
+	    newTaskCorrect: null,
+
       newTask: {
         name: null,
         unit_id: [],
-        type: "T1",
-        data: {
+		    task_type: "T1",
+        task: {
           answers: [],
           correct: null,
           text: null
@@ -435,12 +438,7 @@ export default {
 	    ],
 	    nonce: 1,
 	    menu: false,
-	    model: [
-		    {
-		      text: 'Foo',
-		      color: 'blue'
-		    }
-	    ],
+	    model: [],
 	    x: 0,
 	    search: null,
 	    y: 0
@@ -514,12 +512,23 @@ export default {
       let answers = this.items;
       answers = answers.splice(0,1);
 
-      this.newTask.data.answers = answers;
+      this.newTask.task.answers = answers;
       this.newTask.unit_id = [this.id];
       this.newTask.name = "defaultName";
-      this.$store.dispatch('createTask', newTask);
+      this.newTask.task.text = this.newTaskText;
+      this.newTask.task.correct = this.newTaskCorrect;
+      this.$store.dispatch('createTask', this.newTask)
+          .then(() => {
+			      this.createTaskDialog = false;
+          })
+          .catch(e => {
+            console.log(e);
+          })
+          .finally(() => {
+			      this.createTaskDialog = false;
+          });
 
-      this.createTaskDialog = false;
+
     },
     openAddDialog() {
       this.addDialog = true;

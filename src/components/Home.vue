@@ -38,9 +38,9 @@
 
     <br>
 
-    <v-layout row justify-center>
+    <v-layout row justify-center wrap>
 
-      <v-flex xs3>
+      <v-flex xs12 sm3 md3 lg3>
         <v-card>
           <v-img
                 aspect-ratio="2.75"
@@ -52,7 +52,7 @@
         </v-card>
       </v-flex>
 
-      <v-flex xs3 offset-xs1>
+      <v-flex xs12 sm3 offset-sm-1 md3 offset-md1 lg3 offset-lg1>
         <v-card>
           <v-img
               aspect-ratio="2.75"
@@ -64,7 +64,7 @@
         </v-card>
       </v-flex>
 
-      <v-flex xs3 offset-xs1>
+      <v-flex xs12 sm3 offset-sm-1 md3 offset-md1 lg3 offset-lg1>
         <v-card>
           <v-img
               aspect-ratio="2.75"

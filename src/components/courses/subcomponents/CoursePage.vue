@@ -158,8 +158,7 @@
 
         <v-container fluid grid-list-sm>
           <v-layout row wrap>
-            <template
-                v-for="unit in courseById.children">
+            <template v-for="unit in courseById.children">
               <v-flex xs12 sm6 md4 lg3>
 
                 <v-card>
@@ -183,7 +182,7 @@
                       <v-icon color="darken-3">edit</v-icon>
                     </v-btn>
 
-                    <v-btn icon ripple>
+                    <v-btn icon ripple @click="deleteUnitDialog = true; unitToDelete = unit;">
                       <v-icon color="red darken-3">delete</v-icon>
                     </v-btn>
 
@@ -193,8 +192,39 @@
 
               </v-flex>
             </template>
+
+            <v-dialog v-model="deleteUnitDialog" persistent max-width="440">
+              <v-card>
+
+                <v-card-title class="headline">
+                  Do you want to delete this unit?
+                </v-card-title>
+
+                <v-card-text>
+                  This process is irreversible, you can't restore this course later!
+                </v-card-text>
+
+                <v-card-actions>
+
+                  <v-spacer></v-spacer>
+
+                  <v-btn color="primary" flat @click="deleteUnitDialog = false">
+                    Cancel
+                  </v-btn>
+
+                  <v-btn color="red" flat :loading="loadingToDelete" @click="deleteUnit()">
+                    Delete
+                  </v-btn>
+
+                </v-card-actions>
+
+              </v-card>
+            </v-dialog>
+
           </v-layout>
         </v-container>
+
+
 
       </v-flex>
 
@@ -219,9 +249,11 @@ export default {
       addDialog: false,
       deleteDialog: false,
       addUnitDialog: false,
+      unitToDelete: null,
 
 	    unitName: null,
 	    unitDescr: null,
+	    deleteUnitDialog: false,
 
       loading: false,
     };
@@ -241,23 +273,29 @@ export default {
     openEditDialog() {
       this.editDialog = true;
     },
+
     saveAfterEdit() {
       //
       this.editDialog = false;
     },
+
     openAddDialog() {
       this.addDialog = true;
     },
+
     saveAddedUnit() {
       //
       this.addDialog = false;
     },
+
     openDeleteDialog() {
       this.deleteDialog = true;
     },
+
     openAddUnitDialog() {
       this.addUnitDialog = true;
     },
+
 	  deleteCourse(courseById) {
       this.loadingToDelete = true;
       this.$store.dispatch('deleteCourse', courseById)
@@ -280,18 +318,16 @@ export default {
 
       this.loading = true;
 
-	    //TODO решить проблему с позишном
-      let prevId = null;
-      if (this.courseById.children.length > 0) {
-        prevId = this.courseById.children[this.courseById.children.length - 1].id;
-      }
+      // let prevId = null;
+      // if (this.courseById.children.length > 0) {
+      //   prevId = this.courseById.children[this.courseById.children.length - 1].id;
+      // }
 
       this.$store.dispatch('createUnit',
           {
             unit_name: this.unitName,
             description: this.unitDescr,
             course_id: this.courseById.id,
-			      prev_unit: prevId
           }).then(() => {
 
           }).catch();
@@ -302,11 +338,33 @@ export default {
       this.unitDescr = null;
       this.addUnitDialog = false;
     },
+
     clickUnit(unit) {
       if (unit !== null) {
         this.$store.dispatch("setSelected", unit)
             .then(this.$router.push("/courses/unit/" + unit.id));
       }
+    },
+
+    deleteUnit() {
+	    this.loadingToDelete = true;
+      this.$store.dispatch("deleteUnit", this.unitToDelete)
+          .then(() => {
+			      this.deleteUnitDialog = false;
+			      this.loadingToDelete = false;
+			      this.unitToDelete = null;
+          })
+          .catch((e) => {
+			      console.error(e);
+      			this.deleteUnitDialog = false;
+			      this.loadingToDelete = false;
+			      this.unitToDelete = null;
+          })
+          .finally(() => {
+			      this.deleteDialog = false;
+			      this.loadingToDelete = false;
+			      this.unitToDelete = null;
+          })
     }
   },
 };

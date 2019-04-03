@@ -84,6 +84,17 @@ export default {
 	setLoadingUnits(state, payload) {
       state.loadingUnits = payload;
 	},
+	deleteUnit(state, unit) {
+      state.forEach(course => {
+        if (course.id === unit.course_id) {
+          course.children.forEach((cUnit, index) => {
+            if (cUnit.id === unit.id) {
+              course.children.splice(index, 1)
+			}
+		  })
+		}
+	  });
+	},
 
 	loadTasks(state, {next, id, tasks}) {
 
@@ -118,7 +129,6 @@ export default {
 		});
 	  });
 	}
-
 
   },
   actions: {
@@ -185,6 +195,15 @@ export default {
 	  }
 	  commit('setLoadingUnits', false);
 	},
+	async deleteUnit({commit}, unit) {
+	  commit("clearError");
+	  try {
+		const response = HTTP.post("/unit/delete", {id: parseInt(unit.id)});
+		commit('deleteUnit', unit);
+	  } catch (e) {
+		commit("setError", e.response.data);
+	  }
+	},
 	setLoadingUnits({commit}, payload) {
 	  commit('setLoadingUnits', payload);
 	},
@@ -216,8 +235,8 @@ export default {
 			}
 		  }
 		];
-		// commit('loadTasks', {next: next, id: id, tasks: response.data}) //TODO вернуть
-		commit('loadTasks', {next: next, id: id, tasks: mockedResponseData}) //TODO мока
+		commit('loadTasks', {next: next, id: id, tasks: response.data}) //TODO вернуть
+		// commit('loadTasks', {next: next, id: id, tasks: mockedResponseData}) //TODO мока
 	  } catch (e) {
 		commit('setError', e.response.data);
 	  }
