@@ -126,7 +126,7 @@
             <template
                 v-for="task in unitById.children">
 
-              <v-flex xs4>
+              <v-flex xs12 sm6 md4 lg3>
 
                 <v-card>
 

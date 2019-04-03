@@ -78,10 +78,6 @@
           </v-btn>
         </v-toolbar-items>
       </transition>
-      <v-toolbar-side-icon
-          @click="switchListDrawer"
-          class="hidden-sm-and-up">
-      </v-toolbar-side-icon>
     </v-toolbar>
 
     <v-content>
