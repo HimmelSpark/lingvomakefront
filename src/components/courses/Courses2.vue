@@ -2,7 +2,7 @@
   <v-container fill-height fluid justify-center>
     <v-layout row>
 
-      <v-flex xs4 md3 lg2>
+      <v-flex xs12 sm4 md3 lg2 class="hidden-xs-only">
 
         <v-chip label dark color="primary">
           <v-icon left>school</v-icon>
@@ -48,9 +48,9 @@
 
       </v-flex>
 
-      <v-divider vertical></v-divider>
+      <v-divider vertical class="hidden-xs-only"></v-divider>
 
-      <v-flex xs8 md9 lg10>
+      <v-flex xs12 sm8 md9 lg10>
 
         <v-content>
           <v-scroll-y-transition mode="out-in">
@@ -95,6 +95,61 @@
       </v-dialog>
 
     </v-layout>
+
+    <v-navigation-drawer
+        clipped
+        temporary
+        v-model="isListDrawer"
+        touchless
+        :right="true"
+        absolute
+        v-if="this.$route.path.indexOf('android') === -1"
+    >
+
+      <v-chip label dark color="primary">
+        <v-icon left>school</v-icon>
+        <div><h1 class="headline mb-0">Courses</h1></div>
+      </v-chip>
+
+      <v-btn fab dark small color="indigo"  @click="addCourseDialog = true">
+        <v-icon dark>add</v-icon>
+      </v-btn>
+
+      <v-list>
+        <v-list-group
+            v-for="item in items"
+            :key="item.id"
+            :prepend-icon="'school'"
+            @click="clickList(item)">
+
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-content>
+                {{ item.name }}
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
+
+          <v-list-tile
+              v-if="item.children !== undefined"
+              v-for="subItem in item.children"
+              :key="subItem.id"
+              @click="clickList(subItem)">
+
+            <v-list-tile-content>
+              <v-list-tile-title>{{ subItem.unit_name }}</v-list-tile-title>
+            </v-list-tile-content>
+
+          </v-list-tile>
+
+        </v-list-group>
+
+
+
+      </v-list>
+
+
+    </v-navigation-drawer>
   </v-container>
 </template>
 
@@ -107,7 +162,10 @@
         addCourseDialog: false,
         valid: false,
 		    courseName: null,
-        loading: false
+        loading: false,
+
+		    drawer: false,
+		    mini: true,
       }
     },
     methods: {
@@ -130,6 +188,9 @@
     computed: {
       items() {
         return this.$store.getters.items;
+      },
+	    isListDrawer() {
+        return this.$store.isListDrawer;
       }
     },
 

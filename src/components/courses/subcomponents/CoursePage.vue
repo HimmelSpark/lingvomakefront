@@ -68,7 +68,7 @@
               <v-card>
 
                 <v-card-title class="headline">
-                  Creating new Course
+                  Creating new Unit
                 </v-card-title>
 
                 <v-card-text>
@@ -160,7 +160,7 @@
           <v-layout row wrap>
             <template
                 v-for="unit in courseById.children">
-              <v-flex xs4>
+              <v-flex xs12 sm6 md4 lg3>
 
                 <v-card>
 
@@ -280,12 +280,13 @@ export default {
 
       this.loading = true;
 
+	    //TODO решить проблему с позишном
       this.$store.dispatch('createUnit',
           {
             unit_name: this.unitName,
             description: this.unitDescr,
             course_id: this.courseById.id,
-			      position: this.courseById.children.length + Math.random() * 100
+			      position: parseInt(this.courseById.children.length + Math.random() * 100)
           }).then(() => {
 
           }).catch();

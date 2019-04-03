@@ -2,7 +2,8 @@ export default {
   state: {
     loading: false,
     error: null,
-    renderPermission: false
+    renderPermission: false,
+    listDrawer: false,
   },
   mutations: {
     setLoading(state, payload) {
@@ -16,6 +17,9 @@ export default {
     },
     setRenderPermission(state, payload) {
       state.renderPermission = payload;
+    },
+	setListDrawer(state, tf) {
+      state.listDrawer = tf;
     }
   },
   actions: {
@@ -27,6 +31,9 @@ export default {
     },
     clearError({ commit }) {
       commit("clearError");
+    },
+    setListDrawer({commit}, tf) {
+      commit('setListDrawer', tf)
     }
   },
   getters: {
@@ -36,6 +43,9 @@ export default {
     error(state) {
       return state.error;
     },
-    renderPermission: state => state.renderPermission
+    renderPermission: state => state.renderPermission,
+    isListDrawer(state) {
+      return state.listDrawer;
+    }
   }
 };

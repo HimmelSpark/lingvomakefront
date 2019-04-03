@@ -78,6 +78,10 @@
           </v-btn>
         </v-toolbar-items>
       </transition>
+      <v-toolbar-side-icon
+          @click="switchListDrawer"
+          class="hidden-sm-and-up">
+      </v-toolbar-side-icon>
     </v-toolbar>
 
     <v-content>
@@ -144,7 +148,7 @@
         return [
           { title: "Courses", icon: "work", url: "/courses" },
           { title: "Students", icon: "accessibility", url: "/students" },
-		      { title: "Manage", icon: "settings", url: "/manage/application" },
+		      { title: "Settings", icon: "settings", url: "/settings/application" },
         ];
       } else {
         return [
@@ -170,6 +174,10 @@
     },
     closeError() {
       this.$store.commit("clearError");
+    },
+	  switchListDrawer() {
+      this.$store.dispatch('setListDrawer', !this.$store.getters.isListDrawer);
+      console.log("list drawer", this.$store.getters.isListDrawer)
     }
   }
 };

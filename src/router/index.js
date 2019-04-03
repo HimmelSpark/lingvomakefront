@@ -65,8 +65,8 @@ export default new Router({
       ]
     },
     {
-      name: 'manage',
-      path: '/manage',
+      name: 'settings',
+      path: '/settings',
       component: Manage,
       beforeEnter: AuthGuard,
       children: [

@@ -84,7 +84,7 @@ export default {
         this.$store
           .dispatch("authUser", user)
           .then(() => {
-            this.$router.push("/manage/application");
+            this.$router.push("/settings/application");
           })
           .catch(err => console.log(err));
       }

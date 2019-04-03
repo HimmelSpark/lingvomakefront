@@ -51,7 +51,7 @@
     methods: {
       clickTree() {
         if (this.active[0] !== undefined) {
-          this.$router.push('/manage' + this.active[0].to)
+          this.$router.push('/settings' + this.active[0].to)
         }
       }
     },

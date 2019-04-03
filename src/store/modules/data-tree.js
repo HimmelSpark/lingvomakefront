@@ -165,7 +165,9 @@ export default {
 			commit('clearError');
 			commit('setLoading', true);
 			try {
+			  	console.log("creating unit", payload);
 		  		const response = await HTTP.post('/unit/create', payload);
+		  		console.log("created unit", response.data);
 		  		commit('addUnit', payload)
 			} catch (e) {
 		  	commit('setError', e.response.data);
