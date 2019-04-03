@@ -45,8 +45,12 @@
         @click="drawer = !drawer"
         class="hidden-md-and-up">
       </v-toolbar-side-icon>
-      <v-icon @click="doPaskhalka">toys</v-icon>
-      <v-toolbar-title>Lingvomake</v-toolbar-title>
+      <v-toolbar-title>
+        <v-btn :to="'/'" flat>
+          <v-icon  left @click="doPaskhalka">toys</v-icon>
+          Lingvomake
+        </v-btn>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <transition name="fade">
         <v-toolbar-items class="hidden-sm-and-down" v-if="renderPermission">
