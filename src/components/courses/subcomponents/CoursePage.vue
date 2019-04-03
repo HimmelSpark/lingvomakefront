@@ -223,7 +223,7 @@ export default {
 	    unitName: null,
 	    unitDescr: null,
 
-      loading: false
+      loading: false,
     };
   },
   computed: {
@@ -281,12 +281,17 @@ export default {
       this.loading = true;
 
 	    //TODO решить проблему с позишном
+      let prevId = null;
+      if (this.courseById.children.length > 0) {
+        prevId = this.courseById.children[this.courseById.children.length - 1].id;
+      }
+
       this.$store.dispatch('createUnit',
           {
             unit_name: this.unitName,
             description: this.unitDescr,
             course_id: this.courseById.id,
-			      position: parseInt(this.courseById.children.length + Math.random() * 100)
+			      prev_unit: prevId
           }).then(() => {
 
           }).catch();

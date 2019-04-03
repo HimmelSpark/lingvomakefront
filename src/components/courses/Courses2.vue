@@ -186,8 +186,8 @@
 		    courseName: null,
         loading: false,
 
-		    drawer: false,
-		    mini: true,
+
+		    menu: false
       }
     },
     methods: {
