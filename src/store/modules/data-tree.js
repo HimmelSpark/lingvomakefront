@@ -212,6 +212,7 @@ export default {
 	  commit('clearError');
 	  try {
 		const response = await HTTP.get('/task/' + id);
+		console.log("loaded tasks: ", JSON.stringify(response.data));
 		const mockedResponseData = [
 		  {
 		    id: 1,
@@ -246,6 +247,7 @@ export default {
 		commit('clearError');
 		commit('setLoading', true);
 		try {
+		  console.log('creating task', newTask);
 		  const response = await HTTP.post('/task/create', newTask);
 		  commit('addNewTask', response.data);
 		} catch (e) {

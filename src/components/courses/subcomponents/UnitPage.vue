@@ -274,7 +274,7 @@
                           name="text"
                           label="text"
                           type="text"
-                          :v-model="newTaskText">
+                          v-model="newTaskText">
                       </v-text-field>
 
                       <v-combobox
@@ -354,8 +354,9 @@
                           name="correct"
                           label="correct answer"
                           type="text"
-                          v-model="newTaskCorrect"
-                      ></v-text-field>
+                          v-model="newTaskCorrect">
+
+                      </v-text-field>
 
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -403,7 +404,7 @@ export default {
   data() {
     return {
       editDialog: false,
-      valid: false,
+      valid: true,
 
       addDialog: false,
       deleteDialog: false,
@@ -510,7 +511,7 @@ export default {
 	  saveCreatedTask() {
 
       let answers = this.items;
-      answers = answers.splice(0,1);
+      answers.splice(0,1);
 
       this.newTask.task.answers = answers;
       this.newTask.unit_id = [this.id];
