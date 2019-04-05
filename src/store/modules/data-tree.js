@@ -212,8 +212,12 @@ export default {
 	async loadTasksByUnit({commit}, {next, id}) {
 	  commit('clearError');
 	  try {
-		const response = await HTTP.get('/task/' + id);
-		console.log("loaded tasks: ", JSON.stringify(response.data));
+		let response = await HTTP.get('/task/' + id);
+		response.data.forEach(task => {
+		  task.task = JSON.parse(task.task.value);
+		  // console.log(task.task)
+		});
+		console.log("loaded tasks: ", response.data);
 		const mockedResponseData = [
 		  {
 		    id: 1,
@@ -249,7 +253,7 @@ export default {
 		commit('setLoading', true);
 		try {
 		  const response = await HTTP.post('/task/create', newTask);
-		  console.log("creating task - ", JSON.stringify(response.data));
+		  console.log("creating task - ", response.data);
 		  commit('addNewTask', response.data);
 		} catch (e) {
 		  commit('setError', e);
