@@ -249,7 +249,7 @@ export default {
 		commit('setLoading', true);
 		try {
 		  const response = await HTTP.post('/task/create', newTask);
-		  console.log("creating task - ", response.data);
+		  console.log("creating task - ", JSON.stringify(response.data));
 		  commit('addNewTask', response.data);
 		} catch (e) {
 		  commit('setError', e);
