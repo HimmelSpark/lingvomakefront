@@ -258,7 +258,7 @@
 
 
 
-                <v-flex xs3>
+                <v-flex xs5>
 
                   <v-card>
 
@@ -271,10 +271,17 @@
                     <v-form v-model="valid" ref="form" validation>
 
                       <v-text-field
+                          name="name"
+                          label="name"
+                          type="text"
+                          v-model="newTaskName">
+                      </v-text-field>
+
+                      <v-text-field
                           name="text"
                           label="text"
                           type="text"
-                          :v-model="newTaskText">
+                          v-model="newTaskText">
                       </v-text-field>
 
                       <v-combobox
@@ -284,7 +291,7 @@
                           :items="items"
                           :search-input.sync="search"
                           hide-selected
-                          label="Search for an option"
+                          label="Write options here"
                           multiple
                           small-chips
                           solo>
@@ -326,15 +333,14 @@
                                 background-color="transparent"
                                 hide-details
                                 solo
-                                @keyup.enter="edit(index, item)"
-                            ></v-text-field>
+                                @keyup.enter="edit(index, item)">
+                            </v-text-field>
                             <v-chip
                                 v-else
                                 :color="`${item.color} lighten-3`"
                                 dark
                                 label
-                                small
-                            >
+                                small>
                               {{ item.text }}
                             </v-chip>
                           </v-list-tile-content>
@@ -342,8 +348,7 @@
                           <v-list-tile-action @click.stop>
                             <v-btn
                                 icon
-                                @click.stop.prevent="edit(index, item)"
-                            >
+                                @click.stop.prevent="edit(index, item)">
                               <v-icon>{{ editing !== item ? 'edit' : 'check' }}</v-icon>
                             </v-btn>
                           </v-list-tile-action>
@@ -354,8 +359,9 @@
                           name="correct"
                           label="correct answer"
                           type="text"
-                          v-model="newTaskCorrect"
-                      ></v-text-field>
+                          v-model="newTaskCorrect">
+
+                      </v-text-field>
 
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -372,16 +378,9 @@
                 </v-flex>
 
 
-
-
-                <v-flex xs3>
-
-
-                </v-flex>
-
                 <v-divider vertical></v-divider>
 
-                <v-flex xs5>
+                <v-flex xs5 offset-xs1>
                   <h1>Here should be visualisation of T1 task</h1>
                 </v-flex>
 
@@ -403,7 +402,7 @@ export default {
   data() {
     return {
       editDialog: false,
-      valid: false,
+      valid: true,
 
       addDialog: false,
       deleteDialog: false,
@@ -414,6 +413,7 @@ export default {
 
       newTaskText: null,
 	    newTaskCorrect: null,
+      newTaskName: null,
 
       newTask: {
         name: null,
@@ -509,12 +509,16 @@ export default {
     },
 	  saveCreatedTask() {
 
-      let answers = this.items;
-      answers = answers.splice(0,1);
+      let answers = [];
+      this.items.forEach(item => {
+        if (item.text !== undefined) {
+          answers.push(item.text);
+        }
+      });
 
       this.newTask.task.answers = answers;
       this.newTask.unit_id = [this.id];
-      this.newTask.name = "defaultName";
+      this.newTask.name = this.newTaskName;
       this.newTask.task.text = this.newTaskText;
       this.newTask.task.correct = this.newTaskCorrect;
       this.$store.dispatch('createTask', this.newTask)
