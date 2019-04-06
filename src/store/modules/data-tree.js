@@ -12,9 +12,8 @@ export default {
     },
 
     addCourse(state, payload) {
+        console.log('data-tree add cource,  ', payload );
       const newCousre = {
-		//TODO разобраться с айдишниками
-		id: state.items.length * 7,
 		name: payload.name,
 		description: 'default description',
 		imgSrc: 'https://bumper-stickers.ru/38068-thickbox_default/znak-elektronnoj-pochty-mailru.jpg',
@@ -133,6 +132,7 @@ export default {
   },
   actions: {
     async createCourse({commit}, payload) {
+        console.log('createCourse');
       if (payload != null) {
 				commit('clearError');
 				commit('setLoading', true);
@@ -140,7 +140,7 @@ export default {
           // Создание курса
 					const response = await HTTP.post('/course/create', payload);
 					console.log("creating course  -  ", response.data);
-		  		commit('addCourse', payload.data);
+		  			commit('addCourse', response.data);
 				} catch (e) {
 		  		commit('setError', e);
 				}
@@ -188,8 +188,10 @@ export default {
 	},
 	async loadUnitsByCourse({commit}, {next, payload}) {
 	  commit('clearError');
+	  console.log('asaasdasdasdasd');
 	  try {
 			const response = await HTTP.get('/unit/' + payload.id);
+			console.log('loadUnitsByCourse,  ', response.data);
 			commit('loadUnits', {id: payload.id, data: response.data, next: next});
 	  } catch (e) {
 			commit('setError', e.response.data);
@@ -210,13 +212,10 @@ export default {
 	},
 
 	async loadTasksByUnit({commit}, {next, id}) {
+        console.log('loadTasksByUnit');
 	  commit('clearError');
 	  try {
 		let response = await HTTP.get('/task/' + id);
-		response.data.forEach(task => {
-		  task.task = JSON.parse(task.task.value);
-		  // console.log(task.task)
-		});
 		console.log("loaded tasks: ", response.data);
 		const mockedResponseData = [
 		  {
