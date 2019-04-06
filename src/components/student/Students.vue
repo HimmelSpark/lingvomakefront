@@ -85,12 +85,12 @@
                                 ></v-text-field>
 
                                 <!--v-model="props.item.groupName"-->
-                                <v-combobox
+                                <v-select-list
                                     :items="groupNames"
                                     label="Select a favorite activity or create a new one"
                                     multiple
                                     v-model="sgroups"
-                                ></v-combobox>
+                                ></v-select-list>
 
                                 <v-text-field
                                         prepend-icon="phone"
@@ -100,16 +100,16 @@
                                         v-model="phone"
                                 ></v-text-field>
 
-                                <v-text-field
-                                        prepend-icon="lock"
-                                        name="password"
-                                        label="Password"
-                                        id="password"
-                                        type="password"
-                                        :counter="8"
-                                        :rules="passwordRules"
-                                        v-model="password"
-                                ></v-text-field>
+                                <!--<v-text-field-->
+                                        <!--prepend-icon="lock"-->
+                                        <!--name="password"-->
+                                        <!--label="Password"-->
+                                        <!--id="password"-->
+                                        <!--type="password"-->
+                                        <!--:counter="8"-->
+                                        <!--:rules="passwordRules"-->
+                                        <!--v-model="password"-->
+                                <!--&gt;</v-text-field>-->
 
                                 <!--<v-text-field-->
                                         <!--prepend-icon="lock"-->
@@ -154,24 +154,25 @@
                                         type="text"
                                         v-model="Gname"
                                 ></v-text-field>
-                                <v-text-field
-                                        name="startDate"
-                                        label="StartDate"
-                                        type="text"
-                                        v-model="GstartDate"
-                                ></v-text-field>
+                                <!--<v-text-field-->
+                                        <!--name="startDate"-->
+                                        <!--label="StartDate"-->
+                                        <!--type="text"-->
+                                        <!--v-model="GstartDate"-->
+                                <!--&gt;</v-text-field>-->
                                 <v-text-field
                                         name="description"
                                         label="Description"
                                         type="text"
                                         v-model="Gdescription"
                                 ></v-text-field>
-                                <v-combobox
+                                <v-select-list
                                         name="course_id"
                                         :items="courses"
                                         label="Select course for group"
                                         v-model="Gcourseid"
-                                ></v-combobox>
+
+                                ></v-select-list>
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -221,12 +222,13 @@
                                 ></v-text-field>
 
                                 <!--v-model="props.item.groupName"-->
-                                <v-combobox
+                                <v-select-list
                                         :items="groupNames"
                                         label="Select a favorite activity or create a new one"
                                         multiple
                                         v-model="sgroups"
-                                ></v-combobox>
+
+                                ></v-select-list>
                                 <v-text-field
                                         prepend-icon="phone"
                                         name="phone"
