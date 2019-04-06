@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container fill-height fluid justify-center>
         <v-layout row>
@@ -64,7 +65,6 @@
                                         name="email"
                                         label="Email"
                                         type="text"
-                                        :rules="emailRules"
                                         v-model="email"
                                 ></v-text-field>
 
@@ -107,7 +107,6 @@
                                         id="password"
                                         type="password"
                                         :counter="8"
-                                        :rules="passwordRules"
                                         v-model="password"
                                 ></v-text-field>
 
@@ -202,7 +201,6 @@
                                         name="email"
                                         label="Email"
                                         type="text"
-                                        :rules="emailRules"
                                         v-model="email"
                                 ></v-text-field>
                                 <v-text-field
@@ -241,7 +239,6 @@
                                         id="password"
                                         type="password"
                                         :counter="8"
-                                        :rules="passwordRules"
                                         v-model="password"
                                 ></v-text-field>
                                 <!--<v-text-field-->
@@ -251,7 +248,6 @@
                                         <!--id="passwordConfirm"-->
                                         <!--type="password"-->
                                         <!--:counter="8"-->
-                                        <!--:rules="passwordConfirmRules"-->
                                         <!--v-model="passwordConfirm"-->
                                 <!--&gt;</v-text-field>-->
                             </v-form>
@@ -440,7 +436,6 @@
             createStudent() {
                 var i,j =0;
                 this.igroups = [];
-
                     for(j in this.sgroups) {
                         for (i in this.$store.getters.getGroups){
                         if (this.$store.getters.getGroups[i].name === this.sgroups[j][0]) {

@@ -231,11 +231,8 @@ export default {
 
         try {
           // Создание курса
-
           const response = await HTTP.post('/student/create', payload);
-          if (200 <= response.status < 300) {
-            commit('addStudent', payload)
-          }
+          commit('addStudent', response.data);
         } catch (e) {
           commit('setError', e);
         }
