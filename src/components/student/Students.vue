@@ -85,12 +85,12 @@
                                 ></v-text-field>
 
                                 <!--v-model="props.item.groupName"-->
-                                <v-select-list
+                                <v-select
                                     :items="groupNames"
                                     label="Select a favorite activity or create a new one"
                                     multiple
                                     v-model="sgroups"
-                                ></v-select-list>
+                                ></v-select>
 
                                 <v-text-field
                                         prepend-icon="phone"
@@ -166,13 +166,13 @@
                                         type="text"
                                         v-model="Gdescription"
                                 ></v-text-field>
-                                <v-select-list
+                                <v-select
                                         name="course_id"
                                         :items="courses"
                                         label="Select course for group"
                                         v-model="Gcourseid"
 
-                                ></v-select-list>
+                                ></v-select>
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -221,13 +221,13 @@
                                 ></v-text-field>
 
                                 <!--v-model="props.item.groupName"-->
-                                <v-select-list
+                                <v-select
                                         :items="groupNames"
                                         label="Select a favorite activity or create a new one"
                                         multiple
                                         v-model="sgroups"
 
-                                ></v-select-list>
+                                ></v-select>
                                 <v-text-field
                                         prepend-icon="phone"
                                         name="phone"

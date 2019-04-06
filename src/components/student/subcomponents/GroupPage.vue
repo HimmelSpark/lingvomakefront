@@ -85,20 +85,20 @@
                         type="text"
                         v-model="Gdescription"
                 ></v-text-field>
-                <v-select-list
+                <v-select
                         name="course_id"
                         :items="courses"
                         label="Select course for group"
                         v-model="Gcourseid"
-                ></v-select-list>
+                ></v-select>
 
                 <!--TODO заделать юниты-->
-                <v-select-list
+                <v-select
                         name="current_unit"
                         :items="courses"
                         label="Select course for group"
                         v-model="Gcourseid"
-                ></v-select-list>
+                ></v-select>
 
               </v-form>
             </v-card-text>
