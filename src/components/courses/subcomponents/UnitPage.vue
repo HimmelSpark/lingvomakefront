@@ -1,6 +1,15 @@
 <!--suppress ALL -->
 <template>
   <v-container>
+
+    <v-layout row>
+      <v-chip label dark color="primary">
+        <div><h1 class="headline mb-0">Unit page</h1></div>
+      </v-chip>
+    </v-layout>
+
+    <br>
+
     <v-layout row>
       <v-flex xs12>
         <v-card>
@@ -10,12 +19,8 @@
                 <div>
                   <h2 class="headline mb-0">
                     Unit
+                    <v-chip label dark color="primary">#{{ unitById.id }}</v-chip> :
                     <v-chip label dark color="primary">{{ unitById.unit_name }}</v-chip>
-                    has
-                    <v-chip label dark color="primary"
-                    >{{ unitById.children.length }}
-                    </v-chip>
-                    task(s)
                   </h2>
                   <div>{{ unitById.description }}</div>
                 </div>
@@ -27,13 +32,8 @@
           </v-layout>
 
           <v-card-actions>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn flat icon large v-on="on" @click="openEditDialog"><v-icon>edit</v-icon></v-btn>
-              </template>
-              <span>edit this UNIT</span>
-            </v-tooltip>
 
+            <v-btn flat color="orange" v-on="on" @click="openEditDialog">edit unit</v-btn>
             <v-dialog v-model="editDialog" persistent max-width="490">
               <v-card>
                 <v-card-title class="headline">Editing current unit</v-card-title>
@@ -45,15 +45,9 @@
               </v-card>
             </v-dialog>
 
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon large v-on="on" @click="createTaskDialog = true">
-                  <v-icon>add</v-icon>
-                </v-btn>
-              </template>
-              <span>add new TASK</span>
-            </v-tooltip>
-
+            <v-btn flat color="green" v-on="on" @click="createTaskDialog = true">
+              add task
+            </v-btn>
             <v-dialog v-model="addDialog" persistent max-width="490">
               <v-card>
                 <v-card-title class="headline">Adding new Task</v-card-title>
@@ -114,16 +108,26 @@
 
             <template
                 v-for="task in unitById.children">
-              <v-flex xs12 sm6 md4 lg3>
+              <v-flex xs12 sm12 md6 lg6>
                 <v-card>
                   <v-card-title>
-                    <span>name: {{task.name}}</span>
+                    Task
+                    <v-chip label color="green">#{{task.id}}</v-chip>
+                    <v-chip label color="green">{{task.name}}</v-chip>
                   </v-card-title>
 
                   <v-card-text>
-                    <span>data: {{task.task}}</span>
-                    <span>Type: {{task.task_type}}</span>
+                    <template v-if="task.task_type === 1">
+                      <span>Type <v-chip label color="green">TEST</v-chip></span>
+                      <br>
+                      <span>Text <v-chip label color="green">{{task.task.text}}</v-chip></span>
+                      <br>
+                      <span>Options <v-chip v-for="opt in task.task.answers" label color="orange">{{opt}}</v-chip></span>
+                      <br>
+                      <span>Answer <v-chip label color="red">{{task.task.correct}}</v-chip></span>
+                    </template>
                   </v-card-text>
+
 
                   <v-card-actions>
                     <v-spacer></v-spacer>

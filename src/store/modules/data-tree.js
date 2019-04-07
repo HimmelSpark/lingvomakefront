@@ -109,6 +109,12 @@ export default {
 	},
 
 	loadTasks(state, {next, id, tasks}) {
+
+      console.log(tasks);
+
+      // стираются лишние данные, таски приводятся в порядок
+      tasks.forEach(task => {task.task = JSON.parse(task.task.value)});
+
       state.items.forEach((currCourse) => {
         currCourse.children.forEach((currUnit) => {
           if (currUnit.id === parseInt(id)) {
@@ -271,7 +277,6 @@ export default {
 		try {
 		  const response = await HTTP.post('/task/create', newTask);
 		  console.log("creating task - ", response.data);
-		  // commit('addNewTask', response.data);
 		} catch (e) {
 		    console.log(e);
 		  commit('setError', e.response.data);
