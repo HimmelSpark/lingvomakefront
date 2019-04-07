@@ -39,13 +39,12 @@ export default {
       }
     },
 	deleteCourse(state, payload) {
-	  state.items.every((currentItem, index) => {
-		if (currentItem.id == payload.id) {
-		  state.items.splice(index, 1);
-		  return false;
-		}
-		return true;
-	  });
+        for (let i = 0; i < state.items.length; ++i) {
+            if (state.items[i].id === parseInt(payload.id)) {
+                state.items.splice(i, 1);
+                break;
+            }
+        }
 	},
 
 	addUnit(state, payload) {
