@@ -2,10 +2,17 @@
 <template>
   <v-container>
     <v-layout row>
+      <v-chip label dark color="primary">
+        <div><h1 class="headline mb-0">Course page</h1></div>
+      </v-chip>
+    </v-layout>
+
+    <br>
+
+    <v-layout row>
       <v-flex xs12>
 
         <v-card>
-
           <v-layout row>
 
             <v-flex xs10>
