@@ -300,10 +300,13 @@ export default {
 
 	  deleteCourse(courseById) {
       this.loadingToDelete = true;
+      console.log('deleeeete')
       this.$store.dispatch('deleteCourse', courseById)
           .then(() => {
 			      this.deleteDialog = false;
 			      this.loadingToDelete = false;
+			      this.$router.push('/courses');
+			      this.$store.dispatch('loadCourses');
           })
           .catch((e) => {
             console.error(e);

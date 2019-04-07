@@ -172,14 +172,11 @@
     data() {
       return {
 		    clickedItem: null,
-
         addCourseDialog: false,
         valid: false,
 		    courseName: null,
         loading: false,
-
-
-		    menu: false
+          menu: false
       }
     },
     methods: {
@@ -219,8 +216,8 @@
 	    const splitedPath = to.path.split('/');
 	    console.log("in beforeRouteUpdate of Course page", splitedPath);
 	    if (splitedPath.length !== 4) {
-		    this.$store.dispatch('setError', "Unexpected Error");
-		    next(false)
+		    // this.$store.dispatch('setError', "Unexpected Error");
+		    next();
 	    } else {
 
 	      switch (splitedPath[splitedPath.length-2]) {

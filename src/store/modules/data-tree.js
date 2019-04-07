@@ -163,8 +163,9 @@ export default {
 	async deleteCourse({commit}, payload) {
 	  commit("clearError");
 	  try {
-		const response = HTTP.post("/course/delete", payload.id);
-		commit("deleteCourse", payload);
+		const response = await HTTP.post("/course/delete", payload.id);
+		console.log('deleteCource, ', response.data);
+		// commit("deleteCourse", payload);
 	  } catch (e) {
 		commit("setError", e.response.data);
 	  }
