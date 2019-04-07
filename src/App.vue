@@ -62,11 +62,11 @@
         </v-btn>
       </v-toolbar-title>
 
-      <tamplate
+      <template
           v-if="isUserLoggedIn"
           class="hidden-sm-and-down orange--text font-weight-bold text-uppercase">
         {{user.email}}
-      </tamplate>
+      </template>
 
       <v-spacer></v-spacer>
       <transition name="fade">
@@ -162,9 +162,11 @@
           { title: "Courses", icon: "work", url: "/courses" },
           { title: "Students", icon: "accessibility", url: "/students" },
 		      { title: "Settings", icon: "settings", url: "/settings/application" },
+          { title: "Help", icon: "help", url: "/help" }
         ];
       } else {
         return [
+		      { title: "Help", icon: "help", url: "/help" },
           { title: "Login", icon: "lock", url: "/login" },
         ];
       }
