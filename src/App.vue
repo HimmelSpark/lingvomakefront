@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <v-app dark>
     <v-navigation-drawer
@@ -34,7 +35,7 @@
 
         </v-list-tile>
 
-        <tamplate
+        <template
             v-if="isUserLoggedIn"
             class="orange--text font-weight-bold text-uppercase">
           <v-list-tile>
@@ -42,7 +43,7 @@
               {{user.email}}
             </v-list-tile-content>
           </v-list-tile>
-        </tamplate>
+        </template>
 
       </v-list>
     </v-navigation-drawer>
@@ -62,11 +63,11 @@
         </v-btn>
       </v-toolbar-title>
 
-      <tamplate
+      <template
           v-if="isUserLoggedIn"
           class="hidden-sm-and-down orange--text font-weight-bold text-uppercase">
         {{user.email}}
-      </tamplate>
+      </template>
 
       <v-spacer></v-spacer>
       <transition name="fade">

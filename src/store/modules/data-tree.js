@@ -125,6 +125,8 @@ export default {
 	  next()
 	},
     loadTasksWithoutNext(state, {id, tasks}) {
+        // стираются лишние данные, таски приводятся в порядок
+        tasks.forEach(task => {task.task = JSON.parse(task.task.value)});
       state.items.forEach(currCourse => {
           currCourse.children.forEach(currUnit => {
               if (currUnit.id === parseInt(id)) {
@@ -133,16 +135,6 @@ export default {
           });
       });
     },
-	addNewTask(state, newTask) {
-      state.items.forEach(course => {
-        course.children.forEach(unit => {
-          if (unit.id === newTask.unit_id) {
-            unit.children.push(newTask);
-		  }
-		});
-	  });
-	}
-
   },
   actions: {
     async createCourse({commit}, payload) {
@@ -318,9 +310,16 @@ export default {
 	loadingUnits(state) {
       return state.loadingUnits;
 	},
-	courses(state) {
-	  return state.courses;
-	},
+	// courses(state) {
+	//   return state.courses;
+	// },
+     getCourseNames(state) {
+        let resp = [];
+        for (let i = 0; i < state.items; ++i) {
+            resp.push(state.items[i].name);
+        }
+        return resp;
+      },
 	courseById: state => {
       return id => {
         for (let i = 0; i < state.items.length; i++) {
