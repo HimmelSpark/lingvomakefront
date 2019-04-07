@@ -1,6 +1,7 @@
 <!--suppress ALL -->
 <template>
   <v-container>
+
     <v-layout row>
       <v-chip label dark color="primary">
         <div><h1 class="headline mb-0">Course page</h1></div>
@@ -18,18 +19,16 @@
             <v-flex xs10>
               <v-card-title primary-title>
                 <div>
-                  <h2 class="headline mb-0">
+                  <h2 class="headline mb-0 text-xs-center">
                     Course
+                    <v-chip label dark color="primary">#{{ courseById.id }}</v-chip> :
                     <v-chip label dark color="primary">{{ courseById.name }}</v-chip>
-                    has
-                    <v-chip label dark color="primary">
-                      {{ courseById.children.length }}
-                    </v-chip>
-                    unit(s)
                   </h2>
                   <div>{{ courseById.description }}</div>
                 </div>
               </v-card-title>
+
+              <v-card-text>{{ courseById.description }}</v-card-text>
             </v-flex>
 
             <v-flex xs2>
@@ -152,10 +151,15 @@
 
                   <v-card-title>
                     <span class="headline mb-4">
-                    Unit: <v-chip dark label color="green">{{unit.unit_name}}</v-chip>
-                    has <v-chip dark label color="green">{{unit.children.length}}</v-chip> tasks.
-                  </span>
+                      Unit
+                      <v-chip dark label color="green">#{{unit.id}}</v-chip> :
+                      <v-chip dark label color="green">{{unit.unit_name}}</v-chip>
+                    </span>
                   </v-card-title>
+
+                  <v-card-text>
+                    {{unit.description}}
+                  </v-card-text>
 
                   <v-card-actions>
 
@@ -212,6 +216,7 @@
         </v-container>
       </v-flex>
     </v-layout>
+
   </v-container>
 </template>
 

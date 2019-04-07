@@ -19,12 +19,8 @@
                 <div>
                   <h2 class="headline mb-0">
                     Unit
+                    <v-chip label dark color="primary">#{{ unitById.id }}</v-chip> :
                     <v-chip label dark color="primary">{{ unitById.unit_name }}</v-chip>
-                    has
-                    <v-chip label dark color="primary"
-                    >{{ unitById.children.length }}
-                    </v-chip>
-                    task(s)
                   </h2>
                   <div>{{ unitById.description }}</div>
                 </div>
@@ -115,7 +111,9 @@
               <v-flex xs12 sm6 md4 lg3>
                 <v-card>
                   <v-card-title>
-                    <span>name: {{task.name}}</span>
+                    Task
+                    <v-chip label color="green">#{{task.id}}</v-chip>
+                    <v-chip label color="green">{{task.name}}</v-chip>
                   </v-card-title>
 
                   <v-card-text>
