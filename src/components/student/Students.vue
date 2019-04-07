@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container fill-height fluid justify-center>
         <v-layout row>
@@ -64,7 +65,6 @@
                                         name="email"
                                         label="Email"
                                         type="text"
-                                        :rules="emailRules"
                                         v-model="email"
                                 ></v-text-field>
 
@@ -85,12 +85,12 @@
                                 ></v-text-field>
 
                                 <!--v-model="props.item.groupName"-->
-                                <v-combobox
+                                <v-select
                                     :items="groupNames"
                                     label="Select a favorite activity or create a new one"
                                     multiple
                                     v-model="sgroups"
-                                ></v-combobox>
+                                ></v-select>
 
                                 <v-text-field
                                         prepend-icon="phone"
@@ -100,16 +100,16 @@
                                         v-model="phone"
                                 ></v-text-field>
 
-                                <v-text-field
-                                        prepend-icon="lock"
-                                        name="password"
-                                        label="Password"
-                                        id="password"
-                                        type="password"
-                                        :counter="8"
-                                        :rules="passwordRules"
-                                        v-model="password"
-                                ></v-text-field>
+                                <!--<v-text-field-->
+                                        <!--prepend-icon="lock"-->
+                                        <!--name="password"-->
+                                        <!--label="Password"-->
+                                        <!--id="password"-->
+                                        <!--type="password"-->
+                                        <!--:counter="8"-->
+                                        <!--:rules="passwordRules"-->
+                                        <!--v-model="password"-->
+                                <!--&gt;</v-text-field>-->
 
                                 <!--<v-text-field-->
                                         <!--prepend-icon="lock"-->
@@ -154,24 +154,25 @@
                                         type="text"
                                         v-model="Gname"
                                 ></v-text-field>
-                                <v-text-field
-                                        name="startDate"
-                                        label="StartDate"
-                                        type="text"
-                                        v-model="GstartDate"
-                                ></v-text-field>
+                                <!--<v-text-field-->
+                                        <!--name="startDate"-->
+                                        <!--label="StartDate"-->
+                                        <!--type="text"-->
+                                        <!--v-model="GstartDate"-->
+                                <!--&gt;</v-text-field>-->
                                 <v-text-field
                                         name="description"
                                         label="Description"
                                         type="text"
                                         v-model="Gdescription"
                                 ></v-text-field>
-                                <v-combobox
+                                <v-select
                                         name="course_id"
                                         :items="courses"
                                         label="Select course for group"
                                         v-model="Gcourseid"
-                                ></v-combobox>
+
+                                ></v-select>
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -202,7 +203,6 @@
                                         name="email"
                                         label="Email"
                                         type="text"
-                                        :rules="emailRules"
                                         v-model="email"
                                 ></v-text-field>
                                 <v-text-field
@@ -221,12 +221,13 @@
                                 ></v-text-field>
 
                                 <!--v-model="props.item.groupName"-->
-                                <v-combobox
+                                <v-select
                                         :items="groupNames"
                                         label="Select a favorite activity or create a new one"
                                         multiple
                                         v-model="sgroups"
-                                ></v-combobox>
+
+                                ></v-select>
                                 <v-text-field
                                         prepend-icon="phone"
                                         name="phone"
@@ -241,7 +242,6 @@
                                         id="password"
                                         type="password"
                                         :counter="8"
-                                        :rules="passwordRules"
                                         v-model="password"
                                 ></v-text-field>
                                 <!--<v-text-field-->
@@ -251,7 +251,6 @@
                                         <!--id="passwordConfirm"-->
                                         <!--type="password"-->
                                         <!--:counter="8"-->
-                                        <!--:rules="passwordConfirmRules"-->
                                         <!--v-model="passwordConfirm"-->
                                 <!--&gt;</v-text-field>-->
                             </v-form>
@@ -297,7 +296,7 @@
                         <td>{{ props.item.surname }}</td>
                         <td>{{ props.item.name }}</td>
                         <td>
-                            {{ props.item.groupName.join() }}
+                            {{ props.item.groupName ? props.item.groupName.toString() : "" }}
 
                         </td>
                         <td>{{ props.item.email }}</td>
@@ -440,7 +439,6 @@
             createStudent() {
                 var i,j =0;
                 this.igroups = [];
-
                     for(j in this.sgroups) {
                         for (i in this.$store.getters.getGroups){
                         if (this.$store.getters.getGroups[i].name === this.sgroups[j][0]) {

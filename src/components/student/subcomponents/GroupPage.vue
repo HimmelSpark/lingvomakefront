@@ -73,31 +73,32 @@
                         type="text"
                         v-model="Gname"
                 ></v-text-field>
-                <v-text-field
-                        name="startDate"
-                        label="StartDate"
-                        type="text"
-                        v-model="GstartDate"
-                ></v-text-field>
+                <!--<v-text-field-->
+                        <!--name="startDate"-->
+                        <!--label="StartDate"-->
+                        <!--type="text"-->
+                        <!--v-model="GstartDate"-->
+                <!--&gt;</v-text-field>-->
                 <v-text-field
                         name="description"
                         label="Description"
                         type="text"
                         v-model="Gdescription"
                 ></v-text-field>
-                <v-combobox
+                <v-select
                         name="course_id"
                         :items="courses"
                         label="Select course for group"
                         v-model="Gcourseid"
-                ></v-combobox>
-                <v-combobox
-                        <!--TODO заделать юниты-->
+                ></v-select>
+
+                <!--TODO заделать юниты-->
+                <v-select
                         name="current_unit"
                         :items="courses"
                         label="Select course for group"
                         v-model="Gcourseid"
-                ></v-combobox>
+                ></v-select>
 
               </v-form>
             </v-card-text>

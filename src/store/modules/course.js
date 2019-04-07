@@ -17,6 +17,7 @@ export default {
       state.courses = payload;
     },
     addCourse(state, payload) {
+        console.log('cource add cource');
       state.courses.push(payload);
     },
   },

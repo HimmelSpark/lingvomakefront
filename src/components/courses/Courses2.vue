@@ -230,10 +230,12 @@
 		    this.$store.dispatch('setError', "Unexpected Error");
 		    next(false)
 	    } else {
+	        console.log('ddddddd');
 
 	      switch (splitedPath[splitedPath.length-2]) {
 
           case "course":
+              console.log('bbbbbbb');
 
             for (let i = 0; i < this.items.length; i++) {
               if (this.items[i].id === parseInt(splitedPath[splitedPath.length - 1])) {
@@ -245,6 +247,7 @@
             break;
 
           case "unit":
+              console.log('ccccccccc');
 
             for (let i = 0; i < this.items.length; i++) {
               for (let j = 0; j < this.items[i].children.length; j++) {

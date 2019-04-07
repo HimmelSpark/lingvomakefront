@@ -106,6 +106,7 @@ export default {
       state.selectedSTUD = payload;
     },
     addCourse(state, payload) {
+      console.log('student add cource');
       state.courses.push(payload);
     },
   addGroup(state, payload) {
@@ -166,8 +167,8 @@ export default {
   loadStudents(state, payload) {
     if (payload !== null && payload.length !== 0 && state.students.length<1) {
       payload.forEach(curr => {
-        var i,j = null;
-        var gName = []
+        let i,j = null;
+        let gName = [];
         for (i in curr.group_id){
           for (j in state.groups){
             if(state.groups[j].id === curr.group_id[i]){
@@ -231,11 +232,8 @@ export default {
 
         try {
           // Создание курса
-
           const response = await HTTP.post('/student/create', payload);
-          if (200 <= response.status < 300) {
-            commit('addStudent', payload)
-          }
+          commit('addStudent', response.data);
         } catch (e) {
           commit('setError', e);
         }
