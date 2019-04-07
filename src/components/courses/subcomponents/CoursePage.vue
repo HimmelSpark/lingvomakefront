@@ -96,7 +96,12 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn icon flat dark v-on="on" color="red" @click="openDeleteDialog"><v-icon>delete</v-icon></v-btn>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn icon flat dark v-on="on" color="red" @click="openDeleteDialog"><v-icon>delete</v-icon></v-btn>
+              </template>
+              <span>delete this COURSE</span>
+            </v-tooltip>
             <v-dialog v-model="deleteDialog" persistent max-width="440">
               <v-card>
 

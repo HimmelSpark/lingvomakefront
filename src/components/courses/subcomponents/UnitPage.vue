@@ -27,13 +27,8 @@
           </v-layout>
 
           <v-card-actions>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn flat icon large v-on="on" @click="openEditDialog"><v-icon>edit</v-icon></v-btn>
-              </template>
-              <span>edit this UNIT</span>
-            </v-tooltip>
 
+            <v-btn flat color="orange" v-on="on" @click="openEditDialog">edit unit</v-btn>
             <v-dialog v-model="editDialog" persistent max-width="490">
               <v-card>
                 <v-card-title class="headline">Editing current unit</v-card-title>
@@ -45,15 +40,9 @@
               </v-card>
             </v-dialog>
 
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon large v-on="on" @click="createTaskDialog = true">
-                  <v-icon>add</v-icon>
-                </v-btn>
-              </template>
-              <span>add new TASK</span>
-            </v-tooltip>
-
+            <v-btn flat color="green" v-on="on" @click="createTaskDialog = true">
+              add task
+            </v-btn>
             <v-dialog v-model="addDialog" persistent max-width="490">
               <v-card>
                 <v-card-title class="headline">Adding new Task</v-card-title>
