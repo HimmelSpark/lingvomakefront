@@ -10,10 +10,10 @@ import LoadTasksGuard from "./loadTasksGuard";
 import Home from "@/components/Home";
 import Login from "@/components/auth/Login";
 import Registration from "@/components/auth/Registration";
-import Panel from "@/components/courses/Courses"; // TODO не забыть
-import Courses from "@/components/courses/Courses"; // TODO не забыть
+import Courses from "@/components/courses/Courses";
 import Students from "@/components/student/Students";
 import Manage from "@/components/manage/Manage"
+import Help from "@/components/help/Help";
 //Panel sub-components
 import CoursePage from "@/components/courses/subcomponents/CoursePage";
 import UnitPage from "@/components/courses/subcomponents/UnitPage";
@@ -109,6 +109,11 @@ export default new Router({
       name: "translate",
       component: MobileTranslate,
       beforeEnter: AuthGuard
+    },
+    {
+      path: "/help",
+      name: "help",
+      component: Help
     }
   ]
 });

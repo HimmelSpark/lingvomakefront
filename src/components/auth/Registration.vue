@@ -4,7 +4,7 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
+          <v-toolbar dark>
             <v-toolbar-title>Registration form</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
@@ -58,10 +58,17 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary" @click="onSubmit">
+            <v-btn dark @click="onSubmit">
               Create account
             </v-btn>
           </v-card-actions>
+
+          <v-layout row>
+            <v-card-text class="text-xs-center">Already have an account?</v-card-text>
+          </v-layout>
+          <v-layout row align-center justify-center>
+            <v-btn color="orange" to="/login">Log In</v-btn>
+          </v-layout>
         </v-card>
       </v-flex>
     </v-layout>
