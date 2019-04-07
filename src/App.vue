@@ -34,6 +34,16 @@
 
         </v-list-tile>
 
+        <tamplate
+            v-if="isUserLoggedIn"
+            class="orange--text font-weight-bold text-uppercase">
+          <v-list-tile>
+            <v-list-tile-content>
+              {{user.email}}
+            </v-list-tile-content>
+          </v-list-tile>
+        </tamplate>
+
       </v-list>
     </v-navigation-drawer>
 
@@ -47,10 +57,17 @@
       </v-toolbar-side-icon>
       <v-toolbar-title>
         <v-btn :to="'/'" flat>
-          <v-icon  left @click="doPaskhalka">toys</v-icon>
+          <v-icon  left color="orange" @click="doPaskhalka">toys</v-icon>
           Lingvomake
         </v-btn>
       </v-toolbar-title>
+
+      <tamplate
+          v-if="isUserLoggedIn"
+          class="hidden-sm-and-down orange--text font-weight-bold text-uppercase">
+        {{user.email}}
+      </tamplate>
+
       <v-spacer></v-spacer>
       <transition name="fade">
         <v-toolbar-items class="hidden-sm-and-down" v-if="renderPermission">
@@ -152,6 +169,9 @@
           { title: "Registration", icon: "face", url: "/registration" }
         ];
       }
+    },
+    user() {
+      return this.$store.getters.user
     }
   },
   methods: {
