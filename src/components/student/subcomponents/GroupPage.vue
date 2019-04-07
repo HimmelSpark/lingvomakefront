@@ -5,26 +5,26 @@
         <v-card>
 
           <v-layout row>
-          <v-flex xs10>
-            <v-card-title primary-title>
-              <div>
-                <h2 class="headline mb-0">
-                  Group
-                  <v-chip label dark color="primary">{{ selected.name }}</v-chip>
-                  has
-                  <v-chip label dark color="primary">
-                    {{ students.length }}
-                  </v-chip>
-                  student(s)
-                </h2>
-                <div>{{ selected.description }}</div>
-              </div>
-            </v-card-title>
-          </v-flex>
+            <v-flex xs10>
+              <v-card-title primary-title>
+                <div>
+                  <h2 class="headline mb-0">
+                    Group
+                    <v-chip label dark color="primary">{{ selected.name }}</v-chip>
+                    has
+                    <v-chip label dark color="primary">
+                      {{ students.length }}
+                    </v-chip>
+                    student(s)
+                  </h2>
+                  <div>{{ selected.description }}</div>
+                </div>
+              </v-card-title>
+            </v-flex>
 
-          <v-flex xs2>
-            <v-img :src="selected.imgSrc" aspect-ratio="2"></v-img>
-          </v-flex>
+            <v-flex xs2>
+              <v-img :src="selected.imgSrc" aspect-ratio="2"></v-img>
+            </v-flex>
           </v-layout>
 
 
