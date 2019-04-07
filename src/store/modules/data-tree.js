@@ -107,13 +107,16 @@ export default {
 	},
 
 	loadTasks(state, {next, id, tasks}) {
-	  let flag = false;
+
+      console.log(tasks);
+
+      // стираются лишние данные, таски приводятся в порядок
+      tasks.forEach(task => {task.task = JSON.parse(task.task.value)});
 
       state.items.forEach((currCourse) => {
         currCourse.children.forEach((currUnit) => {
           if (currUnit.id === parseInt(id)) {
             currUnit.children = tasks;
-            flag = true;
           }
 		});
       });
@@ -235,31 +238,7 @@ export default {
 	  try {
 		let response = await HTTP.get('/task/' + id);
 		console.log("loaded tasks: ", response.data);
-		const mockedResponseData = [
-		  {
-		    id: 1,
-			type: "T1",
-			data: {
-		      text: "lorem ipsum dolor sit amet consectetur adipicising elit"
-			}
-		  },
-		  {
-		    id: 2,
-			type: "T1",
-			data: {
-		      text: "this is task #2"
-			}
-		  },
-		  {
-		    id: 3,
-			type: "T1",
-			data: {
-		      text: "this is task #3"
-			}
-		  }
-		];
 		commit('loadTasks', {next: next, id: id, tasks: response.data}) //TODO вернуть
-		// commit('loadTasks', {next: next, id: id, tasks: mockedResponseData}) //TODO мока
 	  } catch (e) {
 	      console.log('loadTasksByUnitError,  ', e);
 		commit('setError', e.response.data);
