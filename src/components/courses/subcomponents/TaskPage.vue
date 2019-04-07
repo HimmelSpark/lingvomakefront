@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <v-container>
     <v-layout row>
@@ -18,9 +19,7 @@
                       <v-layout row wrap align-center>
                         <v-flex xs12>
                           <div class="text-xs-center">
-                            <v-chip color="green" text-color="white">{{
-                              text
-                            }}</v-chip>
+                            <v-chip color="green" text-color="white">{{ text }}</v-chip>
                           </div>
                         </v-flex>
                       </v-layout>

@@ -37,6 +37,8 @@ export default {
           });
 		});
 		state.items = res;
+      } else {
+          state.items = [];
       }
     },
 	deleteCourse(state, payload) {
@@ -121,8 +123,16 @@ export default {
 		});
       });
 	  next()
-
 	},
+    loadTasksWithoutNext(state, {id, tasks}) {
+      state.items.forEach(currCourse => {
+          currCourse.children.forEach(currUnit => {
+              if (currUnit.id === parseInt(id)) {
+                  currUnit.children = tasks;
+              }
+          });
+      });
+    },
 	addNewTask(state, newTask) {
       state.items.forEach(course => {
         course.children.forEach(unit => {
@@ -147,8 +157,9 @@ export default {
 		  commit('addCourse', response.data);
         } catch (e) {
           commit('setError', e.response.data);
+        } finally {
+            commit('setLoading', false);
         }
-        commit('setLoading', false);
       }
   	},
 	async loadCourses({ commit }) {
@@ -187,8 +198,9 @@ export default {
 		  		// commit('addUnit', response.data);
 			} catch (e) {
 		  	commit('setError', e.response.data);
-			}
-			commit('setLoading', false);
+			} finally {
+                commit('setLoading', false);
+            }
 	  }
 	},
     async loadUnitById({commit}, payload) {
@@ -202,8 +214,9 @@ export default {
         } catch (e) {
             console.log('loadUnitByIdError, ', e);
             commit('setError', e.response.data);
+        } finally {
+            commit('setLoadingUnits', false);
         }
-        commit('setLoadingUnits', false);
     },
 	async loadUnitsByCourse({commit}, {next, payload}) {
       console.log('loadUnitsByCourse');
@@ -216,8 +229,9 @@ export default {
 	  } catch (e) {
 	        console.log('loadUnitsByCourseError,  ', e);
 			commit('setError', e.response.data);
-	  }
-	  commit('setLoadingUnits', false);
+	  } finally {
+          commit('setLoadingUnits', false);
+      }
 	},
 	async deleteUnit({commit}, unit) {
 	  commit("clearError");
@@ -233,17 +247,29 @@ export default {
 	},
 
 	async loadTasksByUnit({commit}, {next, id}) {
-        console.log('loadTasksByUnit');
+      console.log('loadTasksByUnit');
 	  commit('clearError');
 	  try {
 		let response = await HTTP.get('/task/' + id);
 		console.log("loaded tasks: ", response.data);
-		commit('loadTasks', {next: next, id: id, tasks: response.data}) //TODO вернуть
+		commit('loadTasks', {next: next, id: id, tasks: response.data});
 	  } catch (e) {
 	      console.log('loadTasksByUnitError,  ', e);
 		commit('setError', e.response.data);
 	  }
 	},
+    async loadTasksByUnitWithoutNext({commit}, id) {
+        console.log('loadTasksByUnitWithoutNext');
+        commit('clearError');
+        try {
+            let response = await HTTP.get('/task/' + id);
+            console.log("loaded tasks: ", response.data);
+            commit('loadTasksWithoutNext', {id: id, tasks: response.data});
+        } catch (e) {
+            console.log('loadTasksByUnitWithoutNextError,  ', e);
+            commit('setError', e.response.data);
+        }
+    },
 	async createTask({commit}, newTask) {
       if (newTask.unit_id !== null) {
 		commit('clearError');
@@ -251,13 +277,29 @@ export default {
 		try {
 		  const response = await HTTP.post('/task/create', newTask);
 		  console.log("creating task - ", response.data);
-		  commit('addNewTask', response.data);
 		} catch (e) {
-		  commit('setError', e);
+		    console.log(e);
+		  commit('setError', e.response.data);
 		}
-		commit('setLoading', false);
+		finally {
+            commit('setLoading', false);
+        }
 	  }
 	},
+    async deleteTaskById({commit}, id) {
+        console.log('deleteTaskById');
+        commit('clearError');
+        commit('setLoading', true);
+        try {
+            const response = await HTTP.post('/task/delete', id);
+            console.log('deleted task, ', response.data);
+        } catch (e) {
+            console.log(e);
+            commit('setError', e.response.data);
+        } finally {
+            commit('setLoading', false);
+        }
+    },
 
 	setSelected({commit}, payload) {
 	  if (payload !== null) {
