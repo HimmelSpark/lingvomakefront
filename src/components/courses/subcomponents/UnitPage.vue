@@ -128,8 +128,30 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn icon dark @click="openEditTaskDialog(task)"><v-icon>edit</v-icon></v-btn>
-                    <v-btn icon flat color="red"><v-icon>delete</v-icon></v-btn>
+                    <v-btn icon flat color="red"
+                           @click="deleteTaskDialog = true"
+                      >
+                      <v-icon>delete</v-icon>
+                      </v-btn>
                   </v-card-actions>
+                    <v-dialog v-model="deleteTaskDialog" persistent max-width="390">
+                        <v-card>
+                            <v-card-title class="headline">
+                                Do you want to delete this task?
+                            </v-card-title>
+                            <v-card-text>
+                                This process is irreversible, you can't restore this task
+                                later!
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="primary" flat @click="deleteTaskDialog = false">
+                                    Cancel
+                                </v-btn>
+                                <v-btn color="red" flat @click="deleteTask(task)">Delete</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
                 </v-card>
               </v-flex>
               <br>
@@ -359,6 +381,7 @@ export default {
 
       addDialog: false,
       deleteDialog: false,
+        deleteTaskDialog: false,
 
 	    editTaskDialog: false,
 	    createTaskDialog: false,
@@ -476,6 +499,7 @@ export default {
       this.$store.dispatch('createTask', this.newTask)
           .then(() => {
 			      this.createTaskDialog = false;
+			      this.$store.dispatch('loadTasksByUnitWithoutNext', this.id);
           })
           .catch(e => {
             console.log(e);
@@ -494,13 +518,12 @@ export default {
       this.addDialog = false;
     },
 	  deleteUnit() {
-        //todo здесь
       this.deleteDialog = true;
         this.$store.dispatch("deleteUnit", this.unitById)
             .then(() => {
                 this.deleteUnitDialog = false;
                 this.loadingToDelete = false;
-
+                this.$router.push('/courses');
             })
             .catch((e) => {
                 console.error(e);
@@ -511,6 +534,13 @@ export default {
                 this.deleteDialog = false;
                 this.loadingToDelete = false;
             })
+    },
+    deleteTask(task) {
+        this.$store.dispatch("deleteTaskById", task.id)
+            .then(() => {
+                this.$store.dispatch('loadTasksByUnitWithoutNext', this.id);
+                this.deleteTaskDialog = false;
+            });
     },
     openEditTaskDialog(editingTask) {
       this.editingTask = editingTask;
@@ -523,7 +553,8 @@ export default {
     aveEditedDialog() {
       alert('mock save');
 	    this.editTaskDialog = false;
-    }
+    },
+      saveEditedDialog() {}
   }
 };
 </script>
