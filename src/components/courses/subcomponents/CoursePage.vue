@@ -224,15 +224,8 @@
 
           </v-layout>
         </v-container>
-
-
-
       </v-flex>
-
     </v-layout>
-
-
-
   </v-container>
 </template>
 
@@ -300,7 +293,6 @@ export default {
 
 	  deleteCourse(courseById) {
       this.loadingToDelete = true;
-      console.log('deleeeete')
       this.$store.dispatch('deleteCourse', courseById)
           .then(() => {
 			      this.deleteDialog = false;
@@ -334,7 +326,7 @@ export default {
             description: this.unitDescr,
             course_id: this.courseById.id,
           }).then(() => {
-
+              this.$store.dispatch('loadUnitsByCourse', {payload: this.courseById});
           }).catch();
 
       this.loading = false;
@@ -352,7 +344,7 @@ export default {
     },
 
     deleteUnit() {
-	    this.loadingToDelete = true;
+      this.loadingToDelete = true;
       this.$store.dispatch("deleteUnit", this.unitToDelete)
           .then(() => {
 			      this.deleteUnitDialog = false;

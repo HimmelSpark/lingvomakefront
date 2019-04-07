@@ -64,7 +64,6 @@ export default {
 	},
 	loadUnits(state, payload) {
       //TODO найти более оптимальный способ
-
 	  for (let i = 0; i < state.items.length; i++) {
 	    if (state.items[i].id === payload.id) {
 	      let preparedData = null;
@@ -77,9 +76,21 @@ export default {
 		  break;
 		}
 	  }
-
 	  payload.next()
 	},
+    loadUnit(state, payload) {
+        for (let i = 0; i < state.items.length; i++) {
+            if (state.items[i].id === payload.id) {
+                let preparedData = null;
+                const unit = payload.data;
+                unit.type = 'unit';
+                unit.children = [];
+                preparedData = unit;
+                state.items[i].children.push(unit);
+                break;
+            }
+        }
+    },
 	setLoadingUnits(state, payload) {
       state.loadingUnits = payload;
 	},
@@ -96,7 +107,6 @@ export default {
 	},
 
 	loadTasks(state, {next, id, tasks}) {
-
 	  let flag = false;
 
       state.items.forEach((currCourse) => {
@@ -107,15 +117,6 @@ export default {
           }
 		});
       });
-	  //
-	  // console.log(next);
-	  //
-	  // if (flag) {
-       //  next()
-	  // } else {
-       //  next(false)
-	  // }
-
 	  next()
 
 	},
@@ -148,6 +149,7 @@ export default {
       }
   	},
 	async loadCourses({ commit }) {
+      console.log('loadCourses');
 	  commit("clearError");
 	  commit("setLoading", true);
 	  try {
@@ -172,7 +174,6 @@ export default {
 	},
 
 	async createUnit({commit}, payload) {
-		//TODO возможно есть смысл потом запросить созданный юнит, чтобы получить его id
 		if (payload !== null) {
 			commit('clearError');
 			commit('setLoading', true);
@@ -180,21 +181,37 @@ export default {
 			  	console.log("creating unit  - ", payload);
 		  		const response = await HTTP.post('/unit/create', payload);
 		  		console.log("created unit  - ", response.data);
-		  		commit('addUnit', response.data);
+		  		// commit('addUnit', response.data);
 			} catch (e) {
 		  	commit('setError', e.response.data);
 			}
 			commit('setLoading', false);
 	  }
 	},
+    async loadUnitById({commit}, payload) {
+        commit('clearError');
+        console.log('loadUnitById');
+        try {
+            console.log(payload);
+            const response = await HTTP.get('/unit/find/' + payload.id);
+            console.log('loadingUnitById,  ', response.data);
+            commit('loadUnit', {id: response.data.course_id, data: response.data, next: payload.next});
+        } catch (e) {
+            console.log('loadUnitByIdError, ', e);
+            commit('setError', e.response.data);
+        }
+        commit('setLoadingUnits', false);
+    },
 	async loadUnitsByCourse({commit}, {next, payload}) {
+      console.log('loadUnitsByCourse');
 	  commit('clearError');
-	  console.log('asaasdasdasdasd');
 	  try {
+	      console.log('payload, ', payload);
 			const response = await HTTP.get('/unit/' + payload.id);
-			console.log('loadUnitsByCourse,  ', response.data);
+			console.log('loadedUnitsByCourse,  ', response.data);
 			commit('loadUnits', {id: payload.id, data: response.data, next: next});
 	  } catch (e) {
+	        console.log('loadUnitsByCourseError,  ', e);
 			commit('setError', e.response.data);
 	  }
 	  commit('setLoadingUnits', false);
@@ -202,7 +219,7 @@ export default {
 	async deleteUnit({commit}, unit) {
 	  commit("clearError");
 	  try {
-		const response = HTTP.post("/unit/delete", {id: parseInt(unit.id)});
+		const response = await HTTP.post("/unit/delete", {id: parseInt(unit.id)});
 		commit('deleteUnit', unit);
 	  } catch (e) {
 		commit("setError", e.response.data);
@@ -244,6 +261,7 @@ export default {
 		commit('loadTasks', {next: next, id: id, tasks: response.data}) //TODO вернуть
 		// commit('loadTasks', {next: next, id: id, tasks: mockedResponseData}) //TODO мока
 	  } catch (e) {
+	      console.log('loadTasksByUnitError,  ', e);
 		commit('setError', e.response.data);
 	  }
 	},

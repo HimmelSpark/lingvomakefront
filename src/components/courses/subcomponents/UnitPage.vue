@@ -1,12 +1,10 @@
+<!--suppress ALL -->
 <template>
   <v-container>
     <v-layout row>
       <v-flex xs12>
-
         <v-card>
-
           <v-layout row>
-
             <v-flex xs10>
               <v-card-title primary-title>
                 <div>
@@ -23,11 +21,9 @@
                 </div>
               </v-card-title>
             </v-flex>
-
             <v-flex xs2>
               <v-img :src="unitById.imgSrc" aspect-ratio="1.95"></v-img>
             </v-flex>
-
           </v-layout>
 
           <v-card-actions>
@@ -114,7 +110,6 @@
               </v-card>
             </v-dialog>
           </v-card-actions>
-
         </v-card>
 
         <br>
@@ -125,11 +120,8 @@
 
             <template
                 v-for="task in unitById.children">
-
               <v-flex xs12 sm6 md4 lg3>
-
                 <v-card>
-
                   <v-card-title>
                     <span>name: {{task.name}}</span>
                   </v-card-title>
@@ -140,25 +132,15 @@
                   </v-card-text>
 
                   <v-card-actions>
-
                     <v-spacer></v-spacer>
-
                     <v-btn icon dark @click="openEditTaskDialog(task)"><v-icon>edit</v-icon></v-btn>
-
                     <v-btn icon flat color="red"><v-icon>delete</v-icon></v-btn>
-
                   </v-card-actions>
-
                 </v-card>
-
               </v-flex>
-
               <br>
-
             </template>
-
           </v-layout>
-
         </v-container>
 
         <v-dialog v-model="editTaskDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -249,34 +231,23 @@
               <v-toolbar-items>
                 <v-btn dark flat @click="saveCreatedTask">Save</v-btn>
               </v-toolbar-items>
-
             </v-toolbar>
-
             <br>
-
             <v-layout row justify-center>
-
-
-
                 <v-flex xs5>
-
                   <v-card>
-
                   <v-card-title>
                     <h1 class="text-xs-center headline">Task data form</h1>
                   </v-card-title>
-
                   <v-card-text>
 
                     <v-form v-model="valid" ref="form" validation>
-
                       <v-text-field
                           name="name"
                           label="name"
                           type="text"
                           v-model="newTaskName">
                       </v-text-field>
-
                       <v-text-field
                           name="text"
                           label="text"
@@ -367,29 +338,17 @@
                         <v-spacer></v-spacer>
                         <v-btn flat dark @click="saveCreatedTask">SAVE</v-btn>
                       </v-card-actions>
-
-
                     </v-form>
-
                   </v-card-text>
-
                   </v-card>
-
                 </v-flex>
-
-
                 <v-divider vertical></v-divider>
-
                 <v-flex xs5 offset-xs1>
                   <h1>Here should be visualisation of T1 task</h1>
                 </v-flex>
-
               </v-layout>
-
           </v-card>
         </v-dialog>
-
-
       </v-flex>
     </v-layout>
   </v-container>
@@ -461,7 +420,6 @@ export default {
 
         this.nonce++
       }
-
       return v
       })
     }
@@ -542,7 +500,25 @@ export default {
       this.addDialog = false;
     },
     openDeleteDialog() {
+        //todo здесь
       this.deleteDialog = true;
+        this.$store.dispatch("deleteUnit", this.unitToDelete)
+            .then(() => {
+                this.deleteUnitDialog = false;
+                this.loadingToDelete = false;
+                this.unitToDelete = null;
+            })
+            .catch((e) => {
+                console.error(e);
+                this.deleteUnitDialog = false;
+                this.loadingToDelete = false;
+                this.unitToDelete = null;
+            })
+            .finally(() => {
+                this.deleteDialog = false;
+                this.loadingToDelete = false;
+                this.unitToDelete = null;
+            })
     },
     openEditTaskDialog(editingTask) {
       this.editingTask = editingTask;
@@ -552,7 +528,7 @@ export default {
       this.editTaskDialog = false;
 	    this.editingTask = null;
     },
-	  saveEditedDialog() {
+    aveEditedDialog() {
       alert('mock save');
 	    this.editTaskDialog = false;
     }
