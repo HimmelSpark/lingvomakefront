@@ -1,36 +1,56 @@
+<!--suppress ALL -->
 <template>
   <v-container fill-height fluid justify-center>
-    <v-layout row>
 
-      <v-flex xs4 md3 lg2>
+    <v-menu
+        v-model="menu"
+        :close-on-content-click="false"
+        left
+        :nudge-width="200"
+        offset-x>
 
+      <template v-slot:activator="{ on }">
+        <v-btn
+            class="hidden-sm-and-up"
+            fab
+            absolute
+            right
+            top
+            color="indigo"
+            dark
+            icon
+            v-on="on">
+          <v-icon>school</v-icon>
+        </v-btn>
+      </template>
+
+      <v-flex xs12>
         <v-chip label dark color="primary">
           <v-icon left>school</v-icon>
           <div><h1 class="headline mb-0">Courses</h1></div>
         </v-chip>
 
-        <v-btn fab dark small color="indigo"  @click="openAddCourseDialog">
+        <v-btn fab dark small color="indigo"  @click="addCourseDialog = true">
           <v-icon dark>add</v-icon>
         </v-btn>
 
-
         <v-list>
           <v-list-group
-            v-for="item in items"
-            :key="item.id"
-            :open.sync="open"
-            :prepend-icon="'school'"
-            @click="clickList(item)">
+              v-for="item in items"
+              :key="item.id"
+              :prepend-icon="'school'"
+              @click="clickList(item)">
 
             <template v-slot:activator>
               <v-list-tile>
                 <v-list-tile-content>
-                  <v-btn flat  small :loading="loadingUnits">{{ item.name }}</v-btn>
+                  {{ item.name }}
                 </v-list-tile-content>
               </v-list-tile>
             </template>
 
             <v-list-tile
+                v-if="item.children !== undefined"
                 v-for="subItem in item.children"
                 :key="subItem.id"
                 @click="clickList(subItem)">
@@ -42,17 +62,63 @@
             </v-list-tile>
 
           </v-list-group>
+
+        </v-list>
+      </v-flex>
+
+    </v-menu>
+
+    <v-layout row>
+
+      <v-flex xs12 sm4 md3 lg2 class="hidden-xs-only">
+
+        <v-chip label dark color="primary">
+          <v-icon left>school</v-icon>
+          <div><h1 class="headline mb-0">Courses</h1></div>
+        </v-chip>
+
+        <v-btn fab dark small color="indigo"  @click="addCourseDialog = true">
+          <v-icon dark>add</v-icon>
+        </v-btn>
+
+        <v-list>
+          <v-list-group
+              v-for="item in items"
+              :key="item.id"
+              :prepend-icon="'school'"
+              @click="clickList(item)">
+
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-content>
+                  {{ item.name }}
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile
+                v-if="item.children !== undefined"
+                v-for="subItem in item.children"
+                :key="subItem.id"
+                @click="clickList(subItem)">
+
+              <v-list-tile-content>
+                <v-list-tile-title>{{ subItem.unit_name }}</v-list-tile-title>
+              </v-list-tile-content>
+
+            </v-list-tile>
+
+          </v-list-group>
+
+
+
         </v-list>
 
       </v-flex>
 
-      <v-divider vertical></v-divider>
+      <v-divider vertical class="hidden-xs-only"></v-divider>
 
-      <v-flex xs8 md9 lg10>
-
-        <v-chip v-if="selected === undefined" color="primary" dark>
-          Click some tree item to VUE the data
-        </v-chip>
+      <v-flex xs12 sm8 md9 lg10>
 
         <v-content>
           <v-scroll-y-transition mode="out-in">
@@ -96,100 +162,94 @@
         </v-card>
       </v-dialog>
 
-
     </v-layout>
+
   </v-container>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      valid: false,
-      open: [],
-      active: null,
-      addCourseDialog: false,
-      loading: false,
-	    courseName: null,
-      dispatchBeforeLeave: {name: null, payload: null}
-    };
-  },
-  computed: {
-    items() {
-      return this.$store.getters.items;
-    },
-    selected() {
-      return this.$store.getters.selected;
-    },
-    renderTreePermission() {
-      return this.$store.getters.renderTreePermission;
-    },
-    loadingUnits() {
-      return this.$store.getters.loadingUnits;
-    }
-  },
-  methods: {
-    clickTree() {
+  export default {
+    data() {
+      return {
+		    clickedItem: null,
 
-    },
-    clickList(item) {
-      if (item !== null) {
-        this.$store.dispatch("setSelected", item)
-            .then(() => {
-			        switch (item.type) {
-				        case "course":
-				          //TODO подгрузить юниты курса (если их нет)
-				          if (item.children === undefined || item.children.length === 0) {
-                    this.$store.dispatch("setLoadingUnits", true);
-                    this.dispatchBeforeLeave = {name: 'loadUnitsByCourse', payload: item};
-					          this.$router.push("/courses/course/" + item.id);
-        				  } else {
-                    this.$router.push("/courses/course/" + item.id);
-                  }
-				          break;
-				        case "unit":
-				          this.$router.push("/courses/unit/" + item.id);
-				          break;
-				        case "task":
-				          this.$router.push("/courses/task/" + item.id);
-				          break;
-				        case "all":
-				          this.$router.push("/all");
-				          break;
-			        }
-            });
+        addCourseDialog: false,
+        valid: false,
+		    courseName: null,
+        loading: false,
 
+
+		    menu: false
       }
     },
-	  openAddCourseDialog() {
-      this.addCourseDialog = true;
-    },
-	  createCourse() {
-      this.$store.dispatch('createCourse', {name: this.courseName});
-	    this.addCourseDialog = false;
-    }
-  },
-  //TODO раскомментировать
-  beforeCreate() {
-    if (this.$store.getters.items.length === 0) {
-      // TODO поменять на 0, когда уберем захардкоженные курсы
-      this.$store.dispatch('loadCourses');
-    }
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.$store.dispatch(this.dispatchBeforeLeave.name, {
-      router: {
-        to: to,
-        from: from,
-        next: next
+    methods: {
+      clickList(clickedItem) {
+        this.clickedItem = clickedItem;
+        switch (clickedItem.type) {
+          case "course":
+            this.$router.push("/courses/course/" + clickedItem.id);
+            break;
+          case "unit":
+            this.$router.push("/courses/unit/" + clickedItem.id);
+            break;
+        }
       },
-      payload:  this.dispatchBeforeLeave.payload
-    })
-        .then(() => {
-		      this.$store.dispatch("setLoadingUnits", false);
-		      this.dispatchBeforeLeave = null;
-        });
-  }
-};
+      createCourse() {
+        this.$store.dispatch('createCourse', {name: this.courseName})
+            .then(() => {this.addCourseDialog = false});
+      }
+    },
+    computed: {
+      items() {
+        return this.$store.getters.items;
+      },
+	    isListDrawer() {
+        return this.$store.isListDrawer;
+      }
+    },
 
+    // beforeMount() { //TODO разобраться с тем, чтобы при обновлении тоже загружал
+	   //  if (this.$store.getters.items.length === 0) {
+		 //    this.$store.dispatch('loadCourses');
+	   //  }
+    // },
+
+    beforeRouteUpdate(to, from, next) {
+
+	    const splitedPath = to.path.split('/');
+	    console.log("in beforeRouteUpdate of Course page", splitedPath);
+	    if (splitedPath.length !== 4) {
+		    this.$store.dispatch('setError', "Unexpected Error");
+		    next(false)
+	    } else {
+
+	      switch (splitedPath[splitedPath.length-2]) {
+
+          case "course":
+
+            for (let i = 0; i < this.items.length; i++) {
+              if (this.items[i].id === parseInt(splitedPath[splitedPath.length - 1])) {
+                this.$store.dispatch('loadUnitsByCourse', {next: next, payload: this.items[i]});
+                break;
+              }
+            }
+
+            break;
+
+          case "unit":
+
+            for (let i = 0; i < this.items.length; i++) {
+              for (let j = 0; j < this.items[i].children.length; j++) {
+                if (this.items[i].children[j].id === parseInt(splitedPath[splitedPath.length - 1])) {
+                  this.$store.dispatch('loadTasksByUnit', {next: next, id: parseInt(splitedPath[splitedPath.length - 1])});
+                }
+              }
+            }
+        }
+
+	  }
+
+
+    }
+  }
 </script>

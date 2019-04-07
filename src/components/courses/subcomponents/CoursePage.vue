@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <v-container>
     <v-layout row>
@@ -262,7 +263,8 @@ export default {
 
     courseById() {
       const id = this.id;
-      return this.$store.getters.courseById(id)
+      const course = this.$store.getters.courseById(id);
+      return course;
     },
 
     selected() {

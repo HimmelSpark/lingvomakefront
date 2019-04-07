@@ -11,7 +11,7 @@ import Home from "@/components/Home";
 import Login from "@/components/auth/Login";
 import Registration from "@/components/auth/Registration";
 import Panel from "@/components/courses/Courses"; // TODO не забыть
-import Courses2 from "@/components/courses/Courses2"; // TODO не забыть
+import Courses from "@/components/courses/Courses"; // TODO не забыть
 import Students from "@/components/student/Students";
 import Manage from "@/components/manage/Manage"
 //Panel sub-components
@@ -88,7 +88,7 @@ export default new Router({
     },
     {
       path: "/courses",
-      component: Courses2,
+      component: Courses,
       beforeEnter: AuthGuard,
       children: [
         {
