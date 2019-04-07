@@ -11,7 +11,8 @@ export default function (to, from, next) {
 		    loadUnitsByCourseId(next, parseInt(splitedPath[splitedPath.length - 1]));
 		  }
 		})
-  } else {
+  }
+  else {
     next()
   }
 

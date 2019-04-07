@@ -212,11 +212,12 @@
     // },
 
     beforeRouteUpdate(to, from, next) {
-
+        console.log('before route update, ', to.path);
 	    const splitedPath = to.path.split('/');
 	    console.log("in beforeRouteUpdate of Course page", splitedPath);
 	    if (splitedPath.length !== 4) {
 		    // this.$store.dispatch('setError', "Unexpected Error");
+            this.$store.dispatch('loadCourses');
 		    next();
 	    } else {
 
@@ -230,9 +231,7 @@
                 break;
               }
             }
-
             break;
-
           case "unit":
 
             for (let i = 0; i < this.items.length; i++) {
