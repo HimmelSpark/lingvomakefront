@@ -3,23 +3,22 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12" @keyup.enter="onSubmit">
-          <v-toolbar dark color="primary">
+          <v-toolbar dark>
             <v-toolbar-title>Login form</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-form 
               v-model="valid" 
               ref="form" 
-              validation 
-            >
+              validation>
               <v-text-field
                 prepend-icon="person"
                 name="login"
                 label="Login"
                 type="text"
                 :rules="emailRules"
-                v-model="email"
-              ></v-text-field>
+                v-model="email">
+              </v-text-field>
               <v-text-field
                 prepend-icon="lock"
                 name="password"
@@ -28,8 +27,8 @@
                 type="password"
                 :counter="8"
                 :rules="passwordRules"
-                v-model="password"
-              ></v-text-field>
+                v-model="password">
+              </v-text-field>
               <v-dialog v-model="loading" hide-overlay persistent width="300">
                 <v-card color="dark" dark>
                   <v-card-text>
@@ -37,8 +36,8 @@
                     <v-progress-linear
                       indeterminate
                       color="white"
-                      class="mb-0"
-                    ></v-progress-linear>
+                      class="mb-0">
+                    </v-progress-linear>
                   </v-card-text>
                 </v-card>
               </v-dialog>
@@ -46,8 +45,14 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary" @click="onSubmit">Login</v-btn>
+            <v-btn dark @click="onSubmit">Login</v-btn>
           </v-card-actions>
+          <v-layout row>
+            <v-card-text class="text-xs-center">Haven't account yet?</v-card-text>
+          </v-layout>
+          <v-layout row align-center justify-center>
+            <v-btn color="orange" to="/registration">Sign Up</v-btn>
+          </v-layout>
         </v-card>
       </v-flex>
     </v-layout>
