@@ -131,6 +131,7 @@
 
 <script>
 export default {
+    props: ['id'],
   data() {
     return {
       deleteGroupDialog: false,
