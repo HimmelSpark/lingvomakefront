@@ -34,7 +34,7 @@
 
         </v-list-tile>
 
-        <tamplate
+        <template
             v-if="isUserLoggedIn"
             class="orange--text font-weight-bold text-uppercase">
           <v-list-tile>
@@ -42,7 +42,7 @@
               {{user.email}}
             </v-list-tile-content>
           </v-list-tile>
-        </tamplate>
+        </template>
 
       </v-list>
     </v-navigation-drawer>
@@ -166,7 +166,6 @@
       } else {
         return [
           { title: "Login", icon: "lock", url: "/login" },
-          { title: "Registration", icon: "face", url: "/registration" }
         ];
       }
     },
