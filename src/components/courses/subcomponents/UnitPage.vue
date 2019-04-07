@@ -36,14 +36,10 @@
 
             <v-dialog v-model="editDialog" persistent max-width="490">
               <v-card>
-                <v-card-title class="headline"
-                  >Editing current unit</v-card-title
-                >
+                <v-card-title class="headline">Editing current unit</v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat @click="editDialog = false"
-                    >Cancel</v-btn
-                  >
+                  <v-btn color="primary" flat @click="editDialog = false">Cancel</v-btn>
                   <v-btn color="green" flat @click="saveAfterEdit">Save</v-btn>
                 </v-card-actions>
               </v-card>
@@ -82,30 +78,28 @@
                   large
                   v-on="on"
                   color="red"
-                  @click="openDeleteDialog">
+                  @click="deleteDialog = true">
                   <v-icon>delete</v-icon>
                 </v-btn>
               </template>
               <span>delete this UNIT</span>
             </v-tooltip>
 
-            <v-dialog v-model="deleteDialog" persistent max-width="290">
+            <v-dialog v-model="deleteDialog" persistent max-width="390">
               <v-card>
-                <v-card-title class="headline"
-                  >Do you want to delete this unit?</v-card-title
-                >
-                <v-card-text
-                  >This process is irreversible, you can't restore this unit
-                  later!</v-card-text
-                >
+                <v-card-title class="headline">
+                  Do you want to delete this unit?
+                </v-card-title>
+                <v-card-text>
+                  This process is irreversible, you can't restore this unit
+                  later!
+                </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat @click="deleteDialog = false"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="red" flat @click="deleteDialog = false"
-                    >Delete</v-btn
-                  >
+                  <v-btn color="primary" flat @click="deleteDialog = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn color="red" flat @click="deleteUnit">Delete</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -499,25 +493,23 @@ export default {
       //
       this.addDialog = false;
     },
-    openDeleteDialog() {
+	  deleteUnit() {
         //todo здесь
       this.deleteDialog = true;
-        this.$store.dispatch("deleteUnit", this.unitToDelete)
+        this.$store.dispatch("deleteUnit", this.unitById)
             .then(() => {
                 this.deleteUnitDialog = false;
                 this.loadingToDelete = false;
-                this.unitToDelete = null;
+
             })
             .catch((e) => {
                 console.error(e);
                 this.deleteUnitDialog = false;
                 this.loadingToDelete = false;
-                this.unitToDelete = null;
             })
             .finally(() => {
                 this.deleteDialog = false;
                 this.loadingToDelete = false;
-                this.unitToDelete = null;
             })
     },
     openEditTaskDialog(editingTask) {

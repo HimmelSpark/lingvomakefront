@@ -95,7 +95,7 @@ export default {
       state.loadingUnits = payload;
 	},
 	deleteUnit(state, unit) {
-      state.forEach(course => {
+      state.items.forEach(course => {
         if (course.id === unit.course_id) {
           course.children.forEach((cUnit, index) => {
             if (cUnit.id === unit.id) {
