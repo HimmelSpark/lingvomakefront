@@ -108,7 +108,7 @@
 
             <template
                 v-for="task in unitById.children">
-              <v-flex xs12 sm6 md4 lg3>
+              <v-flex xs12 sm12 md6 lg6>
                 <v-card>
                   <v-card-title>
                     Task
@@ -117,9 +117,17 @@
                   </v-card-title>
 
                   <v-card-text>
-                    <span>data: {{task.task}}</span>
-                    <span>Type: {{task.task_type}}</span>
+                    <template v-if="task.task_type === 1">
+                      <span>Type <v-chip label color="green">TEST</v-chip></span>
+                      <br>
+                      <span>Text <v-chip label color="green">{{task.task.text}}</v-chip></span>
+                      <br>
+                      <span>Options <v-chip v-for="opt in task.task.answers" label color="orange">{{opt}}</v-chip></span>
+                      <br>
+                      <span>Answer <v-chip label color="red">{{task.task.correct}}</v-chip></span>
+                    </template>
                   </v-card-text>
+
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
