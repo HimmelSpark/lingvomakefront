@@ -38,8 +38,8 @@
           <v-list-group
               v-for="item in items"
               :key="item.id"
-              :prepend-icon="'school'"
-              @click="clickList(item)">
+              :to="'/courses/course/' + item.id"
+              :prepend-icon="'school'">
 
             <template v-slot:activator>
               <v-list-tile>

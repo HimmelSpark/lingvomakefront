@@ -14,6 +14,7 @@ export default {
     addCourse(state, payload) {
         console.log('data-tree add cource,  ', payload );
       const newCousre = {
+        id: payload.id,
 		name: payload.name,
 		description: 'default description',
 		imgSrc: 'https://bumper-stickers.ru/38068-thickbox_default/znak-elektronnoj-pochty-mailru.jpg',
@@ -131,19 +132,19 @@ export default {
   },
   actions: {
     async createCourse({commit}, payload) {
-        console.log('createCourse');
+      console.log('createCourse');
       if (payload != null) {
-				commit('clearError');
-				commit('setLoading', true);
-				try {
+        commit('clearError');
+        commit('setLoading', true);
+        try {
           // Создание курса
-					const response = await HTTP.post('/course/create', payload);
-					console.log("creating course  -  ", response.data);
-		  			commit('addCourse', response.data);
-				} catch (e) {
-		  		commit('setError', e);
-				}
-				commit('setLoading', false);
+		  const response = await HTTP.post('/course/create', payload);
+		  console.log("creating course  -  ", response.data);
+		  commit('addCourse', response.data);
+        } catch (e) {
+          commit('setError', e.response.data);
+        }
+        commit('setLoading', false);
       }
   	},
 	async loadCourses({ commit }) {
