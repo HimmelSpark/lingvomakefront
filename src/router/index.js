@@ -20,7 +20,6 @@ import UnitPage from "@/components/courses/subcomponents/UnitPage";
 import TaskPage from "@/components/courses/subcomponents/TaskPage";
 //Student sub-components
 import GroupPage from "@/components/student/subcomponents/GroupPage";
-import StudentPage from "../components/student/subcomponents/StudentPage";
 //Management suv-components
 import Application from "@/components/manage/subcomponents/Application"
 import Employees from "@/components/manage/subcomponents/Employees"
@@ -57,11 +56,6 @@ export default new Router({
           props: true,
           component: GroupPage
         },
-        {
-          path: "student/:id",
-          props: true,
-          component: StudentPage
-        }
       ]
     },
     {

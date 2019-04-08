@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <v-app dark>
     <v-navigation-drawer

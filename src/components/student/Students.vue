@@ -62,7 +62,6 @@
                         </v-card-title>
                         <v-card-text>
                             <v-form ref="form">
-
                                 <v-text-field
                                         prepend-icon="person"
                                         name="email"
@@ -102,28 +101,6 @@
                                         type="text"
                                         v-model="phone"
                                 ></v-text-field>
-
-                                <!--<v-text-field-->
-                                        <!--prepend-icon="lock"-->
-                                        <!--name="password"-->
-                                        <!--label="Password"-->
-                                        <!--id="password"-->
-                                        <!--type="password"-->
-                                        <!--:counter="8"-->
-                                        <!--:rules="passwordRules"-->
-                                        <!--v-model="password"-->
-                                <!--&gt;</v-text-field>-->
-
-                                <!--<v-text-field-->
-                                        <!--prepend-icon="lock"-->
-                                        <!--name="passwordConfirm"-->
-                                        <!--label="Confirm password"-->
-                                        <!--id="passwordConfirm"-->
-                                        <!--type="password"-->
-                                        <!--:counter="8"-->
-                                        <!--:rules="passwordConfirmRules"-->
-                                        <!--v-model="passwordConfirm"-->
-                                <!--&gt;</v-text-field>-->
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -134,15 +111,6 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
-
-
-
-
-
-
-
-
-
 
                 <v-dialog v-model="addGroupDialog" persistent max-width="490">
                     <v-card>
@@ -185,13 +153,6 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
-
-
-
-
-
-
-
 
                 <v-dialog v-model="editStudentDialog" persistent max-width="490">
                     <v-card>
@@ -276,8 +237,7 @@
 
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="primary" flat @click="deleteStudentDialog = false"
-                            >Cancel</v-btn>
+                            <v-btn color="primary" flat @click="deleteStudentDialog = false">Cancel</v-btn>
                             <v-btn color="green" flat @click="deleteStudent()">Yes</v-btn>
                         </v-card-actions>
                     </v-card>
@@ -304,7 +264,7 @@
                         <td>{{ props.item.email }}</td>
                         <td>{{ props.item.phone }}</td>
                         <td>
-                            <v-btn flat icon large v-on="on" @click="openEditStudentDialog(props.item)">
+                            <v-btn flat icon large @click="openEditStudentDialog(props.item)">
                                 <v-icon>edit</v-icon>
                             </v-btn>
                         </td>
@@ -313,7 +273,6 @@
                                    dark
                                    icon
                                    large
-                                   v-on="on"
                                    color="red"
                                    @click="openDeleteStudentDialog(props.item.id)">
                                 <v-icon>delete</v-icon>
@@ -353,7 +312,8 @@
                 Gname: null,
                 Gdescription: null,
                 GstartDate: null,
-                Gcourseid:null
+                Gcourseid:null,
+                valid: false,
             };
         },
         watch: {
@@ -394,7 +354,6 @@
                 this.name = student.name;
                 this.surname = student.surname;
                 this.password = student.password;
-                // this.sgroups = student.group;
                 this.sgroups = student.groupName;
                 this.passwordConfirm = student.passwordConfirm;
                 this.phone = student.phone;
@@ -429,17 +388,25 @@
                 this.deleteStudentDialog = false;
                 },
             createGroup() {
-                var i =0;
-                for (i in this.$store.getters.getCourses){
-                    if(this.$store.getters.getCourses[i].name === this.Gcourseid){
-                        this.Gcourseid = this.$store.getters.getCourses[i].id;
+                let i = 0;
+                const courses = this.$store.getters.items;
+                for (let i = 0; i < courses.length; ++i) {
+                    if (courses[i].name === this.Gcourseid) {
+                        this.Gcourseid = courses[i].id;
                     }
                 }
-                this.$store.dispatch('createsGroup', {name: this.Gname, description: this.Gdescription, start_date: this.GstartDate, course_id: this.Gcourseid});
+                this.$store.dispatch('createsGroup',
+                    {
+                        name: this.Gname,
+                        description: this.Gdescription,
+                        start_date: this.GstartDate,
+                        course_id: this.Gcourseid
+                    }
+                );
                 this.addGroupDialog = false;
             },
             createStudent() {
-                var i,j =0;
+                let i,j =0;
                 this.igroups = [];
                     for(j in this.sgroups) {
                         for (i in this.$store.getters.getGroups){
@@ -461,7 +428,12 @@
                 return this.$store.getters.getGroups;
             },
             courses() {
-                return this.$store.getters.getCourseNames;
+                const courses = this.$store.getters.items;
+                let res = [];
+                for (let i = 0; i < courses.length; ++i) {
+                    res.push(courses[i].name);
+                }
+                return res;
             },
 
             selected() {
@@ -473,20 +445,15 @@
             students() {
                 return this.$store.getters.getStudents;
             },
-            // loadingGroups() {
-            //     return this.$store.getters.loadGroups;
-            // },
-            // loadingStudents() {
-            //     return this.$store.getters.loadAllStudents;
-            // },
         },
         created() {
-            this.$store.dispatch('loadGroups');
-            this.$store.dispatch('loadAllStudents');
-            // if (this.$store.getters.items.length === 0) {
-            //   // TODO поменять на 0, когда уберем захардкоженные курсы
-            //   this.$store.dispatch('loadCourses');
-            // }
+            this.$store.dispatch('loadCourses')
+                .then(() => {
+                    this.$store.dispatch('loadGroups')
+                        .then(() => {
+                            this.$store.dispatch('loadAllStudents');
+                        });
+                });
         }
     };
 </script>

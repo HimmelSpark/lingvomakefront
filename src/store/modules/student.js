@@ -6,75 +6,9 @@ export default {
     selectedSTUD: null,
     groups: [
       { id: 0, name: "All students", type:"all"},
-      // {
-      //   id: 1,
-      //   name: "Group TOEFL B2",
-      //   imgSrc:
-      //     "http://busidiomas.com/wp-content/uploads/2017/10/examen-cae-1024x559.jpg",
-      //   type: "group",
-      //   description: "This is the group for the brokenhearted",
-      //   children: [
-      //
-      //   ]
-      // },
-      // {
-      //   id: 4,
-      //   name: "Group IELTS B1",
-      //   imgSrc:
-      //     "http://busidiomas.com/wp-content/uploads/2017/10/examen-cae-1024x559.jpg",
-      //   type: "group",
-      //   description: "It's my life",
-      //   children: [
-      //
-      //   ]
-      // },
-      // { id: 6, name: "Group CAE C1", type: "group", children: [] },
-      // { id: 7, name: "Other group", type: "group", children: [] },
-
-
-      ],
-    courses: [],
+    ],
+    // courses: [],
     students: [
-      // {
-      //   id: 2,
-      //   email: "pedro@huan.mail",
-      //   name: "Petros",
-      //   surname: "Adamyan",
-      //   password: "",
-      //   group: [1],
-      //   groupName: ["Group TOEFL B2"],
-      //   phone: "88005553553"
-      // },
-      // {
-      //   id: 3,
-      //   email: "breet@vse.mail",
-      //   name: "Britikov",
-      //   surname: "Kistyantin",
-      //   password: "",
-      //   group: [1],
-      //   groupName: ["Group TOEFL B2"],
-      //   phone: "88006553553"
-      // },
-      // {
-      //   id: 4,
-      //   email: "Chuvo@YaNeUslishal.mail",
-      //   name: "ChuvAhov",
-      //   surname: "Yahor",
-      //   password: "",
-      //   group: [1,4],
-      //   phone: "88005503553",
-      //   groupName: ["Group IELTS B1", "Group TOEFL B2"]
-      // },
-      // {
-      //   id: 6,
-      //   email: "Vanya@Sh.Keen",
-      //   name: "Yury",
-      //   surname: "Vanyashkin",
-      //   password: "",
-      //   phone: "88005523553",
-      //   group: [4],
-      //   groupName: ["Group IELTS B1"]
-      // }
     ],
     headers: [
       {
@@ -105,10 +39,10 @@ export default {
     setSelectedSTUD(state, payload) {
       state.selectedSTUD = payload;
     },
-    addCourse(state, payload) {
-      console.log('student add cource');
-      state.courses.push(payload);
-    },
+    // addCourse(state, payload) {
+    //   console.log('student add cource');
+    //   state.courses.push(payload);
+    // },
   addGroup(state, payload) {
     const newGroup = {
       //TODO разобраться с айдишниками
@@ -135,20 +69,20 @@ export default {
         children: [],
       });
     },
-    loadCourses(state, payload) {
-      if (payload !== null && payload.length !== 0) {
-        payload.forEach(curr => {
-          state.courses.push({
-            id: curr.id,
-            name: curr.name,
-            description: curr.description,
-            imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
-            children: [],
-            type: "course"
-          });
-        });
-      }
-    },
+    // loadCourses(state, payload) {
+    //   if (payload !== null && payload.length !== 0) {
+    //     payload.forEach(curr => {
+    //       state.courses.push({
+    //         id: curr.id,
+    //         name: curr.name,
+    //         description: curr.description,
+    //         imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
+    //         children: [],
+    //         type: "course"
+    //       });
+    //     });
+    //   }
+    // },
   loadsGroups(state, payload) {
     if (payload !== null && payload.length !== 0 && state.groups.length<2) {
       payload.forEach(curr => {
@@ -198,34 +132,36 @@ export default {
   }
   },
   actions: {
-  async loadCourses({commit}) {
-    commit('clearError');
-    try {
-      const response = await HTTP.get('/course/');
-      if (200 <= response.status < 300) {
-        commit('loadCourses', response.data)
-      }
-    } catch (e) {
-      commit('setError', e);
-    }
-  },
+  // async loadCourses({commit}) {
+  //   commit('clearError');
+  //   try {
+  //     const response = await HTTP.get('/course/');
+  //     if (200 <= response.status < 300) {
+  //       commit('loadCourses', response.data)
+  //     }
+  //   } catch (e) {
+  //     commit('setError', e);
+  //   }
+  // },
     async createsGroup( {commit}, payload) {
+        console.log('createsGroup');
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
 
         try {
           // Создание курса
-
           const response = await HTTP.post('/group/create', payload);
           commit('addGroup', payload)
         } catch (e) {
           commit('setError', e.response.data);
+        } finally {
+            commit('setLoading', false);
         }
-        commit('setLoading', false);
       }
     },
     async createsStudent( {commit}, payload) {
+        console.log('createsStudent');
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
@@ -241,6 +177,7 @@ export default {
       }
     },
     async changesGroup( {commit}, payload) {
+        console.log('changesGroup');
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
@@ -259,6 +196,7 @@ export default {
       }
     },
       async changesStudent( {commit}, payload) {
+        console.log('changesStudent');
           if (payload != null) {
               commit('clearError');
               commit('setLoading', true);
@@ -277,6 +215,7 @@ export default {
           }
       },
     async loadGroups({commit}) {
+        console.log('loadGroups');
       commit('clearError');
       try {
         const response = await HTTP.get('/group/');
@@ -286,6 +225,7 @@ export default {
       }
     },
     async loadAllStudents({commit}) {
+        console.log('loadAllStudents');
       commit('clearError');
       try {
         const response = await HTTP.get('/student/');
@@ -299,6 +239,7 @@ export default {
       commit("setSelectedSTUD", payload);
     },
     async deletesGroup( {commit}, payload) {
+        console.log('deletesGroup');
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
@@ -317,6 +258,7 @@ export default {
       }
     },
       async deletesStudent( {commit}, payload) {
+        console.log('deletesStudent');
           if (payload != null) {
               commit('clearError');
               commit('setLoading', true);
@@ -346,14 +288,14 @@ export default {
       }
       return names;
     },
-    getCourseNames(state){
-      var i = 0;
-      var resp = [];
-      for (i in state.courses){
-        resp.push(state.courses[i].name);
-      }
-      return resp;
-    },
+    // getCourseNames(state){
+    //   var i = 0;
+    //   var resp = [];
+    //   for (i in state.courses){
+    //     resp.push(state.courses[i].name);
+    //   }
+    //   return resp;
+    // },
     getStudents(state){
       if (state.selectedSTUD!==null && state.selectedSTUD.type === "group") {
         var student = [];
@@ -385,8 +327,8 @@ export default {
     getSelectedSTUD(state) {
       return state.selectedSTUD;
     },
-    getCourses(state){
-      return state.courses;
-    }
+    // getCourses(state){
+    //   return state.courses;
+    // }
   }
 };

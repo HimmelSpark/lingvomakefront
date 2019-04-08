@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <v-container>
     <v-layout row>
@@ -57,7 +58,6 @@
               <span>delete this group</span>
             </v-tooltip>
 
-
           </v-card-actions>
         </v-card>
         <v-dialog v-model="editGroupDialog" persistent max-width="490">
@@ -110,9 +110,6 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-
-
-
         <v-dialog v-model="deleteGroupDialog" persistent max-width="490">
           <v-card>
             <v-card-title class="headline">
@@ -134,6 +131,7 @@
 
 <script>
 export default {
+    props: ['id'],
   data() {
     return {
       deleteGroupDialog: false,
@@ -144,7 +142,8 @@ export default {
       Gdescription: null,
       GstartDate: null,
       Gid: null,
-      Gcourseid:null
+      Gcourseid:null,
+        valid: false
     };
   },
   computed: {
@@ -157,9 +156,9 @@ export default {
     groups() {
       return this.$store.getters.getGroups;
     },
-  courses() {
-    return this.$store.getters.getCourseNames;
-  }
+    courses() {
+      return this.$store.getters.getCourseNames;
+    }
   },
   methods: {
     openEditGroupDialog(group) {
@@ -167,27 +166,35 @@ export default {
       this.Gname = group.name;
       this.Gid = group.id;
       this.Gdescription = group.description;
-      var i = 0;
-      for (i in this.$store.getters.getCourses){
-        if(this.$store.getters.getCourses[i].id ===  group.course_id){
-          this.Gcourseid = this.$store.getters.getCourses[i].name;
+      const courses = this.$store.getters.items;
+      for (let i = 0; i < courses.length; ++i) {
+        if (courses[i].id ===  group.course_id){
+          this.Gcourseid = courses[i].name;
           break;
         }
       }
       // this.GstartDate = group.startdate;
 
     },
-    editGroup(){
-      var i = 0;
-      for (i in this.$store.getters.getCourses){
-        if(this.$store.getters.getCourses[i].name === this.Gcourseid){
-          this.Gcourseid = this.$store.getters.getCourses[i].id;
+    editGroup() {
+      const courses = this.$store.getters.items;
+      for (let i = 0; i < courses.length; ++i) {
+        if (courses[i].name === this.Gcourseid){
+          this.Gcourseid = courses[i].id;
           break;
         }
       }
-      this.$store.dispatch('changesGroup', {id: this.selected.id,name: this.Gname, description: this.Gdescription, start_date: this.GstartDate, course_id: this.Gcourseid}).then(() => {
+      this.$store.dispatch('changesGroup',
+          {
+              id: this.selected.id,
+              name: this.Gname,
+              description: this.Gdescription,
+              start_date: this.GstartDate,
+              course_id: this.Gcourseid})
+          .then(() => {
                 this.$router.push("/students/");
-      }) .catch(err => console.log(err));
+          }) .catch(err => console.log(err));
+
       this.selected.name = this.Gname;
       this.selected.description = this.Gdescription;
       this.selected.Gcourseid = this.Gcourseid;
@@ -205,9 +212,8 @@ export default {
       this.$store.dispatch('deletesGroup',this.selected.id).then(() => {
         this.$router.push("/students/");
       }) .catch(err => console.log(err));
-      var i, j = null;
-      for (i in this.students) {
-        for (j in this.students[i].groups) {
+      for (let i = 0; i < this.students.length; ++i) {
+        for (let j = 0; j < this.students[i].groups.length; ++j) {
           if (this.students[i].groups[j] === this.selected.id) {
             this.students[i].groups.pop(j);
           }
@@ -217,7 +223,7 @@ export default {
 
         }
       }
-      for (i in this.groups) {
+      for (let i = 0; i < this.groups.length; ++i) {
         if (this.groups[i].id === this.selected.id) {
           this.groups.pop(i);
           break;
