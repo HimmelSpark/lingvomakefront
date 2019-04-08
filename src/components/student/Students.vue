@@ -7,11 +7,13 @@
                 <v-chip label dark color="primary">
                     <v-icon left>group</v-icon>
                     <div><h1 class="headline mb-0">Groups</h1></div>
-                </v-chip
-                ><v-btn fab dark small color="indigo"  @click="openAddGroupDialog">
-                    <v-icon dark>add</v-icon>
-                </v-btn>
+
+                </v-chip>
+                    <v-btn fab dark small color="indigo"  @click="openAddGroupDialog">
+                        <v-icon dark>add</v-icon>
+                    </v-btn>
                 </v-layout>
+
                 <v-treeview
                         :active.sync="active"
                         :open.sync="open"
@@ -21,6 +23,7 @@
                         transition
                         hoverable>
                 </v-treeview>
+
             </v-flex>
 
             <v-divider vertical></v-divider>
@@ -58,7 +61,7 @@
                             Adding new student
                         </v-card-title>
                         <v-card-text>
-                            <v-form v-model="valid" ref="form" validation>
+                            <v-form ref="form">
 
                                 <v-text-field
                                         prepend-icon="person"
@@ -147,7 +150,7 @@
                             Adding new group
                         </v-card-title>
                         <v-card-text>
-                            <v-form v-model="valid" ref="form" validation>
+                            <v-form ref="form">
                                 <v-text-field
                                         name="name"
                                         label="Name"
@@ -177,9 +180,8 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="primary" flat @click="addGroupDialog = false"
-                            >Cancel</v-btn>
-                            <v-btn color="green" flat @click="createGroup">Save</v-btn>
+                            <v-btn color="primary" flat @click="addGroupDialog = false">Cancel</v-btn>
+                            <v-btn color="green" flat @click="createGroup" :disabled="!Gcourseid">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -197,7 +199,7 @@
                             Editing student
                         </v-card-title>
                         <v-card-text>
-                            <v-form v-model="valid" ref="form" validation>
+                            <v-form ref="form">
                                 <v-text-field
                                         prepend-icon="person"
                                         name="email"
