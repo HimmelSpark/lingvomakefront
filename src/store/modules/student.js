@@ -43,7 +43,7 @@ export default {
     //   console.log('student add cource');
     //   state.courses.push(payload);
     // },
-  addGroup(state, payload) {
+  addGroup(state, payload) { //TODO добавить
     const newGroup = {
       //TODO разобраться с айдишниками
       id: state.items.length * 7,
@@ -52,7 +52,7 @@ export default {
       imgSrc: 'https://bumper-stickers.ru/38068-thickbox_default/znak-elektronnoj-pochty-mailru.jpg',
       type: 'course',
     };
-    state.groups.push(newGroup);
+    // state.groups.push(newGroup); //TODO вместо этого лучше заново прогрузить список групп
   },
     addStudent(state, payload){
       state.students.push({
@@ -85,6 +85,22 @@ export default {
     // },
   loadsGroups(state, payload) {
     if (payload !== null && payload.length !== 0 && state.groups.length<2) {
+	  //
+      // let groups = [{ id: 0, name: "All students", type:"all"}];
+      // payload.forEach(curr => {
+      //   groups.push({
+		//   id: curr.id,
+		//   name: curr.name,
+		//   description: curr.description,
+		//   course_id:curr.course_id,
+		//   type: "group",
+		//   imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
+		//   children: [],
+		// });
+      // });
+	  //
+      // state.groups = groups;
+
       payload.forEach(curr => {
         state.groups.push({
           id: curr.id,
@@ -96,6 +112,8 @@ export default {
           children: [],
         });
       });
+
+      state.groups.forEach(gr => console.log(gr));
     }
   },
   loadStudents(state, payload) {
@@ -152,9 +170,11 @@ export default {
         try {
           // Создание курса
           const response = await HTTP.post('/group/create', payload);
-          commit('addGroup', payload)
+          console.log("createsGroup", response.data);
+          // commit('addGroup', payload) //TODO дебаг
         } catch (e) {
-          commit('setError', e.response.data);
+          console.log(e);
+          commit('setError', e);
         } finally {
             commit('setLoading', false);
         }
@@ -169,6 +189,7 @@ export default {
         try {
           // Создание курса
           const response = await HTTP.post('/student/create', payload);
+          console.log(response.data);
           commit('addStudent', response.data);
         } catch (e) {
           commit('setError', e);
@@ -215,7 +236,7 @@ export default {
           }
       },
     async loadGroups({commit}) {
-        console.log('loadGroups');
+      console.log('loadGroups');
       commit('clearError');
       try {
         const response = await HTTP.get('/group/');
@@ -225,7 +246,7 @@ export default {
       }
     },
     async loadAllStudents({commit}) {
-        console.log('loadAllStudents');
+      console.log('loadAllStudents');
       commit('clearError');
       try {
         const response = await HTTP.get('/student/');
@@ -239,18 +260,13 @@ export default {
       commit("setSelectedSTUD", payload);
     },
     async deletesGroup( {commit}, payload) {
-        console.log('deletesGroup');
+      console.log('deletesGroup');
       if (payload != null) {
         commit('clearError');
         commit('setLoading', true);
 
         try {
-          // Создание курса
-
           const response = await HTTP.post('/group/delete', payload);
-          if (200 <= response.status < 300) {
-            // commit('deleteGroup', payload)
-          }
         } catch (e) {
           commit('setError', e);
         }
@@ -278,7 +294,7 @@ export default {
       },
   },
   getters: {
-    getGroupNames(state){
+    getGroupNames(state) {
       var names = [];
       var i = 1;
       for ( i in state.groups){
@@ -296,7 +312,7 @@ export default {
     //   }
     //   return resp;
     // },
-    getStudents(state){
+    getStudents(state) {
       if (state.selectedSTUD!==null && state.selectedSTUD.type === "group") {
         var student = [];
         var flag = false;

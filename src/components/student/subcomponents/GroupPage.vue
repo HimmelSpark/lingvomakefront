@@ -32,9 +32,9 @@
           <v-card-actions>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-btn flat icon large v-on="on" @click="openEditGroupDialog(selected)"
-                  ><v-icon>edit</v-icon></v-btn
-                >
+                <v-btn flat icon large v-on="on" @click="openEditGroupDialog(selected)">
+                  <v-icon>edit</v-icon>
+                </v-btn>
               </template>
               <span>edit this Group</span>
             </v-tooltip>
@@ -65,49 +65,56 @@
             <v-card-title class="headline">
               Adding new group
             </v-card-title>
+
             <v-card-text>
               <v-form v-model="valid" ref="form" validation>
+
                 <v-text-field
                         name="name"
                         label="Name"
                         type="text"
-                        v-model="Gname"
-                ></v-text-field>
+                        v-model="Gname">
+                </v-text-field>
+
                 <!--<v-text-field-->
                         <!--name="startDate"-->
                         <!--label="StartDate"-->
                         <!--type="text"-->
                         <!--v-model="GstartDate"-->
                 <!--&gt;</v-text-field>-->
+
                 <v-text-field
                         name="description"
                         label="Description"
                         type="text"
-                        v-model="Gdescription"
-                ></v-text-field>
+                        v-model="Gdescription">
+                </v-text-field>
+
                 <v-select
                         name="course_id"
                         :items="courses"
                         label="Select course for group"
-                        v-model="Gcourseid"
-                ></v-select>
+                        v-model="Gcourseid">
+                </v-select>
 
                 <!--TODO заделать юниты-->
                 <v-select
                         name="current_unit"
                         :items="courses"
                         label="Select course for group"
-                        v-model="Gcourseid"
-                ></v-select>
+                        v-model="Gcourseid">
+                </v-select>
 
               </v-form>
             </v-card-text>
+
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary" flat @click="editGroupDialog = false"
               >Cancel</v-btn>
               <v-btn color="green" flat @click="editGroup">Save</v-btn>
             </v-card-actions>
+
           </v-card>
         </v-dialog>
         <v-dialog v-model="deleteGroupDialog" persistent max-width="490">
@@ -209,26 +216,36 @@ export default {
 
     deleteGroup: function () {
 
-      this.$store.dispatch('deletesGroup',this.selected.id).then(() => {
-        this.$router.push("/students/");
-      }) .catch(err => console.log(err));
-      for (let i = 0; i < this.students.length; ++i) {
-        for (let j = 0; j < this.students[i].groups.length; ++j) {
-          if (this.students[i].groups[j] === this.selected.id) {
-            this.students[i].groups.pop(j);
-          }
-          if (this.students[i].groupName[j] === this.selected.name) {
-            this.students[i].groupName.pop(j);
-          }
+      this.$store.dispatch('deletesGroup',this.selected.id)
+          .then(() => {
+            this.$store.dispatch('loadAllStudents')
+                .then(() => {
+                  this.$store.dispatch('loadGroups');
+                });
+			      this.$router.push("/students/");
+          })
+          .catch(err => console.log(err));
 
-        }
-      }
-      for (let i = 0; i < this.groups.length; ++i) {
-        if (this.groups[i].id === this.selected.id) {
-          this.groups.pop(i);
-          break;
-        }
-      }
+      //TODO надо загрузить группы и студентов заново
+
+      // for (let i = 0; i < this.students.length; ++i) {
+      //   for (let j = 0; j < this.students[i].groups.length; ++j) {
+      //     if (this.students[i].groups[j] === this.selected.id) {
+      //       this.students[i].groups.pop(j);
+      //     }
+      //     if (this.students[i].groupName[j] === this.selected.name) {
+      //       this.students[i].groupName.pop(j);
+      //     }
+      //
+      //   }
+      // }
+      //
+      // for (let i = 0; i < this.groups.length; ++i) {
+      //   if (this.groups[i].id === this.selected.id) {
+      //     this.groups.pop(i);
+      //     break;
+      //   }
+      // }
 
     }
   }

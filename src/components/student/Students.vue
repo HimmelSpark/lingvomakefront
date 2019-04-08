@@ -4,15 +4,17 @@
         <v-layout row>
             <v-flex xs5 md4 lg3>
                 <v-layout row wrap>
-                <v-chip label dark color="primary">
-                    <v-icon left>group</v-icon>
-                    <div><h1 class="headline mb-0">Groups</h1></div>
+                    <v-chip label dark color="primary">
+                        <v-icon left>group</v-icon>
+                        <div><h1 class="headline mb-0">Groups</h1></div>
+                    </v-chip>
 
-                </v-chip>
                     <v-btn fab dark small color="indigo"  @click="openAddGroupDialog">
                         <v-icon dark>add</v-icon>
                     </v-btn>
                 </v-layout>
+
+                {{groups}}
 
                 <v-treeview
                         :active.sync="active"
@@ -117,35 +119,42 @@
                         <v-card-title class="headline">
                             Adding new group
                         </v-card-title>
+
                         <v-card-text>
                             <v-form ref="form">
+
                                 <v-text-field
                                         name="name"
                                         label="Name"
                                         type="text"
-                                        v-model="Gname"
-                                ></v-text-field>
+                                        v-model="Gname">
+
+                                </v-text-field>
+
                                 <!--<v-text-field-->
                                         <!--name="startDate"-->
                                         <!--label="StartDate"-->
                                         <!--type="text"-->
                                         <!--v-model="GstartDate"-->
                                 <!--&gt;</v-text-field>-->
+
                                 <v-text-field
                                         name="description"
                                         label="Description"
                                         type="text"
-                                        v-model="Gdescription"
-                                ></v-text-field>
+                                        v-model="Gdescription">
+                                </v-text-field>
+
                                 <v-select
                                         name="course_id"
                                         :items="courses"
                                         label="Select course for group"
-                                        v-model="Gcourseid"
+                                        v-model="Gcourseid">
+                                </v-select>
 
-                                ></v-select>
                             </v-form>
                         </v-card-text>
+
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="primary" flat @click="addGroupDialog = false">Cancel</v-btn>
@@ -377,14 +386,12 @@
             },
             deleteStudent(){
                 var i = null;
-                this.$store.dispatch('deletesStudent', this.id);
+                this.$store.dispatch('deletesStudent', this.id)
+                    .then(() => this.$store.dispatch('loadGroups'))
+                    .catch(() => console.error('ERROR 391'));
 
-                for (i in this.$store.getters.getStudents){
-                    if(this.$store.getters.getStudents[i].id === this.id) {
-                        this.$store.getters.getStudents.pop(i);
-                        break;
-                    }
-                    }
+                //TODO снова подгрузить группы
+
                 this.deleteStudentDialog = false;
                 },
             createGroup() {
@@ -402,7 +409,10 @@
                         start_date: this.GstartDate,
                         course_id: this.Gcourseid
                     }
-                );
+                )
+                    .then(_ => {
+                      this.$store.dispatch('loadGroups')
+                    });
                 this.addGroupDialog = false;
             },
             createStudent() {
@@ -452,7 +462,8 @@
                     this.$store.dispatch('loadGroups')
                         .then(() => {
                             this.$store.dispatch('loadAllStudents');
-                        });
+                        })
+                        .catch(e => console.error(e));
                 });
         }
     };
