@@ -380,7 +380,7 @@
                         }
                     }
                 }
-                this.$store.dispatch('changesStudent', {id: id, email: this.email,name: this.name, surname: this.surname, password: this.password, group_id: this.igroups, phone:this.phone});
+                this.$store.dispatch('changesStudent', {id: this.id, email: this.email,name: this.name, surname: this.surname, password: this.password, group_id: this.igroups, phone:this.phone});
 
                 this.editStudentDialog = false;
             },

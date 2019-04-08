@@ -109,7 +109,7 @@ export default {
         this.$store
           .dispatch("registerUser", { user: user, school: this.school })
           .then(() => {
-            this.$router.push("/settings/application");
+            this.$router.push("/");
           })
           .catch(err => console.log(err));
       }

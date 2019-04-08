@@ -7,9 +7,9 @@
             <v-toolbar-title>Login form</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form 
-              v-model="valid" 
-              ref="form" 
+            <v-form
+              v-model="valid"
+              ref="form"
               validation>
               <v-text-field
                 prepend-icon="person"
@@ -89,7 +89,7 @@ export default {
         this.$store
           .dispatch("authUser", user)
           .then(() => {
-            this.$router.push("/settings/application");
+            this.$router.push("/");
           })
           .catch(err => console.log(err));
       }
