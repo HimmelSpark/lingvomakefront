@@ -33,29 +33,29 @@
     props: ["change", "initial"],
     data() {
       return {
-      isVisible: false,
-      h: 265,
-      s: 80,
-      l: 99
+        isVisible: false,
+        h: 265,
+        s: 80,
+        l: 99
       }
     },
 	  computed: {
-	  color: function() {
-		var hsl = hsb2hsl(parseFloat(this.h) / 360, parseFloat(this.s) / 100, parseFloat(this.l) / 100)
+      color: function() {
+        var hsl = hsb2hsl(parseFloat(this.h) / 360, parseFloat(this.s) / 100, parseFloat(this.l) / 100)
 
-		var c = hsl.h + ", " + hsl.s + "%, " + hsl.l + "%";
+        var c = hsl.h + ", " + hsl.s + "%, " + hsl.l + "%";
 
-		var s = "hsl(" + c + ")";
-		this.change({
-		  color: s
-		});
-		return s;
-	  },
-	  colorString: function() {
+        var s = "hsl(" + c + ")";
+        this.change({
+          color: s
+        });
+        return s;
+      },
+	    colorString: function() {
 		var c = this.h + ", " + this.s + "%, " + this.l + "%"
 		return c;
 	  },
-	  gradientH: function() {
+	    gradientH: function() {
 		var stops = [];
 		for (var i = 0; i < 7; i++) {
 		  var h = i * 60;
@@ -70,7 +70,7 @@
 		  backgroundImage: "linear-gradient(to right, " + stops.join(', ') + ")"
 		}
 	  },
-	  gradientS: function() {
+	    gradientS: function() {
 		var stops = [];
 		var c;
 		var hsl = hsb2hsl(parseFloat(this.h / 360), 0, parseFloat(this.l / 100))
@@ -85,8 +85,7 @@
 		  backgroundImage: "linear-gradient(to right, " + stops.join(', ') + ")"
 		}
 	  },
-
-	  gradientL: function() {
+	    gradientL: function() {
 		var stops = [];
 		var c;
 
@@ -118,7 +117,14 @@
 	  }
 	},
 	  mounted: function () {
-	    this.h = parseInt(Math.random() * 360)
+	    // this.h = parseInt(Math.random() * 360);
+
+      if (this.initial) {
+	      const HSL = this.initial.split(',');
+	      this.h = parseInt(HSL[0]);
+	      this.s = parseInt(HSL[1]);
+	      this.l = parseInt(HSL[2]);
+      }
 	  }
   };
 
@@ -163,6 +169,32 @@
     hsl.l *= 100;
 
     return hsl;
+  }
+
+  function hslToRgb(h, s, l) {
+	var r, g, b;
+
+	if (s == 0) {
+	  r = g = b = l; // achromatic
+	} else {
+	  function hue2rgb(p, q, t) {
+		if (t < 0) t += 1;
+		if (t > 1) t -= 1;
+		if (t < 1/6) return p + (q - p) * 6 * t;
+		if (t < 1/2) return q;
+		if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+		return p;
+	  }
+
+	  var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+	  var p = 2 * l - q;
+
+	  r = hue2rgb(p, q, h + 1/3);
+	  g = hue2rgb(p, q, h);
+	  b = hue2rgb(p, q, h - 1/3);
+	}
+
+	return [ r * 255, g * 255, b * 255 ];
   }
 </script>
 

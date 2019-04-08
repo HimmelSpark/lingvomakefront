@@ -5,6 +5,7 @@ import user from "./modules/user";
 import shared from "./modules/shared";
 import dataTree from "./modules/data-tree";
 import student from "./modules/student";
+import school from "./modules/school";
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     user,
     shared,
     student,
-    dataTree
+    dataTree,
+    school
   }
 });
