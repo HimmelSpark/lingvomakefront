@@ -67,7 +67,7 @@
             <v-card-text class="text-xs-center">Already have an account?</v-card-text>
           </v-layout>
           <v-layout row align-center justify-center>
-            <v-btn color="orange" to="/login">Log In</v-btn>
+            <v-btn color="orange" block to="/login">Log In</v-btn>
           </v-layout>
         </v-card>
       </v-flex>
