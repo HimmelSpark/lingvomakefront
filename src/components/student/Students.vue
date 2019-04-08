@@ -14,8 +14,6 @@
                     </v-btn>
                 </v-layout>
 
-                {{groups}}
-
                 <v-treeview
                         :active.sync="active"
                         :open.sync="open"
@@ -25,7 +23,6 @@
                         transition
                         hoverable>
                 </v-treeview>
-
             </v-flex>
 
             <v-divider vertical></v-divider>
@@ -55,7 +52,6 @@
                         </v-btn>
                     </v-layout>
                 </div>
-
 
                 <v-dialog v-model="addStudentDialog" persistent max-width="490">
                     <v-card>
@@ -107,8 +103,7 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="primary" flat @click="addStudentDialog = false"
-                            >Cancel</v-btn>
+                            <v-btn color="primary" flat @click="addStudentDialog = false">Cancel</v-btn>
                             <v-btn color="green" flat @click="createStudent">Save</v-btn>
                         </v-card-actions>
                     </v-card>
@@ -207,24 +202,6 @@
                                         type="text"
                                         v-model="phone"
                                 ></v-text-field>
-                                <v-text-field
-                                        prepend-icon="lock"
-                                        name="password"
-                                        label="Password"
-                                        id="password"
-                                        type="password"
-                                        :counter="8"
-                                        v-model="password"
-                                ></v-text-field>
-                                <!--<v-text-field-->
-                                        <!--prepend-icon="lock"-->
-                                        <!--name="passwordConfirm"-->
-                                        <!--label="Confirm password"-->
-                                        <!--id="passwordConfirm"-->
-                                        <!--type="password"-->
-                                        <!--:counter="8"-->
-                                        <!--v-model="passwordConfirm"-->
-                                <!--&gt;</v-text-field>-->
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -262,7 +239,6 @@
                         style="padding-left: 10px"
                 >
                     <template v-slot:items="props">
-                        <!--<td class="text-xs-right">{{ props.item.id }}</td>-->
 
                         <td>{{ props.item.surname }}</td>
                         <td>{{ props.item.name }}</td>
@@ -287,10 +263,6 @@
                                 <v-icon>delete</v-icon>
                             </v-btn>
                         </td>
-
-                        <!--<td class="text-xs-right">{{ props.item.carbs }}</td>-->
-                        <!--<td class="text-xs-right">{{ props.item.protein }}</td>-->
-                        <!--<td class="text-xs-right">{{ props.item.iron }}</td>-->
                     </template>
                 </v-data-table>
             </v-flex>
@@ -306,7 +278,6 @@
                 name: null,
                 surname: null,
                 id:null,
-                password: null,
                 email: null,
                 passwordConfirm: null,
                 igroups: [],
@@ -335,6 +306,7 @@
                     switch (this.active[0].type) {
                         case "group":
                             this.$router.push("/students/group/" + this.active[0].id);
+                            //todo поменять на всех студентов по id группы
                             break;
                         case "all":
                             this.$router.push("/students/");
@@ -362,38 +334,48 @@
                 this.email = student.email;
                 this.name = student.name;
                 this.surname = student.surname;
-                this.password = student.password;
                 this.sgroups = student.groupName;
                 this.passwordConfirm = student.passwordConfirm;
                 this.phone = student.phone;
 
                 this.editStudentDialog = true;
             },
-            editStudent(id){
+            editStudent(id) {
                 this.igroups = [];
                 var i,j = 0;
                 for(j in this.sgroups) {
-                    for (i in this.$store.getters.getGroups){
+                    for (i in this.$store.getters.getGroups) {
                         if (this.$store.getters.getGroups[i].name === this.sgroups[j][0]) {
                             this.igroups.push(this.$store.getters.getGroups[i].id );
                             break;
                         }
                     }
                 }
-                this.$store.dispatch('changesStudent', {id: this.id, email: this.email,name: this.name, surname: this.surname, password: this.password, group_id: this.igroups, phone:this.phone});
+                this.$store.dispatch('changesStudent',
+                    {
+                        id: this.id,
+                        email: this.email,
+                        name: this.name,
+                        surname: this.surname,
+                        group_id: this.igroups,
+                        phone: this.phone
+                    }
+                );
 
                 this.editStudentDialog = false;
             },
-            deleteStudent(){
+            deleteStudent() {
                 var i = null;
-                this.$store.dispatch('deletesStudent', this.id)
+                this.$store.dispatch('deletesStudent', {id: this.id})
                     .then(() => this.$store.dispatch('loadGroups'))
+                    .then(() => this.$store.dispatch('loadAllStudents'))
                     .catch(() => console.error('ERROR 391'));
 
                 //TODO снова подгрузить группы
 
                 this.deleteStudentDialog = false;
-                },
+            },
+
             createGroup() {
                 let i = 0;
                 const courses = this.$store.getters.items;
@@ -426,7 +408,14 @@
                         }
                     }
                 }
-                this.$store.dispatch('createsStudent', {email: this.email,name: this.name, surname: this.surname, password: this.password, group_id: this.igroups, phone:this.phone});
+                this.$store.dispatch('createsStudent',
+                    {
+                        email: this.email,
+                        name: this.name,
+                        surname: this.surname,
+                        group_id: this.igroups,
+                        phone:this.phone}
+                );
                 this.addStudentDialog = false
             }
         },
@@ -453,9 +442,10 @@
                 return this.$store.getters.getHead;
             },
             students() {
-                return this.$store.getters.getStudents;
+                return this.$store.getters.students;
             },
         },
+
         created() {
             this.$store.dispatch('loadCourses')
                 .then(() => {
@@ -465,6 +455,10 @@
                         })
                         .catch(e => console.error(e));
                 });
+        },
+
+        beforeRouteUpdate(to, from, next) {
+            this.$store.dispatch("loadAllStudentsByGroupId", {next: next, id: this.active[0].id});
         }
     };
 </script>

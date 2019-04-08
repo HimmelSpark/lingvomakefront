@@ -6,6 +6,7 @@ import AuthGuard from "./authguard";
 import DoubleEnterGuard from "./doubleEnterGuard";
 import LoadUnitsGuard from "./loadUnitsGuard";
 import LoadTasksGuard from "./loadTasksGuard";
+import GroupGuard from "./groupGuard.js";
 //Admin components
 import Home from "@/components/Home";
 import Login from "@/components/auth/Login";
@@ -27,6 +28,7 @@ import Employees from "@/components/manage/subcomponents/Employees"
 import MobileTranslate from "@/components/mobile/TranslateTask";
 
 import ColorPicker from "@/components/extra/Color";
+
 
 Vue.use(Router);
 
@@ -54,7 +56,8 @@ export default new Router({
         {
           path: "group/:id",
           props: true,
-          component: GroupPage
+          component: GroupPage,
+          beforeEnter: GroupGuard
         },
       ]
     },

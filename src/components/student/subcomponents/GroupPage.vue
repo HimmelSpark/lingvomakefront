@@ -14,7 +14,7 @@
                     <v-chip label dark color="primary">{{ selected.name }}</v-chip>
                     has
                     <v-chip label dark color="primary">
-                      {{ students.length }}
+                      <!--{{ students.length }}-->
                     </v-chip>
                     student(s)
                   </h2>
@@ -75,13 +75,6 @@
                         type="text"
                         v-model="Gname">
                 </v-text-field>
-
-                <!--<v-text-field-->
-                        <!--name="startDate"-->
-                        <!--label="StartDate"-->
-                        <!--type="text"-->
-                        <!--v-model="GstartDate"-->
-                <!--&gt;</v-text-field>-->
 
                 <v-text-field
                         name="description"
@@ -155,6 +148,7 @@ export default {
   },
   computed: {
     selected() {
+        console.log('selecteeeeeed,   ', this.$store.getters.getSelectedSTUD);
       return this.$store.getters.getSelectedSTUD;
     },
     students() {

@@ -10,6 +10,4 @@ export default function (to, from, next) {
                   store.dispatch('loadTasksByUnit', {next: next, id: parseInt(splitedPath[splitedPath.length - 1])});
               });
       });
-
-
 }
