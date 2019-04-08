@@ -117,6 +117,7 @@ export default {
     }
   },
   loadStudents(state, payload) {
+      state.students = [];
     if (payload !== null && payload.length !== 0 && state.students.length<1) {
       payload.forEach(curr => {
         let i,j = null;
@@ -253,12 +254,31 @@ export default {
         commit('loadStudents', response.data);
       } catch (e) {
         commit('setError', e.response.data);
+      } finally {
+          commit('setLoadingStudents', false);
       }
-      commit('setLoadingStudents', false);
     },
+
+    async loadAllStudentsByGroupId({commit}, {next, id}) {
+        console.log('loadAllStudentsByGroupId');
+        commit('clearError');
+        try {
+            // toto ГОРИТ
+            const response = await HTTP.get('/student/');
+            commit('loadStudents', response.data);
+            next();
+        } catch (e) {
+            console.log('loadAllStudentsByGroupIdError,  ', e);
+            commit('setError', e.response.data);
+        } finally {
+            commit('setLoadingStudents', false);
+        }
+    },
+
     setSelectedSTUD({ commit }, payload) {
       commit("setSelectedSTUD", payload);
     },
+
     async deletesGroup( {commit}, payload) {
       console.log('deletesGroup');
       if (payload != null) {
@@ -283,9 +303,7 @@ export default {
                   // Создание курса
 
                   const response = await HTTP.post('/student/delete', payload);
-                  if (200 <= response.status < 300) {
-                      // commit('deleteGroup', payload)
-                  }
+
               } catch (e) {
                   commit('setError', e);
               }
@@ -312,28 +330,8 @@ export default {
     //   }
     //   return resp;
     // },
-    getStudents(state) {
-      if (state.selectedSTUD!==null && state.selectedSTUD.type === "group") {
-        var student = [];
-        var flag = false;
-        var i,j = 0;
-        for (i in state.students) {
-          for (j in state.students[i].group) {
-            if (state.students[i].group[j] === state.selectedSTUD.id) {
-              flag = true;
-              break;
-            }
-          }
-          if (flag === true) {
-            student.push(state.students[i]);
-          }
-          flag = false;
-        }
-        return student;
-      } else {
-        return state.students;
-      }
-    },
+    students: state => state.students,
+
     getHead(state){
       return state.headers;
     },
