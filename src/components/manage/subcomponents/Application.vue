@@ -14,8 +14,6 @@
 
         <br>
 
-        {{school}}
-
         <v-card>
           <v-layout row justify-center>
 
@@ -94,7 +92,6 @@
         color1: null,
         color2: null,
 
-
         disabled: false
       };
     },
@@ -109,6 +106,8 @@
         let newData = this.school;
         newData.name = this.schoolName;
         newData.language = this.applicationLanguage;
+        newData.main_color = parseHSL(this.color1);
+        newData.secondary_color = parseHSL(this.color2);
         this.$store.dispatch('saveApplication', newData);
       },
       generateApplication() {
@@ -146,14 +145,20 @@
 	  hsl[2] = parseInt(hsl[2] * 100);
 	  return hsl.toString();
   }
+  function parseHSL(hsl) {
+	  ['hsl', '(', ')', '%', '%'].forEach(symbol => hsl = hsl.replace(symbol, ''));
+	  console.log('A1', hsl);
+	  const HSL = hsl.split(',').map(I => parseInt(I));
+    console.log('A2', HSL);
+	  const RGB = hslToRgb(HSL[0] / 360, HSL[1] / 100, HSL[2] / 100).map(I => parseInt(I));
+    console.log('A3', RGB);
+    return RGB
+      .map(I => intToHexString(I).toUpperCase())
+      .reduce((prev, curr) => {
+        return prev.concat(curr)
+      }, '#');
+  }
 
-  /**
-   *
-   * @param r
-   * @param g
-   * @param b
-   * @return {*[]}
-   */
   function rgbToHsl(r, g, b) {
 	  r /= 255, g /= 255, b /= 255;
 
@@ -177,6 +182,40 @@
   	}
 
 	  return [ h, s, l ];
+  }
+  function hslToRgb(h, s, l) {
+
+	var r, g, b;
+
+	if (s === 0) {
+	  r = g = b = l; // achromatic
+	} else {
+
+	  function hue2rgb(p, q, t) {
+
+		if (t < 0)
+		  t += 1;
+		if (t > 1)
+		  t -= 1;
+		if (t < 1/6)
+		  return p + (q - p) * 6 * t;
+		if (t < 1/2)
+		  return q;
+		if (t < 2/3)
+		  return p + (q - p) * (2/3 - t) * 6;
+
+		return p;
+	  }
+
+	  var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+	  var p = 2 * l - q;
+
+	  r = hue2rgb(p, q, h + 1/3);
+	  g = hue2rgb(p, q, h);
+	  b = hue2rgb(p, q, h - 1/3);
+	}
+
+	return [ r * 255, g * 255, b * 255 ];
   }
 
   function HexStringToInt64StringConverter(signed) {
@@ -347,6 +386,13 @@
 	  var binary = toBinary(hex);
 	  return binaryToDec(binary);
 	};
+  }
+
+  function intToHexString(int) {
+    if (int <= 15) {
+	    return '0'.concat(int.toString(16));
+    }
+    return int.toString(16);
   }
 
 </script>
