@@ -58,7 +58,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark @click="onSubmit">
+            <v-btn dark color="orange"  @click="onSubmit">
               Create account
             </v-btn>
           </v-card-actions>
@@ -67,7 +67,7 @@
             <v-card-text class="text-xs-center">Already have an account?</v-card-text>
           </v-layout>
           <v-layout row align-center justify-center>
-            <v-btn color="orange" block to="/login">Log In</v-btn>
+            <v-btn block absolute to="/login">Log In</v-btn>
           </v-layout>
         </v-card>
       </v-flex>

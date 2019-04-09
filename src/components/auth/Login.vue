@@ -45,13 +45,13 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark @click="onSubmit">Login</v-btn>
+            <v-btn dark color="orange" @click="onSubmit">Login</v-btn>
           </v-card-actions>
           <v-layout row>
             <v-card-text class="text-xs-center">Haven't an account yet?</v-card-text>
           </v-layout>
           <v-layout row align-center justify-center>
-            <v-btn color="orange" block to="/registration">Sign Up</v-btn>
+            <v-btn block absolute to="/registration">Sign Up</v-btn>
           </v-layout>
         </v-card>
       </v-flex>
