@@ -106,7 +106,10 @@
         this.color2 = event.color;
       },
 	    saveApplication() {
-
+        let newData = this.school;
+        newData.name = this.schoolName;
+        newData.language = this.applicationLanguage;
+        this.$store.dispatch('saveApplication', newData);
       },
       generateApplication() {
         this.disabled = true;

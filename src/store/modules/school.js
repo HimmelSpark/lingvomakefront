@@ -27,7 +27,19 @@ export default {
 		const response = await HTTP.post("/school/makeapp");
 		console.log(response.data);
 	  } catch (e) {
-		commit('setError', e);
+		commit('setError', e.response.data);
+	  } finally {
+		commit('setLoading', false);
+	  }
+	},
+	async saveApplication({commit}, payload) {
+      console.log('saveApplication');
+      try {
+		commit('setLoading', true);
+		const response = await HTTP.post("/school/change", payload);
+		commit('setSchool', payload);
+	  } catch (e) {
+		commit('setError', e.response.data);
 	  } finally {
 		commit('setLoading', false);
 	  }
