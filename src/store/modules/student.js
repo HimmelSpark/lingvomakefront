@@ -264,7 +264,7 @@ export default {
         commit('clearError');
         try {
             // toto ГОРИТ
-            const response = await HTTP.get('/student/');
+            const response = await HTTP.get('/student/group/' + id);
             commit('loadStudents', response.data);
             next();
         } catch (e) {

@@ -540,7 +540,7 @@ export default {
             })
     },
     deleteTask(task) {
-        this.$store.dispatch("deleteTaskById", task.id)
+        this.$store.dispatch("deleteTaskById", {id: task.id})
             .then(() => {
                 this.$store.dispatch('loadTasksByUnitWithoutNext', this.id);
                 this.deleteTaskDialog = false;
