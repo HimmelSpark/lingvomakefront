@@ -133,10 +133,9 @@
                     <v-spacer></v-spacer>
                     <v-btn icon dark @click="openEditTaskDialog(task)"><v-icon>edit</v-icon></v-btn>
                     <v-btn icon flat color="red"
-                           @click="deleteTaskDialog = true"
-                      >
+                           @click="deleteTaskDialog = true">
                       <v-icon>delete</v-icon>
-                      </v-btn>
+                    </v-btn>
                   </v-card-actions>
                     <v-dialog v-model="deleteTaskDialog" persistent max-width="390">
                         <v-card>
@@ -252,7 +251,9 @@
                 <v-btn dark flat @click="saveCreatedTask">Save</v-btn>
               </v-toolbar-items>
             </v-toolbar>
+
             <br>
+
             <v-layout row justify-center>
                 <v-flex xs5>
                   <v-card>
@@ -264,13 +265,13 @@
                     <v-form v-model="valid" ref="form" validation>
                       <v-text-field
                           name="name"
-                          label="name"
+                          label="Enter task NAME"
                           type="text"
                           v-model="newTaskName">
                       </v-text-field>
                       <v-text-field
                           name="text"
-                          label="text"
+                          label="Enter QUESTION of the task"
                           type="text"
                           v-model="newTaskText">
                       </v-text-field>
@@ -282,10 +283,11 @@
                           :items="items"
                           :search-input.sync="search"
                           hide-selected
-                          label="Write options here"
+                          label="Write answer options here"
                           multiple
                           small-chips
                           solo>
+
                         <template v-slot:no-data>
                           <v-list-tile>
                             <span class="subheading">Create</span>
@@ -297,23 +299,24 @@
                             </v-chip>
                           </v-list-tile>
                         </template>
+
                         <template v-slot:selection="{ item, parent, selected }">
                           <v-chip
                               v-if="item === Object(item)"
                               :color="`${item.color} lighten-3`"
                               :selected="selected"
                               label
-                              small
-                          >
-        <span class="pr-2">
-          {{ item.text }}
-        </span>
+                              small>
+                            <span class="pr-2">
+                              {{ item.text }}
+                            </span>
                             <v-icon
                                 small
-                                @click="parent.selectItem(item)"
-                            >close</v-icon>
+                                @click="parent.selectItem(item)">close
+                            </v-icon>
                           </v-chip>
                         </template>
+
                         <template v-slot:item="{ index, item }">
                           <v-list-tile-content>
                             <v-text-field
@@ -344,6 +347,7 @@
                             </v-btn>
                           </v-list-tile-action>
                         </template>
+
                       </v-combobox>
 
                       <v-text-field
@@ -363,8 +367,8 @@
                   </v-card>
                 </v-flex>
                 <v-divider vertical></v-divider>
-                <v-flex xs5 offset-xs1>
-                  <h1>Here should be visualisation of T1 task</h1>
+                <v-flex xs5 sm5 md5 lg5 offset-xs1>
+                    <v-img max-height="500" contain src="http://lingvomake.ml/T1.jpg"></v-img>
                 </v-flex>
               </v-layout>
           </v-card>
