@@ -35,25 +35,25 @@
         icon: 'help',
         header: "Step#1: Add an educational course",
         text: 'Click COURSES then «+» button',
-        imgSrc: 'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
+        imgSrc: 'http://lingvomake.ml/help1.jpg'
       },
       {
         icon: 'book',
 		    header: "Step#2: Add a unit to the course",
 		    text: 'Click on your COURSE on the left bar, then ADD UNIT button',
-		    imgSrc: 'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
+		    imgSrc: 'http://lingvomake.ml/help2.jpg'
       },
       {
         icon: 'add',
 		    header: "Step#3: Add a task to the unit",
 		    text: 'Click on your UNIT on the left bar, then ADD TASK button',
-		    imgSrc: 'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
+		    imgSrc: 'http://lingvomake.ml/help3.jpg'
       },
       {
         icon: 'fingerprint',
 		    header: "Step#4: Save your work and generate application",
 		    text: 'Click SETTINGS->Application and generate Application',
-		    imgSrc: 'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
+		    imgSrc: 'http://lingvomake.ml/help4.jpg'
       }
       ]
     })
