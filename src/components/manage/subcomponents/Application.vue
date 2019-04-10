@@ -77,6 +77,30 @@
 
         </v-card>
 
+        <v-dialog
+          v-model="generated"
+          max-width="390">
+          <div class="text-xs-center">
+            <v-card>
+
+              <v-card-title class="headline">
+                Generated successfully
+              </v-card-title>
+
+              <v-card-text>
+                <v-btn @click="generated = false" :href="appLink" color="orange">Download</v-btn>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn @click="generated = false">Close</v-btn>
+              </v-card-actions>
+
+            </v-card>
+          </div>
+
+        </v-dialog>
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -92,7 +116,9 @@
         color1: null,
         color2: null,
 
-        disabled: false
+        disabled: false,
+
+		    generated: false,
       };
     },
     methods: {
@@ -113,6 +139,9 @@
       generateApplication() {
         this.disabled = true;
         this.$store.dispatch('generateApplication')
+            .then(() => {
+              this.generated = true;
+            })
             .finally(() => {
 			        this.disabled = false;
             });
@@ -122,6 +151,9 @@
       school() {
         return this.$store.getters.school;
       },
+      appLink() {
+        return this.$store.getters.getApp;
+      }
     },
     created() {
       this.$store.dispatch('loadSchool');

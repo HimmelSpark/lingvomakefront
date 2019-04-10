@@ -3,10 +3,14 @@ import {HTTP} from "../../network/http-common";
 export default {
   state: {
     school: null,
+	appLink: null,
   },
   mutations: {
 	setSchool(state, school) {
 	  state.school = school;
+	},
+	setAppLink(state, link) {
+	  state.appLink = link;
 	}
   },
   actions: {
@@ -26,6 +30,7 @@ export default {
         commit('setLoading', true);
 		const response = await HTTP.post("/school/makeapp");
 		console.log(response.data);
+		commit('setAppLink', response.data);
 	  } catch (e) {
 		commit('setError', e.response.data);
 	  } finally {
@@ -48,6 +53,9 @@ export default {
   getters: {
     school(state) {
       return state.school;
+	},
+	getApp(state) {
+      return state.appLink;
 	}
   }
 }
