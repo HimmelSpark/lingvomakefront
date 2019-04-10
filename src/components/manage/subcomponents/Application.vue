@@ -138,12 +138,23 @@
       },
       generateApplication() {
         this.disabled = true;
-        this.$store.dispatch('generateApplication')
+
+        //TODO вернуть после тестирования
+        // this.$store.dispatch('generateApplication')
+        //     .then(() => {
+        //       this.generated = true;
+        //     })
+        //     .finally(() => {
+			   //      this.disabled = false;
+        //     });
+        //TODO удалить после тестирования
+        this.$store.dispatch('setAppLink', "http://lingvomake.ml/9.apk")
             .then(() => {
               this.generated = true;
             })
             .finally(() => {
-			        this.disabled = false;
+			        this.generated = true;
+              this.disabled = false;
             });
       }
     },

@@ -48,6 +48,10 @@ export default {
 	  } finally {
 		commit('setLoading', false);
 	  }
+	},
+	//TODO удалить после тестирования
+	setAppLink({commit}, appLink) {
+      commit('setAppLink', appLink);
 	}
   },
   getters: {
