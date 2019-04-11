@@ -110,6 +110,7 @@
                 v-for="task in unitById.children">
               <v-flex xs12 sm12 md6 lg6>
                 <v-card>
+
                   <v-card-title>
                     Task
                     <v-chip label color="green">#{{task.id}}</v-chip>
@@ -120,11 +121,11 @@
                     <template v-if="task.task_type === 1">
                       <span>Type <v-chip label color="green">TEST</v-chip></span>
                       <br>
-                      <span>Text <v-chip label color="green">{{task.task.text}}</v-chip></span>
+                      <span>Text <v-chip label color="green">{{task.dataT1.text}}</v-chip></span>
                       <br>
-                      <span>Options <v-chip v-for="opt in task.task.answers" label color="orange">{{opt}}</v-chip></span>
+                      <span>Options <v-chip v-for="opt in task.dataT1.answers" label color="orange">{{opt}}</v-chip></span>
                       <br>
-                      <span>Answer <v-chip label color="red">{{task.task.correct}}</v-chip></span>
+                      <span>Answer <v-chip label color="red">{{task.dataT1.correct}}</v-chip></span>
                     </template>
                   </v-card-text>
 
@@ -137,7 +138,8 @@
                       <v-icon>delete</v-icon>
                     </v-btn>
                   </v-card-actions>
-                    <v-dialog v-model="deleteTaskDialog" persistent max-width="390">
+
+                  <v-dialog v-model="deleteTaskDialog" persistent max-width="390">
                         <v-card>
                             <v-card-title class="headline">
                                 Do you want to delete this task?
@@ -155,6 +157,7 @@
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
+
                 </v-card>
               </v-flex>
               <br>
@@ -402,12 +405,10 @@ export default {
       newTask: {
         name: null,
         unit_id: [],
-		    task_type: 1,
-        task: {
-          answers: [],
-          correct: null,
-          text: null
-        }
+		    task_type: null,
+        dataT1: {},
+        dataT2: {},
+        dataT3: {}
       },
 
 
@@ -499,11 +500,22 @@ export default {
         }
       });
 
-      this.newTask.task.answers = answers;
-      this.newTask.unit_id = [this.id];
-      this.newTask.name = this.newTaskName;
-      this.newTask.task.text = this.newTaskText;
-      this.newTask.task.correct = this.newTaskCorrect;
+
+      const taskType = 0; //TODO потом будем менять, пока так
+      if (taskType === 0) {
+        this.newTask.dataT1.answers = answers;
+        this.newTask.task_type = 0;
+        this.newTask.unit_id = [this.id];
+        this.newTask.name = this.newTaskName;
+        this.newTask.dataT1.text = this.newTaskText;
+        this.newTask.dataT1.correct = this.newTaskCorrect;
+      } else if (taskType === 1) {
+        //TODO заполнение второго типа тасков
+      } else if (taskType === 2) {
+        //TODO заполнение третьего типа тасков
+      }
+
+
       this.$store.dispatch('createTask', this.newTask)
           .then(() => {
 			      this.createTaskDialog = false;
@@ -516,6 +528,7 @@ export default {
 			      this.createTaskDialog = false;
           });
 
+      //TODO стирать данные
 
     },
     openAddDialog() {
