@@ -39,7 +39,7 @@
 
           <v-card-actions>
 
-            <v-btn flat v-on="on" color="orange" @click="openEditDialog">
+            <v-btn flat color="orange" @click="openEditDialog">
                 edit course
               </v-btn>
             <v-dialog v-model="editDialog" persistent max-width="490">
@@ -57,7 +57,7 @@
                 </v-card>
               </v-dialog>
 
-            <v-btn flat v-on="on" color="green" @click="openAddUnitDialog" class="offset-xs1">
+            <v-btn flat color="green" @click="openAddUnitDialog" class="offset-xs1">
                 add unit
               </v-btn>
             <v-dialog v-model="addUnitDialog" persistent max-width="490">

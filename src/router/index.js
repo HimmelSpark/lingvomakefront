@@ -18,7 +18,6 @@ import Help from "@/components/help/Help";
 //Panel sub-components
 import CoursePage from "@/components/courses/subcomponents/CoursePage";
 import UnitPage from "@/components/courses/subcomponents/UnitPage";
-import TaskPage from "@/components/courses/subcomponents/TaskPage";
 //Student sub-components
 import GroupPage from "@/components/student/subcomponents/GroupPage";
 //Management suv-components
@@ -99,11 +98,6 @@ export default new Router({
           props: true,
           component: UnitPage,
           beforeEnter: LoadTasksGuard
-        },
-        {
-          path: "task/:id",
-          props: true,
-          component: TaskPage
         }
       ]
     },

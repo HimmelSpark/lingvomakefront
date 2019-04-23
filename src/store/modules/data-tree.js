@@ -113,7 +113,13 @@ export default {
       console.log(tasks);
 
       // стираются лишние данные, таски приводятся в порядок
-      tasks.forEach(task => {task.task = JSON.parse(task.task.value)});
+      tasks.forEach(task =>
+      {
+          if(task.task) {
+              console.log(task);
+              task.task = JSON.parse(task.task.value);
+          }
+      });
 
       state.items.forEach((currCourse) => {
         currCourse.children.forEach((currUnit) => {

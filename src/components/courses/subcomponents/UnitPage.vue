@@ -33,7 +33,7 @@
 
           <v-card-actions>
 
-            <v-btn flat color="orange" v-on="on" @click="openEditDialog">edit unit</v-btn>
+            <v-btn flat color="orange"  @click="openEditDialog">edit unit</v-btn>
             <v-dialog v-model="editDialog" persistent max-width="490">
               <v-card>
                 <v-card-title class="headline">Editing current unit</v-card-title>
@@ -45,7 +45,7 @@
               </v-card>
             </v-dialog>
 
-            <v-btn flat color="green" v-on="on" @click="createTaskDialog = true">
+            <v-btn flat color="green"  @click="createTaskDialog = true">
               add task
             </v-btn>
             <v-dialog v-model="addDialog" persistent max-width="490">
