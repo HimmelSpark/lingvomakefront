@@ -115,9 +115,17 @@ export default {
       // стираются лишние данные, таски приводятся в порядок
       tasks.forEach(task =>
       {
-          if(task.task) {
+          if(task.task_type) {
               console.log(task);
-              task.task = JSON.parse(task.task.value);
+              if(task.task_type === 1) {
+                  task.task = JSON.parse(task.dataT1);
+              } else {
+                  if(task.task_type === 2){
+                      task.task = JSON.parse(task.dataT2);
+                  } else {
+                      task.task = JSON.parse(task.dataT3);
+                  }
+              }
           }
       });
 

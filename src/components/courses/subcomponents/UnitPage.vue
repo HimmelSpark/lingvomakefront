@@ -121,11 +121,11 @@
                     <template v-if="task.task_type === 1">
                       <span>Type <v-chip label color="green">TEST</v-chip></span>
                       <br>
-                      <span>Text <v-chip label color="green">{{task.dataT1.text}}</v-chip></span>
+                      <span>Text <v-chip label color="green">{{task.task.text}}</v-chip></span>
                       <br>
-                      <span>Options <v-chip v-for="opt in task.dataT1.answers" label color="orange">{{opt}}</v-chip></span>
+                      <span>Options <v-chip v-for="opt in task.task.answers" label color="orange">{{opt}}</v-chip></span>
                       <br>
-                      <span>Answer <v-chip label color="red">{{task.dataT1.correct}}</v-chip></span>
+                      <span>Answer <v-chip label color="red">{{task.task.correct}}</v-chip></span>
                     </template>
                   </v-card-text>
 

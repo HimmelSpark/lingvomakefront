@@ -13,8 +13,8 @@
               validation>
               <v-text-field
                 prepend-icon="person"
-                name="login"
-                label="Login"
+                name="email"
+                label="email"
                 type="text"
                 :rules="emailRules"
                 v-model="email">

@@ -11,8 +11,8 @@
             <v-form v-model="valid" ref="form" validation>
               <v-text-field
                 prepend-icon="person"
-                name="login"
-                label="Login"
+                name="email"
+                label="Email"
                 type="text"
                 :rules="emailRules"
                 v-model="email"
