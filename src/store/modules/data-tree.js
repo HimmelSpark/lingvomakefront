@@ -228,10 +228,10 @@ export default {
       console.log('loadUnitsByCourse');
 	  commit('clearError');
 	  try {
-	      console.log('payload, ', payload);
-			const response = await HTTP.get('/unit/' + payload.id);
-			console.log('loadedUnitsByCourse,  ', response.data);
-			commit('loadUnits', {id: payload.id, data: response.data, next: next});
+          console.log('payload, ', payload);
+          const response = await HTTP.get('/unit/' + payload.id);
+          console.log('loadedUnitsByCourse,  ', response.data);
+              commit('loadUnits', {id: payload.id, data: response.data, next: next});
 	  } catch (e) {
 	        console.log('loadUnitsByCourseError,  ', e);
 			commit('setError', e.response.data);

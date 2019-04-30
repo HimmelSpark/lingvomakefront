@@ -3,13 +3,13 @@ import {HTTP} from "../../network/http-common";
 export default {
   state: {
     search:null,
-    selectedSTUD: null,
     groups: [
       { id: 0, name: "All students", type:"all"},
     ],
-    // courses: [],
+    names: [],
     students: [
     ],
+      GroupId:0,
     headers: [
       {
         text: "surname",
@@ -36,24 +36,26 @@ export default {
     ]
   },
   mutations: {
-    setSelectedSTUD(state, payload) {
-      state.selectedSTUD = payload;
-    },
     // addCourse(state, payload) {
     //   console.log('student add cource');
     //   state.courses.push(payload);
     // },
-  addGroup(state, payload) { //TODO добавить
-    const newGroup = {
-      //TODO разобраться с айдишниками
-      id: state.items.length * 7,
-      name: payload.name,
-      description: 'default description',
-      imgSrc: 'https://bumper-stickers.ru/38068-thickbox_default/znak-elektronnoj-pochty-mailru.jpg',
-      type: 'course',
-    };
-    // state.groups.push(newGroup); //TODO вместо этого лучше заново прогрузить список групп
-  },
+      setGroup(state,id){
+          console.log("GroupIdSet");
+          state.GroupId = id;
+          console.log(state.GroupId)
+      },
+      addGroup: function (state, payload) { //TODO добавить
+          const newGroup = {
+              //TODO разобраться с айдишниками
+              id: state.items.length,
+              name: payload.name,
+              description: 'default description',
+              imgSrc: 'https://bumper-stickers.ru/38068-thickbox_default/znak-elektronnoj-pochty-mailru.jpg',
+              type: 'course',
+          };
+          state.groups.push(newGroup); //TODO вместо этого лучше заново прогрузить список групп
+      },
     addStudent(state, payload){
       state.students.push({
         id: payload.id,
@@ -84,29 +86,18 @@ export default {
     //   }
     // },
   loadsGroups(state, payload) {
-    if (payload !== null && payload.length !== 0 && state.groups.length<2) {
-	  //
-      // let groups = [{ id: 0, name: "All students", type:"all"}];
-      // payload.forEach(curr => {
-      //   groups.push({
-		//   id: curr.id,
-		//   name: curr.name,
-		//   description: curr.description,
-		//   course_id:curr.course_id,
-		//   type: "group",
-		//   imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
-		//   children: [],
-		// });
-      // });
-	  //
-      // state.groups = groups;
+          state.groups = [
+              { id: 0, name: "All students", type:"all"},
+          ];
 
       payload.forEach(curr => {
+          // console.log(curr);
         state.groups.push({
           id: curr.id,
           name: curr.name,
           description: curr.description,
           course_id:curr.course_id,
+          curr_unit: curr.curr_unit,
           type: "group",
           imgSrc: "https://images.all-free-download.com/images/graphiclarge/toefl_87030.jpg",
           children: [],
@@ -114,14 +105,15 @@ export default {
       });
 
       state.groups.forEach(gr => console.log(gr));
-    }
   },
   loadStudents(state, payload) {
+          console.log("Students");
       state.students = [];
     if (payload !== null && payload.length !== 0 && state.students.length<1) {
       payload.forEach(curr => {
         let i,j = null;
         let gName = [];
+        console.log(curr.group_id);
         for (i in curr.group_id){
           for (j in state.groups){
             if(state.groups[j].id === curr.group_id[i]){
@@ -146,22 +138,22 @@ export default {
       });
     }
   },
+      setGroupNames(state) {
+          var i = 1;
+          console.log("GROUPENFURHER");
+          state.names = [];
+          for ( i in state.groups){
+              if(state.groups[i].id!==0) {
+                  console.log(state.groups[i].name)
+                  state.names.push([state.groups[i].name])
+              }
+          }
+      },
   setLoadingStudents(state, payload) {
     state.loadingStudents = payload;
   }
   },
   actions: {
-  // async loadCourses({commit}) {
-  //   commit('clearError');
-  //   try {
-  //     const response = await HTTP.get('/course/');
-  //     if (200 <= response.status < 300) {
-  //       commit('loadCourses', response.data)
-  //     }
-  //   } catch (e) {
-  //     commit('setError', e);
-  //   }
-  // },
     async createsGroup( {commit}, payload) {
         console.log('createsGroup');
       if (payload != null) {
@@ -172,6 +164,7 @@ export default {
           // Создание курса
           const response = await HTTP.post('/group/create', payload);
           console.log("createsGroup", response.data);
+          this.$router.push("/students/");
           // commit('addGroup', payload) //TODO дебаг
         } catch (e) {
           console.log(e);
@@ -228,7 +221,7 @@ export default {
 
                   const response = await HTTP.post('/student/change', payload);
                   if (200 <= response.status < 300) {
-                      commit('addGroup', payload)
+                      // commit('loadS', payload)
                   }
               } catch (e) {
                   commit('setError', e);
@@ -241,7 +234,8 @@ export default {
       commit('clearError');
       try {
         const response = await HTTP.get('/group/');
-        commit('loadsGroups', response.data)
+        commit('loadsGroups', response.data);
+        commit('setGroupNames');
       } catch (e) {
         commit('setError', e.response.data);
       }
@@ -261,11 +255,15 @@ export default {
 
     async loadAllStudentsByGroupId({commit}, {next, id}) {
         console.log('loadAllStudentsByGroupId');
+
+        console.log(id);
+        console.log(next);
         commit('clearError');
         try {
             // toto ГОРИТ
             const response = await HTTP.get('/student/group/' + id);
             commit('loadStudents', response.data);
+            commit('setGroup',id);
             next();
         } catch (e) {
             console.log('loadAllStudentsByGroupIdError,  ', e);
@@ -273,10 +271,6 @@ export default {
         } finally {
             commit('setLoadingStudents', false);
         }
-    },
-
-    setSelectedSTUD({ commit }, payload) {
-      commit("setSelectedSTUD", payload);
     },
 
     async deletesGroup( {commit}, payload) {
@@ -287,6 +281,7 @@ export default {
 
         try {
           const response = await HTTP.post('/group/delete', payload);
+          this.$router.push("/students/");
         } catch (e) {
           commit('setError', e);
         }
@@ -313,15 +308,23 @@ export default {
   },
   getters: {
     getGroupNames(state) {
-      var names = [];
-      var i = 1;
-      for ( i in state.groups){
-        if(state.groups[i].id!==0) {
-          names.push([state.groups[i].name])
-        }
-      }
-      return names;
+
+      return state.names;
     },
+      getGroup(state){
+        let i = 0;
+          console.log("GroupSelect");
+          console.log(state.GroupId);
+          for ( i in state.groups) {
+              if (state.groups[i].id === state.GroupId) {
+
+                  console.log("FINALLY")
+                  console.log(state.groups[i]);
+                  return (state.groups[i]);
+              }
+              console.log(state.groups[i]);
+          }
+      },
     // getCourseNames(state){
     //   var i = 0;
     //   var resp = [];

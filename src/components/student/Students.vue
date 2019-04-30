@@ -1,5 +1,5 @@
 <!--suppress ALL -->
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
     <v-container fill-height fluid justify-center>
         <v-layout row>
             <v-flex xs5 md4 lg3>
@@ -14,15 +14,19 @@
                     </v-btn>
                 </v-layout>
 
-                <v-treeview
-                        :active.sync="active"
-                        :open.sync="open"
-                        :items="groups"
-                        return-object
-                        activatable
-                        transition
-                        hoverable>
-                </v-treeview>
+                <v-list>
+                    <v-list-tile
+                        v-for = "group in groups"
+                        :key="group.id"
+                        @click="clickGroup(group.id)"
+                        >
+                        <v-list-tile-content>
+                            <v-list-tile-title>{{ group.name }}</v-list-tile-title>
+                        </v-list-tile-content>
+
+
+                    </v-list-tile>
+                </v-list>
             </v-flex>
 
             <v-divider vertical></v-divider>
@@ -86,10 +90,11 @@
 
                                 <!--v-model="props.item.groupName"-->
                                 <v-select
+                                    v-model="sgroups"
                                     :items="groupNames"
                                     label="Select a favorite activity or create a new one"
                                     multiple
-                                    v-model="sgroups"
+
                                 ></v-select>
 
                                 <v-text-field
@@ -145,6 +150,13 @@
                                         :items="courses"
                                         label="Select course for group"
                                         v-model="Gcourseid">
+                                </v-select>
+
+                                <v-select
+                                        name="unit_id"
+                                        :items="units"
+                                        label="Select course for group"
+                                        v-model="Gunit">
                                 </v-select>
 
                             </v-form>
@@ -270,6 +282,7 @@
     </v-container>
 </template>
 
+
 <script>
     export default {
         data() {
@@ -294,35 +307,44 @@
                 GstartDate: null,
                 Gcourseid:null,
                 valid: false,
+                Gunit: null
             };
         },
-        watch: {
-            active: "clickTree"
-        },
         methods: {
-            clickTree() {
-                if (this.active[0] !== undefined) {
-                    this.$store.dispatch("setSelectedSTUD", this.active[0]);
-                    switch (this.active[0].type) {
-                        case "group":
-                            this.$router.push("/students/group/" + this.active[0].id);
-                            //todo поменять на всех студентов по id группы
-                            break;
-                        case "all":
-                            this.$router.push("/students/");
-                            break;
-                    }
+            clickGroup(id) {
+                // this.$store.dispatch("setSelectedSTUD", id);
+                switch (id) {
+                    case 0:
+                        console.log("going to see everyone");
+                        this.$router.push("/students/");
+                        this.$store.dispatch('loadCourses')
+                            .then(() => {
+                                this.$store.dispatch('loadGroups')
+                                    .then(() => {
+                                        this.$store.dispatch('loadAllStudents');
+                                    })
+                                    .catch(e => console.error(e));
+                            });
+                        break;
+                    default:
+                        console.log("in default");
+                        //<TODO> это костыль, надо пофиксить
+                        console.log("/students/group/" + id.toString());
+                        this.$router.push("/students/");
+                        this.$router.push("/students/group/" + id.toString());
+                        break;
                 }
             },
-            custFilter (items, search, filter) {
+            custFilter(items, search, filter) {
                 search = search.toString().toLowerCase();
-                return items.filter(row => (filter(row["surname"],search) ||
-                    filter(row["name"],search) || filter(row["email"],search)));
+                return items.filter(row => (filter(row["surname"], search) ||
+                    filter(row["name"], search) || filter(row["email"], search)));
             },
             openAddStudentDialog() {
                 this.addStudentDialog = true;
             },
             openAddGroupDialog() {
+                console.log("openAddGroup");
                 this.addGroupDialog = true;
             },
             openDeleteStudentDialog(id) {
@@ -334,7 +356,9 @@
                 this.email = student.email;
                 this.name = student.name;
                 this.surname = student.surname;
-                this.sgroups = student.groupName;
+                this.sgroups=[];
+                this.sgroups.push(student.groupName);
+                console.log(this.sgroups);
                 this.passwordConfirm = student.passwordConfirm;
                 this.phone = student.phone;
 
@@ -342,15 +366,23 @@
             },
             editStudent(id) {
                 this.igroups = [];
-                var i,j = 0;
-                for(j in this.sgroups) {
+                var i, j = 0;
+                for (j in this.sgroups) {
                     for (i in this.$store.getters.getGroups) {
                         if (this.$store.getters.getGroups[i].name === this.sgroups[j][0]) {
-                            this.igroups.push(this.$store.getters.getGroups[i].id );
+                            this.igroups.push(this.$store.getters.getGroups[i].id);
                             break;
                         }
                     }
                 }
+                console.log({
+                    id: this.id,
+                    email: this.email,
+                    name: this.name,
+                    surname: this.surname,
+                    group_id: this.igroups,
+                    phone: this.phone
+                });
                 this.$store.dispatch('changesStudent',
                     {
                         id: this.id,
@@ -360,8 +392,8 @@
                         group_id: this.igroups,
                         phone: this.phone
                     }
-                );
-
+                ).then(()=>{this.$store.dispatch('loadAllStudents');}
+            );
                 this.editStudentDialog = false;
             },
             deleteStudent() {
@@ -378,32 +410,50 @@
 
             createGroup() {
                 let i = 0;
+                let flag = 0;
                 const courses = this.$store.getters.items;
                 for (let i = 0; i < courses.length; ++i) {
                     if (courses[i].name === this.Gcourseid) {
                         this.Gcourseid = courses[i].id;
+                        flag = i;
+                        break;
                     }
                 }
+                // console.log(flag);
+                // console.log()
+                for (let j = 0; j < courses[flag].children.length; ++j) {
+                    if (courses[flag].children[j].unit_name === this.Gunit) {
+                        this.Gunit =courses[flag].children[j].id;
+                    }
+                }
+                console.log( {
+                    name: this.Gname,
+                    description: this.Gdescription,
+                    start_date: this.GstartDate,
+                    course_id: this.Gcourseid,
+                    curr_unit: this.Gunit
+                });
                 this.$store.dispatch('createsGroup',
                     {
                         name: this.Gname,
                         description: this.Gdescription,
                         start_date: this.GstartDate,
-                        course_id: this.Gcourseid
+                        course_id: this.Gcourseid,
+                        curr_unit: this.Gunit
                     }
                 )
                     .then(_ => {
-                      this.$store.dispatch('loadGroups')
+                        this.$store.dispatch('loadGroups')
                     });
                 this.addGroupDialog = false;
             },
             createStudent() {
-                let i,j =0;
+                let i, j = 0;
                 this.igroups = [];
-                    for(j in this.sgroups) {
-                        for (i in this.$store.getters.getGroups){
+                for (j in this.sgroups) {
+                    for (i in this.$store.getters.getGroups) {
                         if (this.$store.getters.getGroups[i].name === this.sgroups[j][0]) {
-                            this.igroups.push(this.$store.getters.getGroups[i].id );
+                            this.igroups.push(this.$store.getters.getGroups[i].id);
                             break;
                         }
                     }
@@ -414,10 +464,11 @@
                         name: this.name,
                         surname: this.surname,
                         group_id: this.igroups,
-                        phone:this.phone}
+                        phone: this.phone
+                    }
                 );
                 this.addStudentDialog = false
-            }
+            },
         },
         computed: {
             groupNames() {
@@ -428,13 +479,30 @@
             },
             courses() {
                 const courses = this.$store.getters.items;
+                console.log(this.$store.getters.items);
                 let res = [];
                 for (let i = 0; i < courses.length; ++i) {
                     res.push(courses[i].name);
                 }
                 return res;
             },
+            units() {
+                const courses = this.$store.getters.items;
+                for (let i = 0; i < courses.length; ++i) {
+                    if(courses[i].name === this.Gcourseid){
 
+                        console.log(this.$store.getters.items[i]);
+                        const units = this.$store.getters.items[i].children;
+                        console.log(units);
+                        let res = [];
+                        for (let j = 0; j < units.length; j++) {
+                            res.push(units[j].unit_name);
+                        }
+                        return res;
+                    }
+                }
+                return null;
+            },
             selected() {
                 return this.$store.getters.getSelectedSTUD;
             },
@@ -447,18 +515,15 @@
         },
 
         created() {
-            this.$store.dispatch('loadCourses')
-                .then(() => {
-                    this.$store.dispatch('loadGroups')
-                        .then(() => {
-                            this.$store.dispatch('loadAllStudents');
-                        })
-                        .catch(e => console.error(e));
-                });
+            for( let i = 0;i<this.$store.getters.items.length;i++ ){
+                this.$store.dispatch('loadUnitsByCourse',{next:function () {
+                        console.log("OK");
+                    },payload:this.$store.getters.items[i]});
+            }
         },
 
-        beforeRouteUpdate(to, from, next) {
-            this.$store.dispatch("loadAllStudentsByGroupId", {next: next, id: this.active[0].id});
-        }
+        // beforeRouteUpdate(to, from, next,id) {
+        //     this.$store.dispatch("loadAllStudentsByGroupId", {next: next, id: id});
+        // }
     };
 </script>

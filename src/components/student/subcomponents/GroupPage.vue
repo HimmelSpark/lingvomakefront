@@ -14,7 +14,7 @@
                     <v-chip label dark color="primary">{{ selected.name }}</v-chip>
                     has
                     <v-chip label dark color="primary">
-                      <!--{{ students.length }}-->
+                      {{ students.length }}
                     </v-chip>
                     student(s)
                   </h2>
@@ -90,13 +90,20 @@
                         v-model="Gcourseid">
                 </v-select>
 
-                <!--TODO заделать юниты-->
                 <v-select
-                        name="current_unit"
-                        :items="courses"
+                        name="unit_id"
+                        :items="units"
                         label="Select course for group"
-                        v-model="Gcourseid">
+                        v-model="Gunit">
                 </v-select>
+
+                <!--TODO заделать юниты-->
+                <!--<v-select-->
+                        <!--name="current_unit"-->
+                        <!--:items="courses"-->
+                        <!--label="Select current unit"-->
+                        <!--v-model="">-->
+                <!--</v-select>-->
 
               </v-form>
             </v-card-text>
@@ -143,22 +150,45 @@ export default {
       GstartDate: null,
       Gid: null,
       Gcourseid:null,
+      Gunit:null,
         valid: false
     };
   },
   computed: {
     selected() {
-        console.log('selecteeeeeed,   ', this.$store.getters.getSelectedSTUD);
-      return this.$store.getters.getSelectedSTUD;
+        console.log('selecteeeeeed,   ', this.$store.getters.getGroup);
+      return this.$store.getters.getGroup;
     },
     students() {
-      return this.$store.getters.getStudents;
+      return this.$store.getters.students;
     },
     groups() {
       return this.$store.getters.getGroups;
     },
+    units() {
+      const courses = this.$store.getters.items;
+      for (let i = 0; i < courses.length; ++i) {
+        if(courses[i].name === this.Gcourseid){
+
+          console.log(this.$store.getters.items[i]);
+          const units = this.$store.getters.items[i].children;
+          console.log(units);
+          let res = [];
+          for (let j = 0; j < units.length; j++) {
+            res.push(units[j].unit_name);
+          }
+          return res;
+        }
+      }
+      return null;
+    },
     courses() {
-      return this.$store.getters.getCourseNames;
+      const courses = this.$store.getters.items;
+      let res = [];
+      for (let i = 0; i < courses.length; ++i) {
+        res.push(courses[i].name);
+      }
+      return res;
     }
   },
   methods: {
@@ -167,10 +197,19 @@ export default {
       this.Gname = group.name;
       this.Gid = group.id;
       this.Gdescription = group.description;
+      this.Gunit = group.curr_unit;
+      let flag = 0;
       const courses = this.$store.getters.items;
       for (let i = 0; i < courses.length; ++i) {
         if (courses[i].id ===  group.course_id){
           this.Gcourseid = courses[i].name;
+          flag = i;
+          break;
+        }
+      }
+      for (let j = 0; j < courses[flag].children.length; ++j) {
+        if (courses[flag].children[j].id === this.Gunit) {
+          this.Gunit =courses[flag].children[j].unit_name;
           break;
         }
       }
@@ -179,10 +218,17 @@ export default {
     },
     editGroup() {
       const courses = this.$store.getters.items;
+      let flag = 0;
       for (let i = 0; i < courses.length; ++i) {
         if (courses[i].name === this.Gcourseid){
           this.Gcourseid = courses[i].id;
+          flag = i;
           break;
+        }
+      }
+      for (let j = 0; j < courses[flag].children.length; ++j) {
+        if (courses[flag].children[j].unit_name === this.Gunit) {
+          this.Gunit =courses[flag].children[j].id;
         }
       }
       this.$store.dispatch('changesGroup',
@@ -191,7 +237,9 @@ export default {
               name: this.Gname,
               description: this.Gdescription,
               start_date: this.GstartDate,
-              course_id: this.Gcourseid})
+              course_id: this.Gcourseid,
+            curr_unit:this.Gunit
+          })
           .then(() => {
                 this.$router.push("/students/");
           }) .catch(err => console.log(err));
@@ -242,6 +290,13 @@ export default {
       // }
 
     }
-  }
+  },
+  created() {
+    for( let i = 0;i<this.$store.getters.items.length;i++ ){
+      this.$store.dispatch('loadUnitsByCourse',{next:function () {
+          console.log("OK");
+        },payload:this.$store.getters.items[i]});
+    }
+  },
 };
 </script>

@@ -27,6 +27,7 @@ import Employees from "@/components/manage/subcomponents/Employees"
 import MobileTranslate from "@/components/mobile/TranslateTask";
 
 import ColorPicker from "@/components/extra/Color";
+import loadStudentsGuard from "./loadStudentsGuard";
 
 
 Vue.use(Router);
@@ -50,7 +51,7 @@ export default new Router({
       path: "/students",
       name: "students",
       component: Students,
-      beforeEnter: AuthGuard,
+      beforeEnter: loadStudentsGuard,
       children: [
         {
           path: "group/:id",

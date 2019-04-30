@@ -14,7 +14,7 @@
               <v-text-field
                 prepend-icon="person"
                 name="email"
-                label="email"
+                label="Email"
                 type="text"
                 :rules="emailRules"
                 v-model="email">
